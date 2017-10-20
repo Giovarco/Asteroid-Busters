@@ -164,4 +164,8 @@ public class Factory : MonoBehaviour {
         }
     }
 
+    public int getAsteroidSpritesLength()
+    {
+        return asteroidSprites.Length;
+    }
 }

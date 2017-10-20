@@ -8,12 +8,14 @@ public class GameOrchestrator : MonoBehaviour {
     GameSettings gameSettings;
     public float delayBetweenLevels;
     GameObject asteroidContainer;
+    Factory factory;
 
     // Use this for initialization
     void Start () {
         gameSettings = GetComponent<GameSettings>();
         asteroidContainer = GameObject.Find("Asteroids");
         levelMaker = GetComponent<LevelMaker>();
+        factory = GetComponent<Factory>();
         StartCoroutine(startGameOrchestration());
     }
 
@@ -29,7 +31,13 @@ public class GameOrchestrator : MonoBehaviour {
                 gameSettings.levelNumber++;
                 print("LEVEL " + gameSettings.levelNumber);
 
-                yield return new WaitForSeconds(4f);
+                factory.asteroidSpritesIndex++;
+                if (factory.asteroidSpritesIndex >= factory.getAsteroidSpritesLength())
+                {
+                    factory.asteroidSpritesIndex = 0;
+                }
+
+                yield return new WaitForSeconds(delayBetweenLevels);
 
                 // Generate first level
                 levelMaker.generateLevel();
