@@ -24,11 +24,19 @@ public class LevelMaker : MonoBehaviour {
         // Get asteroid container
         asteroidContainer = GameObject.Find("Asteroids");
 
-        // Generate first level
-        GenerateLevel();
-
     }
 
+    void Update()
+    {
+        if(!asteroidsExist())
+        {
+            // If there are no more asteroid, start a new level
+            gameSettings.levelNumber++;
+
+            // Generate first level
+            GenerateLevel();
+        }
+    }
     void GenerateLevel()
     {
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ public class Factory : MonoBehaviour {
     public GameObject bullet;
 
     public GameObject asteroid;
+    public int asteroidSpritesIndex;
+    public Sprite[] asteroidSprites;
 
     void Awake()
     {
@@ -67,31 +70,39 @@ public class Factory : MonoBehaviour {
 
         // Calculate spawn zones
         float newX;
-        float newY = Random.Range(gameSettings.lowerEdge, gameSettings.upperEdge);
+        float newY = UnityEngine.Random.Range(gameSettings.lowerEdge, gameSettings.upperEdge);
 
         // Choose to spawn on the right or on the left
-        if (Random.Range(0f, 1f) > 0.5f)
+        if (getRandomBoolean())
         {
             // Right
-            newX = Random.Range(gameSettings.rightEdge - gameSettings.offsetEdge, gameSettings.rightEdge);
+            newX = UnityEngine.Random.Range(gameSettings.rightEdge - gameSettings.offsetEdge, gameSettings.rightEdge);
         }
         else
         {
             // Left
-            newX = Random.Range(gameSettings.leftEdge, gameSettings.leftEdge + gameSettings.offsetEdge);
+            newX = UnityEngine.Random.Range(gameSettings.leftEdge, gameSettings.leftEdge + gameSettings.offsetEdge);
         }
 
         // Create the asteroid
-        GameObject newAsteroid = Instantiate(asteroid, new Vector3(newX, newY, 0), Quaternion.Euler(0, 0, Random.Range(0, 360)));
+        GameObject newAsteroid = Instantiate(asteroid, new Vector3(newX, newY, 0), Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360)));
 
         // Set variables
         AsteroidInformation newAsteroidInfo = newAsteroid.GetComponent<AsteroidInformation>();
-        newAsteroidInfo.xSpeed = getPossibleMinusSign() * Random.Range(asteroidSpeed - gameSettings.speedVariance, asteroidSpeed);
-        newAsteroidInfo.ySpeed = getPossibleMinusSign() * Random.Range(asteroidSpeed - gameSettings.speedVariance, asteroidSpeed);
+        newAsteroidInfo.xSpeed = getPossibleMinusSign() * UnityEngine.Random.Range(asteroidSpeed - gameSettings.speedVariance, asteroidSpeed);
+        newAsteroidInfo.ySpeed = getPossibleMinusSign() * UnityEngine.Random.Range(asteroidSpeed - gameSettings.speedVariance, asteroidSpeed);
+
+        // Set asteroid appearance
+        newAsteroid.GetComponent<SpriteRenderer>().sprite = asteroidSprites[asteroidSpritesIndex];
 
         // Set the new asteroid to be children of the asteroid container
         newAsteroid.transform.parent = asteroidContainer.transform;
 
+    }
+
+    bool getRandomBoolean()
+    {
+        return UnityEngine.Random.Range(0f, 1f) > 0.5f;
     }
 
     public void generateChildAsteroid(GameObject parentAsteroid)
@@ -107,7 +118,7 @@ public class Factory : MonoBehaviour {
         }
 
         // Instatiate the new asteroid and get its information
-        GameObject newAsteroid = Instantiate(asteroid, parentAsteroid.transform.position, Quaternion.Euler(0, 0, Random.Range(0, 360)));
+        GameObject newAsteroid = Instantiate(asteroid, parentAsteroid.transform.position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360)));
         AsteroidInformation newAsteroidInfo = newAsteroid.GetComponent<AsteroidInformation>();
 
         // Set new asteroid size
@@ -119,8 +130,11 @@ public class Factory : MonoBehaviour {
         newAsteroidInfo.hp = parentAsteroidInfo.hp - 1;
 
         // Set Speed
-        newAsteroidInfo.xSpeed = getPossibleMinusSign() * (parentAsteroidInfo.xSpeed - Random.Range(0, gameSettings.speedVariance));
-        newAsteroidInfo.ySpeed = getPossibleMinusSign() * (parentAsteroidInfo.ySpeed - Random.Range(0, gameSettings.speedVariance));
+        newAsteroidInfo.xSpeed = getPossibleMinusSign() * (parentAsteroidInfo.xSpeed - UnityEngine.Random.Range(0, gameSettings.speedVariance));
+        newAsteroidInfo.ySpeed = getPossibleMinusSign() * (parentAsteroidInfo.ySpeed - UnityEngine.Random.Range(0, gameSettings.speedVariance));
+
+        // Set asteroid appearance
+        newAsteroid.GetComponent<SpriteRenderer>().sprite = parentAsteroid.GetComponent<SpriteRenderer>().sprite;
 
         // Set the new asteroid to be children of the asteroid container
         newAsteroid.transform.parent = asteroidContainer.transform;
@@ -140,7 +154,7 @@ public class Factory : MonoBehaviour {
 
     int getPossibleMinusSign()
     {
-        if (Random.Range(0f, 1f) < 0.5f)
+        if (UnityEngine.Random.Range(0f, 1f) < 0.5f)
         {
             return 1;
         }
