@@ -94,9 +94,10 @@ public class Factory : MonoBehaviour {
         GameObject newAsteroid = Instantiate(asteroid, new Vector3(newX, newY, 0), Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360)));
 
         // Set variables
-        AsteroidInformation newAsteroidInfo = newAsteroid.GetComponent<AsteroidInformation>();
-        newAsteroidInfo.xSpeed = getPossibleMinusSign() * UnityEngine.Random.Range(asteroidSpeed - gameSettings.speedVariance, asteroidSpeed);
-        newAsteroidInfo.ySpeed = getPossibleMinusSign() * UnityEngine.Random.Range(asteroidSpeed - gameSettings.speedVariance, asteroidSpeed);
+        float xSpeed = getPossibleMinusSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
+        float ySpeed = getPossibleMinusSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
+        Vector3 randomDirection = new Vector3(xSpeed, ySpeed, 0);
+        newAsteroid.GetComponent<Rigidbody2D>().velocity = randomDirection * asteroidSpeed;
 
         // Set asteroid appearance
         newAsteroid.GetComponent<SpriteRenderer>().sprite = asteroidSprites[asteroidSpritesIndex];
@@ -114,6 +115,9 @@ public class Factory : MonoBehaviour {
 
     GameObject generateChildAsteroid(GameObject parentAsteroid)
     {
+
+        // Define asteroid speed
+        float asteroidSpeed = gameSettings.baseAsteroidSpeed + (float)gameSettings.levelNumber / gameSettings.asteroidIncreaseInSpeedFactor;
 
         // Get parent asteroid information
         AsteroidInformation parentAsteroidInfo = parentAsteroid.GetComponent<AsteroidInformation>();
@@ -137,8 +141,14 @@ public class Factory : MonoBehaviour {
         newAsteroidInfo.hp = parentAsteroidInfo.hp - 1;
 
         // Set Speed
-        newAsteroidInfo.xSpeed = getPossibleMinusSign() * (parentAsteroidInfo.xSpeed - UnityEngine.Random.Range(0, gameSettings.speedVariance));
-        newAsteroidInfo.ySpeed = getPossibleMinusSign() * (parentAsteroidInfo.ySpeed - UnityEngine.Random.Range(0, gameSettings.speedVariance));
+        //newAsteroidInfo.xSpeed = getPossibleMinusSign() * (parentAsteroidInfo.xSpeed - UnityEngine.Random.Range(0, gameSettings.speedVariance));
+        //newAsteroidInfo.ySpeed = getPossibleMinusSign() * (parentAsteroidInfo.ySpeed - UnityEngine.Random.Range(0, gameSettings.speedVariance));
+
+        // Set variables
+        float xSpeed = getPossibleMinusSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
+        float ySpeed = getPossibleMinusSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
+        Vector3 randomDirection = new Vector3(xSpeed, ySpeed, 0);
+        newAsteroid.GetComponent<Rigidbody2D>().velocity = randomDirection * asteroidSpeed;
 
         // Set asteroid appearance
         newAsteroid.GetComponent<SpriteRenderer>().sprite = parentAsteroid.GetComponent<SpriteRenderer>().sprite;

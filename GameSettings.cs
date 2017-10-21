@@ -43,6 +43,8 @@ public class GameSettings : MonoBehaviour {
     [Header("Asteroid statistics")]
 
     public float baseAsteroidSpeed;
+    public float hardLevel;
+    public float hardAsteroidSpeed;
 
     [Tooltip("This variable prevents all the asteroid to have all the same speed (not intended to exceed maximum speed)")]
     public float speedVariance;
@@ -58,5 +60,8 @@ public class GameSettings : MonoBehaviour {
 
         rightEdge = Camera.main.orthographicSize * screenRatio;
         leftEdge = -rightEdge;
-    }
+
+        // Calculate others
+        asteroidIncreaseInSpeedFactor = hardLevel / (hardAsteroidSpeed - baseAsteroidSpeed);
+}
 }
