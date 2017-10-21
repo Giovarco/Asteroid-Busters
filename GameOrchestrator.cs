@@ -6,9 +6,9 @@ public class GameOrchestrator : MonoBehaviour {
 
     LevelMaker levelMaker;
     GameSettings gameSettings;
-    public float delayBetweenLevels;
     GameObject asteroidContainer;
     Factory factory;
+    public GameObject levelText;
 
     // Use this for initialization
     void Start () {
@@ -24,20 +24,31 @@ public class GameOrchestrator : MonoBehaviour {
 
         while(true)
         {
-            if(!asteroidsExist())
+
+            // If there are no more asteroid, start a new level
+            if (!asteroidsExist())
             {
 
-                // If there are no more asteroid, start a new level
+                // Show the text with a the new level value
                 gameSettings.levelNumber++;
-                print("LEVEL " + gameSettings.levelNumber);
+                levelText.GetComponent<UnityEngine.UI.Text>().text = "Level " + gameSettings.levelNumber;
+                levelText.SetActive(true);
 
+                // Set the new asteroid sprite
                 factory.asteroidSpritesIndex++;
                 if (factory.asteroidSpritesIndex >= factory.getAsteroidSpritesLength())
                 {
                     factory.asteroidSpritesIndex = 0;
                 }
 
-                yield return new WaitForSeconds(delayBetweenLevels);
+                // Wait some seconds
+                yield return new WaitForSeconds(4f);
+
+                // Deactive the level text
+                levelText.SetActive(false);
+
+                // Wait a bunch of other seconds
+                yield return new WaitForSeconds(1.5f);
 
                 // Generate first level
                 levelMaker.generateLevel();

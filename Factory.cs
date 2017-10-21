@@ -37,15 +37,17 @@ public class Factory : MonoBehaviour {
 
     public void produce(string name, GameObject obj = null)
     {
+        GameObject result;
+
         if(obj == null)
         {
             if (name == "RandomAsteroid")
             {
-                generateRandomAsteroid();
+                result = generateRandomAsteroid();
             }
             else if (name == "Bullet")
             {
-                generateBullet();
+                result = generateBullet();
             }
             else
             {
@@ -56,7 +58,7 @@ public class Factory : MonoBehaviour {
         {
             if (name == "childAsteroid")
             {
-                generateChildAsteroid(obj);
+                result = generateChildAsteroid(obj);
             }
             else
             {
@@ -66,7 +68,7 @@ public class Factory : MonoBehaviour {
 
     }
 
-    void generateRandomAsteroid()
+    GameObject generateRandomAsteroid()
     {
 
         // Define asteroid speed
@@ -102,6 +104,7 @@ public class Factory : MonoBehaviour {
         // Set the new asteroid to be children of the asteroid container
         newAsteroid.transform.parent = asteroidContainer.transform;
 
+        return newAsteroid;
     }
 
     bool getRandomBoolean()
@@ -109,7 +112,7 @@ public class Factory : MonoBehaviour {
         return UnityEngine.Random.Range(0f, 1f) > 0.5f;
     }
 
-    public void generateChildAsteroid(GameObject parentAsteroid)
+    GameObject generateChildAsteroid(GameObject parentAsteroid)
     {
 
         // Get parent asteroid information
@@ -118,7 +121,7 @@ public class Factory : MonoBehaviour {
         // Check if the parent asteroid can be divided
         if (parentAsteroidInfo.hp <= 1)
         {
-            return;
+            return null;
         }
 
         // Instatiate the new asteroid and get its information
@@ -143,17 +146,19 @@ public class Factory : MonoBehaviour {
         // Set the new asteroid to be children of the asteroid container
         newAsteroid.transform.parent = asteroidContainer.transform;
 
+        return newAsteroid;
     }
 
-    void generateBullet()
+    GameObject generateBullet()
     {
         // Get bullet height
         SpriteRenderer bulletSpriteRenderer = bullet.GetComponent<SpriteRenderer>();
         float bulletHeight = bulletSpriteRenderer.transform.localScale.y;
 
         Vector3 bulletOffset = player.transform.rotation * new Vector3(0, bulletHeight, 0);
-        Instantiate(bullet, player.transform.position + bulletOffset, player.transform.rotation);
+        GameObject newBullet = Instantiate(bullet, player.transform.position + bulletOffset, player.transform.rotation);
 
+        return newBullet;
     }
 
     int getPossibleMinusSign()

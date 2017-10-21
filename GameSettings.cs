@@ -6,11 +6,22 @@ public class GameSettings : MonoBehaviour {
 
     // Game information
     [Header("Game information")]
+
+    [Tooltip("Default value: 0")]
     public int levelNumber;
+
+    [HideInInspector]
     public float upperEdge;
+
+    [HideInInspector]
     public float lowerEdge;
+
+    [HideInInspector]
     public float rightEdge;
+
+    [HideInInspector]
     public float leftEdge;
+
     float screenRatio;
 
     // Gameplay factors
