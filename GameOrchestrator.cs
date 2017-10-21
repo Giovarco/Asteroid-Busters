@@ -7,7 +7,7 @@ public class GameOrchestrator : MonoBehaviour {
     LevelMaker levelMaker;
     GameSettings gameSettings;
     GameObject asteroidContainer;
-    Factory factory;
+    AsteroidFactory asteroidFactory;
     public GameObject levelText;
 
     // Use this for initialization
@@ -15,7 +15,7 @@ public class GameOrchestrator : MonoBehaviour {
         gameSettings = GetComponent<GameSettings>();
         asteroidContainer = GameObject.Find("Asteroids");
         levelMaker = GetComponent<LevelMaker>();
-        factory = GetComponent<Factory>();
+        asteroidFactory = GameObject.Find("Factories").GetComponent<AsteroidFactory>();
         StartCoroutine(startGameOrchestration());
     }
 
@@ -35,10 +35,10 @@ public class GameOrchestrator : MonoBehaviour {
                 levelText.SetActive(true);
 
                 // Set the new asteroid sprite
-                factory.asteroidSpritesIndex++;
-                if (factory.asteroidSpritesIndex >= factory.getAsteroidSpritesLength())
+                asteroidFactory.asteroidSpritesIndex++;
+                if (asteroidFactory.asteroidSpritesIndex >= asteroidFactory.getAsteroidSpritesLength())
                 {
-                    factory.asteroidSpritesIndex = 0;
+                    asteroidFactory.asteroidSpritesIndex = 0;
                 }
 
                 // Wait some seconds

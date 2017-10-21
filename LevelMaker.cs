@@ -6,12 +6,12 @@ public class LevelMaker : MonoBehaviour {
 
     // Private
     GameSettings gameSettings;
-    Factory factory;
+    AsteroidFactory asteroidFactory;
 
     void Awake()
     {
         // Get Factory
-        factory = GetComponent<Factory>();
+        asteroidFactory = GameObject.Find("Factories").GetComponent<AsteroidFactory>();
 
         // Get game settings
         gameSettings = GetComponent<GameSettings>();
@@ -29,7 +29,7 @@ public class LevelMaker : MonoBehaviour {
         // Generate asteroids
         for(int i = 0; i < asteroidNumber; i++)
         {
-            factory.produce("RandomAsteroid");
+            asteroidFactory.instantiate("RandomAsteroid");
         }
 
     }

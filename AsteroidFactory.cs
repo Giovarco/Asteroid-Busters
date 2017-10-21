@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Factory : MonoBehaviour {
-    
+public class AsteroidFactory : MonoBehaviour {
+
     GameSettings gameSettings;
     GameObject asteroidContainer;
-
-    GameObject player;
-
-    public GameObject bullet;
 
     public GameObject asteroid;
     public int asteroidSpritesIndex;
@@ -19,52 +14,31 @@ public class Factory : MonoBehaviour {
     void Awake()
     {
         // Get game settings
-        gameSettings = GetComponent<GameSettings>();
+        gameSettings = GameObject.Find("Orchestrator").GetComponent<GameSettings>();
 
         // Get the asteroid containers
         asteroidContainer = GameObject.Find("Asteroids");
 
     }
 
-    void Start()
+    public GameObject instantiate(string name, GameObject obj = null)
     {
-        // Get player
-        player = GameObject.Find("PlayerShip");
-
-    }
-
-
-
-    public void produce(string name, GameObject obj = null)
-    {
-        GameObject result;
-
-        if(obj == null)
+        if (obj == null)
         {
             if (name == "RandomAsteroid")
             {
-                result = generateRandomAsteroid();
-            }
-            else if (name == "Bullet")
-            {
-                result = generateBullet();
-            }
-            else
-            {
-                print("No idea what '" + name + "' is.");
+                return generateRandomAsteroid();
             }
         }
         else
         {
-            if (name == "childAsteroid")
+            if (name == "ChildAsteroid")
             {
-                result = generateChildAsteroid(obj);
-            }
-            else
-            {
-                print("No idea what '" + name + "' is.");
+                return generateChildAsteroid(obj);
             }
         }
+
+        throw new System.ArgumentException();
 
     }
 
@@ -94,8 +68,8 @@ public class Factory : MonoBehaviour {
         GameObject newAsteroid = Instantiate(asteroid, new Vector3(newX, newY, 0), Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360)));
 
         // Set variables
-        float xSpeed = getPossibleMinusSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
-        float ySpeed = getPossibleMinusSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
+        float xSpeed = getRandomSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
+        float ySpeed = getRandomSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
         Vector3 randomDirection = new Vector3(xSpeed, ySpeed, 0);
         newAsteroid.GetComponent<Rigidbody2D>().velocity = randomDirection * asteroidSpeed;
 
@@ -106,11 +80,6 @@ public class Factory : MonoBehaviour {
         newAsteroid.transform.parent = asteroidContainer.transform;
 
         return newAsteroid;
-    }
-
-    bool getRandomBoolean()
-    {
-        return UnityEngine.Random.Range(0f, 1f) > 0.5f;
     }
 
     GameObject generateChildAsteroid(GameObject parentAsteroid)
@@ -145,8 +114,8 @@ public class Factory : MonoBehaviour {
         //newAsteroidInfo.ySpeed = getPossibleMinusSign() * (parentAsteroidInfo.ySpeed - UnityEngine.Random.Range(0, gameSettings.speedVariance));
 
         // Set variables
-        float xSpeed = getPossibleMinusSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
-        float ySpeed = getPossibleMinusSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
+        float xSpeed = getRandomSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
+        float ySpeed = getRandomSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
         Vector3 randomDirection = new Vector3(xSpeed, ySpeed, 0);
         newAsteroid.GetComponent<Rigidbody2D>().velocity = randomDirection * asteroidSpeed;
 
@@ -164,19 +133,12 @@ public class Factory : MonoBehaviour {
         return gameSettings.baseAsteroidSpeed + (float)gameSettings.levelNumber / gameSettings.asteroidIncreaseInSpeedFactor;
     }
 
-    GameObject generateBullet()
+    bool getRandomBoolean()
     {
-        // Get bullet height
-        SpriteRenderer bulletSpriteRenderer = bullet.GetComponent<SpriteRenderer>();
-        float bulletHeight = bulletSpriteRenderer.transform.localScale.y;
-
-        Vector3 bulletOffset = player.transform.rotation * new Vector3(0, bulletHeight, 0);
-        GameObject newBullet = Instantiate(bullet, player.transform.position + bulletOffset, player.transform.rotation);
-
-        return newBullet;
+        return UnityEngine.Random.Range(0f, 1f) > 0.5f;
     }
 
-    int getPossibleMinusSign()
+    int getRandomSign()
     {
         if (UnityEngine.Random.Range(0f, 1f) < 0.5f)
         {
@@ -192,4 +154,5 @@ public class Factory : MonoBehaviour {
     {
         return asteroidSprites.Length;
     }
+
 }
