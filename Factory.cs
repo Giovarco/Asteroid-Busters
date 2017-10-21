@@ -33,33 +33,37 @@ public class Factory : MonoBehaviour {
 
     }
 
-    public void produce(string name)
+
+
+    public void produce(string name, GameObject obj = null)
     {
-        if(name == "RandomAsteroid")
+        if(obj == null)
         {
-            generateRandomAsteroid();
-        }
-        else if(name == "Bullet")
-        {
-            generateBullet();
+            if (name == "RandomAsteroid")
+            {
+                generateRandomAsteroid();
+            }
+            else if (name == "Bullet")
+            {
+                generateBullet();
+            }
+            else
+            {
+                print("No idea what '" + name + "' is.");
+            }
         }
         else
         {
-            print("No idea what '" + name + "' is.");
+            if (name == "childAsteroid")
+            {
+                generateChildAsteroid(obj);
+            }
+            else
+            {
+                print("No idea what '" + name + "' is.");
+            }
         }
-    }
 
-
-    public void produce(string name, GameObject obj)
-    {
-        if (name == "childAsteroid")
-        {
-            generateChildAsteroid(obj);
-        }
-        else
-        {
-            print("No idea what '"+name+"' is.");
-        }
     }
 
     void generateRandomAsteroid()
