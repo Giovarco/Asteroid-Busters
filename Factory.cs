@@ -28,7 +28,7 @@ public class Factory : MonoBehaviour {
 
 
 
-    GameObject produce(string name, GameObject obj = null)
+    public GameObject produce(string name, GameObject obj = null)
     {
 
         if(obj == null)

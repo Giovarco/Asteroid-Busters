@@ -5,12 +5,12 @@ using UnityEngine;
 public class AsteroidOnTrigger : MonoBehaviour {
 
     AsteroidFactory asteroidFactory;
-    AsteroidInformation asteroidInfo;
+    AsteroidProperties asteroidInfo;
     GameObject asteroidContainer;
 
     void Awake()
     {
-        asteroidInfo = GetComponent<AsteroidInformation>();
+        asteroidInfo = GetComponent<AsteroidProperties>();
     }
 
     void Start()

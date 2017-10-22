@@ -75,8 +75,8 @@ public class AsteroidFactory : MonoBehaviour {
         GameObject newAsteroid = Instantiate(asteroid, parentAsteroid.transform.position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360)));
 
         // Get parent and child asteroid information for later
-        AsteroidInformation newAsteroidInfo = newAsteroid.GetComponent<AsteroidInformation>();
-        AsteroidInformation parentAsteroidInfo = parentAsteroid.GetComponent<AsteroidInformation>();
+        AsteroidProperties newAsteroidInfo = newAsteroid.GetComponent<AsteroidProperties>();
+        AsteroidProperties parentAsteroidInfo = parentAsteroid.GetComponent<AsteroidProperties>();
 
         // Define speed
         float asteroidSpeed = getAsteroidSpeed();
