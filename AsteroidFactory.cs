@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,41 +46,54 @@ public class AsteroidFactory : MonoBehaviour {
     GameObject generateRandomAsteroid()
     {
 
-        // Define asteroid speed
+        // Define speed
         float asteroidSpeed = getAsteroidSpeed();
 
-        // Calculate spawn zones
-        float newX;
-        float newY = UnityEngine.Random.Range(gameSettings.lowerEdge, gameSettings.upperEdge);
+        // Define spawn position
+        float newX = getAsteroidX();
+        float newY = getAsteroidY();
 
-        // Choose to spawn on the right or on the left
-        if (getRandomBoolean())
-        {
-            // Right
-            newX = UnityEngine.Random.Range(gameSettings.rightEdge - gameSettings.offsetEdge, gameSettings.rightEdge);
-        }
-        else
-        {
-            // Left
-            newX = UnityEngine.Random.Range(gameSettings.leftEdge, gameSettings.leftEdge + gameSettings.offsetEdge);
-        }
-
-        // Create the asteroid
+        // Instantiate
         GameObject newAsteroid = Instantiate(asteroid, new Vector3(newX, newY, 0), Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360)));
 
-        // Set variables
-        float xSpeed = getRandomSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
-        float ySpeed = getRandomSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
-        Vector3 randomDirection = new Vector3(xSpeed, ySpeed, 0);
-        newAsteroid.GetComponent<Rigidbody2D>().velocity = randomDirection * asteroidSpeed;
+        // Set velocity
+        newAsteroid.GetComponent<Rigidbody2D>().velocity = getRandomDirection() * asteroidSpeed;
 
-        // Set asteroid appearance
+        // Set appearance
         newAsteroid.GetComponent<SpriteRenderer>().sprite = asteroidSprites[asteroidSpritesIndex];
 
         // Set the new asteroid to be children of the asteroid container
         newAsteroid.transform.parent = asteroidContainer.transform;
 
         return newAsteroid;
+    }
+
+    Vector3 getRandomDirection()
+    {
+        float xDirection = getRandomSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
+        float yDirection = getRandomSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
+        Vector3 randomDirection = new Vector3(xDirection, yDirection, 0);
+        return randomDirection;
+    }
+
+    float getAsteroidY()
+    {
+        return UnityEngine.Random.Range(gameSettings.lowerEdge, gameSettings.upperEdge);
+    }
+
+    float getAsteroidX()
+    {
+        // Choose to spawn on the right or on the left
+        if (getRandomBoolean())
+        {
+            // Right
+            return UnityEngine.Random.Range(gameSettings.rightEdge - gameSettings.offsetEdge, gameSettings.rightEdge);
+        }
+        else
+        {
+            // Left
+            return UnityEngine.Random.Range(gameSettings.leftEdge, gameSettings.leftEdge + gameSettings.offsetEdge);
+        }
     }
 
     GameObject generateChildAsteroid(GameObject parentAsteroid)
