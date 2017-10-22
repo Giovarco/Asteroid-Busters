@@ -29,7 +29,10 @@ public class AsteroidOnTrigger : MonoBehaviour {
 
     void createChild()
     {
-        asteroidFactory.instantiate("ChildAsteroid", gameObject);
+        if(asteroidInfo.hp > 1)
+        {
+            asteroidFactory.instantiate("ChildAsteroid", gameObject);
+        }
     }
 
 }

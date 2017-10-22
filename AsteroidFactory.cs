@@ -71,35 +71,27 @@ public class AsteroidFactory : MonoBehaviour {
     GameObject generateChildAsteroid(GameObject parentAsteroid)
     {
 
-        // Define speed
-        float asteroidSpeed = getAsteroidSpeed();
-
-        // Get parent asteroid information
-        AsteroidInformation parentAsteroidInfo = parentAsteroid.GetComponent<AsteroidInformation>();
-
-        // Check if the parent asteroid can be divided
-        if (parentAsteroidInfo.hp <= 1)
-        {
-            return null;
-        }
-
         // Instatiate
         GameObject newAsteroid = Instantiate(asteroid, parentAsteroid.transform.position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360)));
 
-        // Get child asteroid information
+        // Get parent and child asteroid information for later
         AsteroidInformation newAsteroidInfo = newAsteroid.GetComponent<AsteroidInformation>();
+        AsteroidInformation parentAsteroidInfo = parentAsteroid.GetComponent<AsteroidInformation>();
+
+        // Define speed
+        float asteroidSpeed = getAsteroidSpeed();
+
+        // Set direction
+        Vector3 randomDirection = getRandomDirection();
+        newAsteroid.GetComponent<Rigidbody2D>().velocity = randomDirection * asteroidSpeed;
+
+        // Set HP
+        newAsteroidInfo.hp = parentAsteroidInfo.hp - 1;
 
         // Set size depeding on the parent asteroid
         float localScaleValue = parentAsteroid.transform.localScale.x;
         float newSize = localScaleValue / gameSettings.sizeReductionFactor;
         newAsteroid.transform.localScale = new Vector3(newSize, newSize, 1);
-
-        // Set HP
-        newAsteroidInfo.hp = parentAsteroidInfo.hp - 1;
-
-        // Set direction
-        Vector3 randomDirection = getRandomDirection();
-        newAsteroid.GetComponent<Rigidbody2D>().velocity = randomDirection * asteroidSpeed;
 
         // Set appearance
         newAsteroid.GetComponent<SpriteRenderer>().sprite = parentAsteroid.GetComponent<SpriteRenderer>().sprite;
