@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class AsteroidOnTrigger : MonoBehaviour {
 
-    Factory factory;
-    AsteroidInformation asteroidInfo;
+    AsteroidFactory asteroidFactory;
+    AsteroidProperties asteroidInfo;
     GameObject asteroidContainer;
 
     void Awake()
     {
-        asteroidInfo = GetComponent<AsteroidInformation>();
+        asteroidInfo = GetComponent<AsteroidProperties>();
     }
 
     void Start()
     {
         asteroidContainer = GameObject.Find("Asteroids");
-        factory = GameObject.Find("Orchestrator").GetComponent<Factory>();
+        asteroidFactory = GameObject.Find("Factories").GetComponent<AsteroidFactory>();
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -24,12 +24,14 @@ public class AsteroidOnTrigger : MonoBehaviour {
         createChild();
         createChild();
         Destroy(gameObject);
-
     }
 
     void createChild()
     {
-        factory.produce("childAsteroid", gameObject);
+        if(asteroidInfo.hp > 1)
+        {
+            asteroidFactory.instantiate("ChildAsteroid", gameObject);
+        }
     }
 
 }

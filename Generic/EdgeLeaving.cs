@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,18 +26,23 @@ public class EdgeLeaving : MonoBehaviour {
         widthSprite = sr.bounds.size.x;
         heightSprite = sr.bounds.size.y;
         offset = 0.001f;
+        gameSettings = GameObject.Find("Orchestrator").GetComponent<GameSettings>();
     }
 
     void Start () {
-        gameSettings = GameObject.Find("Orchestrator").GetComponent<GameSettings>();
+        updateVisualLimits();
+    }
+
+    public void updateVisualLimits()
+    {
         upperVisualLimit = gameSettings.upperEdge + heightSprite / 2;
         lowerVisualLimit = gameSettings.lowerEdge - heightSprite / 2;
         RightVisualLimit = gameSettings.rightEdge + widthSprite / 2;
         LeftVisualLimit = gameSettings.leftEdge - widthSprite / 2;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
         handleEdgeLeaving();
     }
 
