@@ -68,6 +68,48 @@ public class AsteroidFactory : MonoBehaviour {
         return newAsteroid;
     }
 
+    GameObject generateChildAsteroid(GameObject parentAsteroid)
+    {
+
+        // Define speed
+        float asteroidSpeed = getAsteroidSpeed();
+
+        // Get parent asteroid information
+        AsteroidInformation parentAsteroidInfo = parentAsteroid.GetComponent<AsteroidInformation>();
+
+        // Check if the parent asteroid can be divided
+        if (parentAsteroidInfo.hp <= 1)
+        {
+            return null;
+        }
+
+        // Instatiate
+        GameObject newAsteroid = Instantiate(asteroid, parentAsteroid.transform.position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360)));
+
+        // Get child asteroid information
+        AsteroidInformation newAsteroidInfo = newAsteroid.GetComponent<AsteroidInformation>();
+
+        // Set size depeding on the parent asteroid
+        float localScaleValue = parentAsteroid.transform.localScale.x;
+        float newSize = localScaleValue / gameSettings.sizeReductionFactor;
+        newAsteroid.transform.localScale = new Vector3(newSize, newSize, 1);
+
+        // Set HP
+        newAsteroidInfo.hp = parentAsteroidInfo.hp - 1;
+
+        // Set direction
+        Vector3 randomDirection = getRandomDirection();
+        newAsteroid.GetComponent<Rigidbody2D>().velocity = randomDirection * asteroidSpeed;
+
+        // Set appearance
+        newAsteroid.GetComponent<SpriteRenderer>().sprite = parentAsteroid.GetComponent<SpriteRenderer>().sprite;
+
+        // Set the new asteroid to be children of the asteroid container
+        newAsteroid.transform.parent = asteroidContainer.transform;
+
+        return newAsteroid;
+    }
+
     Vector3 getRandomDirection()
     {
         float xDirection = getRandomSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
@@ -94,52 +136,6 @@ public class AsteroidFactory : MonoBehaviour {
             // Left
             return UnityEngine.Random.Range(gameSettings.leftEdge, gameSettings.leftEdge + gameSettings.offsetEdge);
         }
-    }
-
-    GameObject generateChildAsteroid(GameObject parentAsteroid)
-    {
-
-        // Define asteroid speed
-        float asteroidSpeed = getAsteroidSpeed();
-
-        // Get parent asteroid information
-        AsteroidInformation parentAsteroidInfo = parentAsteroid.GetComponent<AsteroidInformation>();
-
-        // Check if the parent asteroid can be divided
-        if (parentAsteroidInfo.hp <= 1)
-        {
-            return null;
-        }
-
-        // Instatiate the new asteroid and get its information
-        GameObject newAsteroid = Instantiate(asteroid, parentAsteroid.transform.position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360)));
-        AsteroidInformation newAsteroidInfo = newAsteroid.GetComponent<AsteroidInformation>();
-
-        // Set new asteroid size
-        float localScaleValue = parentAsteroid.transform.localScale.x;
-        float newSize = localScaleValue / gameSettings.sizeReductionFactor;
-        newAsteroid.transform.localScale = new Vector3(newSize, newSize, 1);
-
-        // Set new HP
-        newAsteroidInfo.hp = parentAsteroidInfo.hp - 1;
-
-        // Set Speed
-        //newAsteroidInfo.xSpeed = getPossibleMinusSign() * (parentAsteroidInfo.xSpeed - UnityEngine.Random.Range(0, gameSettings.speedVariance));
-        //newAsteroidInfo.ySpeed = getPossibleMinusSign() * (parentAsteroidInfo.ySpeed - UnityEngine.Random.Range(0, gameSettings.speedVariance));
-
-        // Set variables
-        float xSpeed = getRandomSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
-        float ySpeed = getRandomSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
-        Vector3 randomDirection = new Vector3(xSpeed, ySpeed, 0);
-        newAsteroid.GetComponent<Rigidbody2D>().velocity = randomDirection * asteroidSpeed;
-
-        // Set asteroid appearance
-        newAsteroid.GetComponent<SpriteRenderer>().sprite = parentAsteroid.GetComponent<SpriteRenderer>().sprite;
-
-        // Set the new asteroid to be children of the asteroid container
-        newAsteroid.transform.parent = asteroidContainer.transform;
-
-        return newAsteroid;
     }
 
     float getAsteroidSpeed()
