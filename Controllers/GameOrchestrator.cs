@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameOrchestrator : MonoBehaviour {
 
-    LevelMaker levelMaker;
+    LevelGenerator levelGenerator;
     GameSettings gameSettings;
     GameObject asteroidContainer;
     AsteroidFactory asteroidFactory;
@@ -14,7 +14,7 @@ public class GameOrchestrator : MonoBehaviour {
     void Start () {
         gameSettings = GetComponent<GameSettings>();
         asteroidContainer = GameObject.Find("Asteroids");
-        levelMaker = GetComponent<LevelMaker>();
+        levelGenerator = GetComponent<LevelGenerator>();
         asteroidFactory = GameObject.Find("Factories").GetComponent<AsteroidFactory>();
         StartCoroutine(startGameOrchestration());
     }
@@ -51,7 +51,7 @@ public class GameOrchestrator : MonoBehaviour {
                 yield return new WaitForSeconds(1.5f);
 
                 // Generate first level
-                levelMaker.generateLevel();
+                levelGenerator.generateLevel();
             }
 
             yield return new WaitForSeconds(0.5f);

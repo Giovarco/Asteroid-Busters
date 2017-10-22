@@ -3,14 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Factory : MonoBehaviour {
-    
-    GameSettings gameSettings;
-
-    GameObject player;
+public class ProjectileFactory : MonoBehaviour {
 
     public GameObject bullet;
 
+    GameSettings gameSettings;
+    GameObject player;
 
     void Awake()
     {
@@ -26,17 +24,12 @@ public class Factory : MonoBehaviour {
 
     }
 
-
-
-    public GameObject produce(string name, GameObject obj = null)
+    public GameObject instantiate(string name)
     {
 
-        if(obj == null)
+        if (name == "RedBullet1")
         {
-            if (name == "Bullet")
-            {
-                return generateBullet();
-            }
+            return generateBullet();
         }
 
         throw new ArgumentException(name + " cannot be recognised");
