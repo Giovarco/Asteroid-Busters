@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class DeathCountdown : MonoBehaviour {
 
-    public float remainingTime;
+    public float seconds;
 	
 	// Update is called once per frame
 	void Update () {
-        remainingTime -= Time.deltaTime;
-
-        if(remainingTime <= 0)
-        {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject, seconds);
 	}
 }
