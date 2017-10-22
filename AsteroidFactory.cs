@@ -93,6 +93,9 @@ public class AsteroidFactory : MonoBehaviour {
         float newSize = localScaleValue / gameSettings.sizeReductionFactor;
         newAsteroid.transform.localScale = new Vector3(newSize, newSize, 1);
 
+        // ONLY AFTER setting the size, re-define again edge leaving properties
+        newAsteroid.GetComponent<EdgeLeaving>().updateVisualLimits();
+
         // Set appearance
         newAsteroid.GetComponent<SpriteRenderer>().sprite = parentAsteroid.GetComponent<SpriteRenderer>().sprite;
 

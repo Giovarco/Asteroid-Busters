@@ -24,7 +24,6 @@ public class AsteroidOnTrigger : MonoBehaviour {
         createChild();
         createChild();
         Destroy(gameObject);
-
     }
 
     void createChild()
