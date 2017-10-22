@@ -38,7 +38,7 @@ public class AsteroidFactory : MonoBehaviour {
             }
         }
 
-        throw new System.ArgumentException();
+        throw new System.ArgumentException(name+" not found");
 
     }
 

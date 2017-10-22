@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AsteroidOnTrigger : MonoBehaviour {
 
-    Factory factory;
+    AsteroidFactory asteroidFactory;
     AsteroidInformation asteroidInfo;
     GameObject asteroidContainer;
 
@@ -16,7 +16,7 @@ public class AsteroidOnTrigger : MonoBehaviour {
     void Start()
     {
         asteroidContainer = GameObject.Find("Asteroids");
-        factory = GameObject.Find("Orchestrator").GetComponent<Factory>();
+        asteroidFactory = GameObject.Find("Factories").GetComponent<AsteroidFactory>();
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -29,7 +29,7 @@ public class AsteroidOnTrigger : MonoBehaviour {
 
     void createChild()
     {
-        factory.produce("childAsteroid", gameObject);
+        asteroidFactory.instantiate("ChildAsteroid", gameObject);
     }
 
 }
