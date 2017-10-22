@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class PlayerFire : MonoBehaviour {
 
-    Factory factory;
+    ProjectileFactory projectileFactory;
 
-    void Start()
+    void Awake()
     {
-        factory = GameObject.Find("Orchestrator").GetComponent<Factory>();
+        projectileFactory = GameObject.Find("Factories").GetComponent<ProjectileFactory>();
     }
 
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetButtonDown("Fire1"))
         {
-            factory.produce("Bullet");
+            projectileFactory.instantiate("RedBullet1");
         }
 	}
 }
