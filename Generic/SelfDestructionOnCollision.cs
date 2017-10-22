@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeathOnTrigger : MonoBehaviour {
+public class SelfDestructionOnCollision : MonoBehaviour {
 
 	void OnTriggerEnter2D()
     {
