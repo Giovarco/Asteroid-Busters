@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AsteroidOnTrigger : MonoBehaviour {
+public class CollisionController : MonoBehaviour {
 
     AsteroidFactory asteroidFactory;
     AsteroidProperties asteroidInfo;
