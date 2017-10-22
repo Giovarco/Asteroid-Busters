@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelMaker : MonoBehaviour {
+public class LevelGenerator : MonoBehaviour {
 
     // Private
     GameSettings gameSettings;
