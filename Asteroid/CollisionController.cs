@@ -21,9 +21,12 @@ public class CollisionController : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        createChild();
-        createChild();
-        Destroy(gameObject);
+        if(other.gameObject.transform.name != "BlackHole")
+        {
+            createChild();
+            createChild();
+            Destroy(gameObject);
+        }
     }
 
     void createChild()
