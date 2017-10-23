@@ -8,11 +8,11 @@ public class BlackHoleController : MonoBehaviour {
     public float finalSize;
     public float sizeChangeDuration;
 
-    overTimeSizeChanger sizeChanger;
+    OverTimeSizeChanger sizeChanger;
 
     void Awake()
     {
-        sizeChanger = GetComponent<overTimeSizeChanger>();
+        sizeChanger = GetComponent<OverTimeSizeChanger>();
     }
 
 	void Start () {

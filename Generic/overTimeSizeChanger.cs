@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class overTimeSizeChanger : MonoBehaviour {
+public class OverTimeSizeChanger : MonoBehaviour {
 
     public IEnumerator changeSize(float startingSize, float finalSize, float sizeChangeDuration)
     {

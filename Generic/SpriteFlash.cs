@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class SpriteFlash : MonoBehaviour {
 
-    public Material defaultColorFlash;
+    [SerializeField]
+    Material defaultColorFlash;
 
     Renderer renderer;
 
     void Awake()
     {
         renderer = gameObject.GetComponent<Renderer>();
-        renderer.material = new Material(defaultColorFlash);
+        defaultColorFlash = Resources.Load("Materials/DefaultColorFlash") as Material;
+        renderer.material = defaultColorFlash;
     }
 
     public IEnumerator changeFlash(float startingValue, float finalValue, float changeDuration)
     {
-
         float addend;
 
         if (startingValue <= finalValue)
