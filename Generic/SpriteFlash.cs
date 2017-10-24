@@ -16,8 +16,13 @@ public class SpriteFlash : MonoBehaviour {
         renderer.material = defaultColorFlash;
     }
 
-    public IEnumerator changeFlash(float startingValue, float finalValue, float changeDuration)
+    public IEnumerator changeFlash(float startingValue, float finalValue, float changeDuration, Color color)
     {
+        // Prepare shader
+        renderer.material.SetColor("_Color", color);
+        renderer.material.SetColor("_FlashColor", color);
+
+        // Body
         float addend;
 
         if (startingValue <= finalValue)
@@ -33,7 +38,6 @@ public class SpriteFlash : MonoBehaviour {
         else
         {
             addend = (startingValue - finalValue) * Time.deltaTime / changeDuration;
-            print(addend);
             for (float actualValue = startingValue; actualValue > finalValue; actualValue -= addend)
             {
                 renderer.material.SetFloat("_FlashAmount", actualValue);

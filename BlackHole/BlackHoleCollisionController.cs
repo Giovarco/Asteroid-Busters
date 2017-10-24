@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class BlackHoleCollisionController : MonoBehaviour {
 
-    public float travelDuration;
+    public float wayUpTravelDuration;
+    public float wayBackTravelDuration;
     public float stasisDuration;
 
     GameSettings gameSettings;
@@ -36,10 +37,10 @@ public class BlackHoleCollisionController : MonoBehaviour {
 
         // Become smaller
         float localScale = otherGameObject.transform.localScale.x;
-        StartCoroutine(externalOverTimeSizeChanger.changeSize(localScale, 0f, travelDuration));
+        StartCoroutine(externalOverTimeSizeChanger.changeSize(localScale, 0f, wayUpTravelDuration));
 
-        // Become white
-        yield return StartCoroutine(externalSpriteFlash.changeFlash(0f, 1f, travelDuration));
+        // Become black
+        yield return StartCoroutine(externalSpriteFlash.changeFlash(0f, 1f, wayUpTravelDuration, Color.black));
 
         // Stasis
         Renderer renderer = otherGameObject.GetComponent<Renderer>();
@@ -58,10 +59,10 @@ public class BlackHoleCollisionController : MonoBehaviour {
         renderer.enabled = true;
 
         // Become bigger
-        StartCoroutine(externalOverTimeSizeChanger.changeSize(0f, localScale, travelDuration));
+        StartCoroutine(externalOverTimeSizeChanger.changeSize(0f, localScale, wayBackTravelDuration));
 
         // Get colors again
-        yield return StartCoroutine(externalSpriteFlash.changeFlash(1f, 0f, travelDuration));
+        yield return StartCoroutine(externalSpriteFlash.changeFlash(1f, 0f, wayBackTravelDuration, Color.white));
 
         // Give the old velocity
         rb.velocity = oldVelocity;
