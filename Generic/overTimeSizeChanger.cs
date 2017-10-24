@@ -22,7 +22,6 @@ public class OverTimeSizeChanger : MonoBehaviour {
         else
         {
             addend = (startingSize - finalSize) * Time.deltaTime / sizeChangeDuration;
-            print(addend);
             for (float actualSize = startingSize; actualSize > finalSize; actualSize -= addend)
             {
                 transform.localScale = new Vector3(actualSize, actualSize, 1);
