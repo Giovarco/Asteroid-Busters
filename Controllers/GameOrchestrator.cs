@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class GameOrchestrator : MonoBehaviour {
 
+    public GameObject levelText;
+
     LevelGenerator levelGenerator;
     GameSettings gameSettings;
     GameObject asteroidContainer;
     AsteroidFactory asteroidFactory;
-    public GameObject levelText;
+    BlackHoleFactory blackHoleFactory;
 
     // Use this for initialization
     void Start () {
@@ -16,7 +18,15 @@ public class GameOrchestrator : MonoBehaviour {
         asteroidContainer = GameObject.Find("Asteroids");
         levelGenerator = GetComponent<LevelGenerator>();
         asteroidFactory = GameObject.Find("Factories").GetComponent<AsteroidFactory>();
+        blackHoleFactory = GameObject.Find("Factories").GetComponent<BlackHoleFactory>();
         StartCoroutine(startGameOrchestration());
+        StartCoroutine(spawnBlackHole());
+    }
+
+    IEnumerator spawnBlackHole()
+    {
+        yield return new WaitForSeconds(gameSettings.BlackHoleSpawnFrequency);
+        blackHoleFactory.instantiate("BlackHole");
     }
 
     IEnumerator startGameOrchestration()

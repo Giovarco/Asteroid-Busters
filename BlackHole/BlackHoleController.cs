@@ -24,6 +24,7 @@ public class BlackHoleController : MonoBehaviour {
         yield return StartCoroutine(sizeChanger.changeSize(startingSize, finalSize, sizeChangeDuration));
         yield return new WaitForSeconds(sizeChangeDuration);
         yield return StartCoroutine(sizeChanger.changeSize(finalSize, startingSize, sizeChangeDuration));
+        Destroy(gameObject);
     }
 
 
