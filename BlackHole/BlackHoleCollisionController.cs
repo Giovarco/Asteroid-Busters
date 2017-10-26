@@ -27,12 +27,15 @@ public class BlackHoleCollisionController : MonoBehaviour {
 
     void Update()
     {
+
+        // Get all asteroids transforms
         foreach (Transform asteroidTransform in asteroidContainer.transform)
         {
 
             GameObject asteroid = asteroidTransform.gameObject;
             AsteroidProperties asteroidProperties = asteroid.GetComponent<AsteroidProperties>();
 
+            // Check if the asteroid is already teleporting
             if(asteroidProperties.status != GameSettings.Status.Teleporting)
             {
                 float distance = Vector2.Distance(transform.position, asteroidTransform.position);
@@ -50,22 +53,19 @@ public class BlackHoleCollisionController : MonoBehaviour {
 
     IEnumerator teleportProcess(GameObject otherGameObject)
     {
-        print("TELEPORTING");
 
-        //
+        // Set the current game object status to "teleporting"
         AsteroidProperties asteroidProperties = otherGameObject.GetComponent<AsteroidProperties>();
         asteroidProperties.status = GameSettings.Status.Teleporting;
 
-        //
+        // Disable game object collider to avoid unwanted interactions
         Collider2D asteroidCollider = otherGameObject.GetComponent<Collider2D>();
         asteroidCollider.enabled = false;
-        print("COLLIDER DISABLED");
 
-        // These variables have to be not null
+        // Add two scripts to the game object for fancy graphic
         OverTimeSizeChanger externalOverTimeSizeChanger = null;
         SpriteFlash externalSpriteFlash = null;
 
-        // Add needed scripts
         if (otherGameObject.GetComponent("OverTimeSizeChanger") == null)
         {
             externalOverTimeSizeChanger = otherGameObject.AddComponent<OverTimeSizeChanger>();
@@ -76,64 +76,51 @@ public class BlackHoleCollisionController : MonoBehaviour {
             externalSpriteFlash = otherGameObject.AddComponent<SpriteFlash>();
         }
 
-        print("externalOverTimeSizeChanger="+ externalOverTimeSizeChanger);
-        print("externalSpriteFlash="+ externalSpriteFlash);
+        // Freeze completly the game object
+        Rigidbody2D rb = otherGameObject.GetComponent<Rigidbody2D>();
+        Vector2 oldVelocity = rb.velocity;
+        rb.velocity = Vector2.zero;
+        rb.isKinematic = true;
 
-        if(externalOverTimeSizeChanger != null && externalSpriteFlash != null)
-        {
-            print("SCRIPTS ADDED TO THE ASTEROID. TIME TO ROCK!");
+        // Game object: become smaller
+        float localScale = otherGameObject.transform.localScale.x;
+        StartCoroutine(externalOverTimeSizeChanger.changeSize(localScale, 0f, wayUpTravelDuration));
 
-            // Set velocity to 0 without losing the old velocity
-            Rigidbody2D rb = otherGameObject.GetComponent<Rigidbody2D>();
-            Vector2 oldVelocity = rb.velocity;
-            rb.velocity = Vector2.zero;
-            rb.isKinematic = true;
+        // Game object: become black
+        yield return StartCoroutine(externalSpriteFlash.changeFlash(0f, 1f, wayUpTravelDuration, Color.black));
 
-            // Become smaller
-            float localScale = otherGameObject.transform.localScale.x;
-            StartCoroutine(externalOverTimeSizeChanger.changeSize(localScale, 0f, wayUpTravelDuration));
+        // Make game object invisible
+        Renderer renderer = otherGameObject.GetComponent<Renderer>();
+        renderer.enabled = false;
 
-            // Become black
-            yield return StartCoroutine(externalSpriteFlash.changeFlash(0f, 1f, wayUpTravelDuration, Color.black));
+        // Put game object in stasis
+        yield return new WaitForSeconds(stasisDuration);
 
-            // Stasis
-            Renderer renderer = otherGameObject.GetComponent<Renderer>();
-            renderer.enabled = false;
-            yield return new WaitForSeconds(stasisDuration);
+        // Teleport to another position
+        otherGameObject.transform.position = getRandomPosition();
 
-            // Teleport
-            otherGameObject.transform.position = getRandomPosition();
+        // Make game object visible again
+        renderer.enabled = true;
 
-            // Active GameObject
-            renderer.enabled = true;
+        // Game object: become bigger
+        StartCoroutine(externalOverTimeSizeChanger.changeSize(0f, localScale, wayBackTravelDuration));
 
-            // Become bigger
-            StartCoroutine(externalOverTimeSizeChanger.changeSize(0f, localScale, wayBackTravelDuration));
+        // Game object: get colors again
+        yield return StartCoroutine(externalSpriteFlash.changeFlash(1f, 0f, wayBackTravelDuration, Color.white));
 
-            // Get colors again
-            yield return StartCoroutine(externalSpriteFlash.changeFlash(1f, 0f, wayBackTravelDuration, Color.white));
+        // Unfreeze game object
+        rb.isKinematic = false;
+        rb.velocity = oldVelocity;
 
-            // Give the old velocity
-            rb.isKinematic = false;
-            rb.velocity = oldVelocity;
+        // Delete useless scripts on game object
+        Destroy(externalSpriteFlash);
+        Destroy(externalOverTimeSizeChanger);
 
-            // Delete scripts
-            Destroy(externalSpriteFlash);
-            Destroy(externalOverTimeSizeChanger);
+        // Enable game object collider again 
+        asteroidCollider.enabled = true;
 
-            asteroidCollider.enabled = true;
-            print("COLLIDER ENABLED AGAIN");
-
-            //
-            asteroidProperties.status = GameSettings.Status.Ok;
-        } else
-        {
-            print("ONE OF THE TWO SCRIPS DOES NOT EXIST");
-        }
-
-
-
-        print("--------------------------------");
+        // Game object is set to a non-teleporting status
+        asteroidProperties.status = GameSettings.Status.Ok;
 
     }
 
