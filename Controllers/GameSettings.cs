@@ -52,6 +52,12 @@ public class GameSettings : MonoBehaviour {
     [Header("Black Hole")]
     public int BlackHoleSpawnFrequency;
 
+    public enum Status
+    {
+        Ok,
+        Teleporting
+    };
+
     void Awake()
     {
         // Calculate other useful information
@@ -66,5 +72,6 @@ public class GameSettings : MonoBehaviour {
 
         // Calculate others
         asteroidIncreaseInSpeedFactor = hardLevel / (hardAsteroidSpeed - baseAsteroidSpeed);
-}
+    }
+
 }
