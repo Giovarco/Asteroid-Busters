@@ -20,7 +20,7 @@ public class GameOrchestrator : MonoBehaviour {
         asteroidFactory = GameObject.Find("Factories").GetComponent<AsteroidFactory>();
         blackHoleFactory = GameObject.Find("Factories").GetComponent<BlackHoleFactory>();
         StartCoroutine(startGameOrchestration());
-        StartCoroutine(spawnBlackHole());
+        // sStartCoroutine(spawnBlackHole());
     }
 
     IEnumerator spawnBlackHole()

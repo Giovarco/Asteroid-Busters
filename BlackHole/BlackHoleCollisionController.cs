@@ -16,62 +16,97 @@ public class BlackHoleCollisionController : MonoBehaviour {
         gameSettings = GameObject.Find("Orchestrator").GetComponent<GameSettings>();
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerStay2D(Collider2D other)
     {
-        GameObject otherGameObject = other.gameObject;
 
-        // Check if it has the needed scripts
-        if (otherGameObject.GetComponent("OverTimeSizeChanger") == null && otherGameObject.GetComponent("SpriteFlash") == null)
+        print("CHECK IF THE ASTEROID IS ACTUALLY INSIDE");
+        if (FullyContains(other))
         {
+            print("THE ASTEROID IS INSIDE");
+            GameObject otherGameObject = other.gameObject;
             StartCoroutine(teleportProcess(otherGameObject));
+
         }
 
     }
 
     IEnumerator teleportProcess(GameObject otherGameObject)
     {
+        print("TELEPORTING");
+
+        //
+        Collider2D asteroidCollider = otherGameObject.GetComponent<Collider2D>();
+        asteroidCollider.enabled = false;
+        print("COLLIDER DISABLED");
+
+        // These variables have to be not null
+        OverTimeSizeChanger externalOverTimeSizeChanger = null;
+        SpriteFlash externalSpriteFlash = null;
 
         // Add needed scripts
-        SpriteFlash externalSpriteFlash = otherGameObject.AddComponent<SpriteFlash>();
-        OverTimeSizeChanger externalOverTimeSizeChanger = externalOverTimeSizeChanger = otherGameObject.AddComponent<OverTimeSizeChanger>();
+        if (otherGameObject.GetComponent("OverTimeSizeChanger") == null)
+        {
+            externalOverTimeSizeChanger = otherGameObject.AddComponent<OverTimeSizeChanger>();
+        }
 
-        // Become smaller
-        float localScale = otherGameObject.transform.localScale.x;
-        StartCoroutine(externalOverTimeSizeChanger.changeSize(localScale, 0f, wayUpTravelDuration));
+        if(otherGameObject.GetComponent("SpriteFlash") == null)
+        {
+            externalSpriteFlash = otherGameObject.AddComponent<SpriteFlash>();
+        }
 
-        // Become black
-        yield return StartCoroutine(externalSpriteFlash.changeFlash(0f, 1f, wayUpTravelDuration, Color.black));
+        print("externalOverTimeSizeChanger="+ externalOverTimeSizeChanger);
+        print("externalSpriteFlash="+ externalSpriteFlash);
 
-        // Stasis
-        Renderer renderer = otherGameObject.GetComponent<Renderer>();
-        renderer.enabled = false;
-        yield return new WaitForSeconds(stasisDuration);
+        if(externalOverTimeSizeChanger != null && externalSpriteFlash != null)
+        {
+            print("SCRIPTS ADDED TO THE ASTEROID. TIME TO ROCK!");
+            // Become smaller
+            float localScale = otherGameObject.transform.localScale.x;
+            StartCoroutine(externalOverTimeSizeChanger.changeSize(localScale, 0f, wayUpTravelDuration));
 
-        // Teleport
-        otherGameObject.transform.position = getRandomPosition();
+            // Become black
+            yield return StartCoroutine(externalSpriteFlash.changeFlash(0f, 1f, wayUpTravelDuration, Color.black));
 
-        // Set velocity to 0 without losing the old velocity
-        Rigidbody2D rb = otherGameObject.GetComponent<Rigidbody2D>();
-        Vector2 oldVelocity = rb.velocity;
-        rb.velocity = new Vector2(0, 0);
+            // Set velocity to 0 without losing the old velocity
+            Rigidbody2D rb = otherGameObject.GetComponent<Rigidbody2D>();
+            Vector2 oldVelocity = rb.velocity;
+            rb.velocity = new Vector2(0, 0);
 
-        // Active GameObject
-        renderer.enabled = true;
+            // Stasis
+            Renderer renderer = otherGameObject.GetComponent<Renderer>();
+            renderer.enabled = false;
+            yield return new WaitForSeconds(stasisDuration);
 
-        // Become bigger
-        StartCoroutine(externalOverTimeSizeChanger.changeSize(0f, localScale, wayBackTravelDuration));
+            // Teleport
+            otherGameObject.transform.position = getRandomPosition();
 
-        // Get colors again
-        yield return StartCoroutine(externalSpriteFlash.changeFlash(1f, 0f, wayBackTravelDuration, Color.white));
+            // Active GameObject
+            renderer.enabled = true;
 
-        // Give the old velocity
-        rb.velocity = oldVelocity;
+            // Become bigger
+            StartCoroutine(externalOverTimeSizeChanger.changeSize(0f, localScale, wayBackTravelDuration));
 
-        // Delete scripts
-        Destroy(externalSpriteFlash);
-        Destroy(externalOverTimeSizeChanger);
+            // Get colors again
+            yield return StartCoroutine(externalSpriteFlash.changeFlash(1f, 0f, wayBackTravelDuration, Color.white));
 
-        yield return null;
+            // Give the old velocity
+            rb.velocity = oldVelocity;
+
+            // Delete scripts
+            Destroy(externalSpriteFlash);
+            Destroy(externalOverTimeSizeChanger);
+
+            asteroidCollider.enabled = true;
+            print("COLLIDER ENABLED AGAIN");
+        } else
+        {
+            print("ONE OF THE TWO SCRIPS DOES NOT EXIST");
+        }
+
+
+
+        print("--------------------------------");
+
     }
 
     Vector3 getRandomPosition()
@@ -79,5 +114,12 @@ public class BlackHoleCollisionController : MonoBehaviour {
         float xPos = UnityEngine.Random.Range(gameSettings.leftEdge, gameSettings.rightEdge);
         float yPos = UnityEngine.Random.Range(gameSettings.lowerEdge, gameSettings.upperEdge);
         return new Vector3(xPos, yPos, 1);
+    }
+
+    bool FullyContains(Collider2D resident)
+    {
+        Collider2D zone = GetComponent<Collider2D>();
+        return zone.bounds.Contains(resident.bounds.max) && zone.bounds.Contains(resident.bounds.min);
+        // return zone.bounds.Contains(resident.bounds.max);
     }
 }
