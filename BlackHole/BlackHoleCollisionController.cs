@@ -8,23 +8,41 @@ public class BlackHoleCollisionController : MonoBehaviour {
     public float wayUpTravelDuration;
     public float wayBackTravelDuration;
     public float stasisDuration;
+    public float minDistanceToTeleport;
 
     GameSettings gameSettings;
+
+    GameObject asteroidContainer;
 
     void Awake()
     {
         gameSettings = GameObject.Find("Orchestrator").GetComponent<GameSettings>();
     }
 
-    void OnTriggerStay2D(Collider2D other)
+    void Start()
     {
+        asteroidContainer = GameObject.Find("Asteroids");
 
-        print("CHECK IF THE ASTEROID IS ACTUALLY INSIDE");
-        if (FullyContains(other))
+    }
+
+    void Update()
+    {
+        foreach (Transform asteroidTransform in asteroidContainer.transform)
         {
-            print("THE ASTEROID IS INSIDE");
-            GameObject otherGameObject = other.gameObject;
-            StartCoroutine(teleportProcess(otherGameObject));
+
+            GameObject asteroid = asteroidTransform.gameObject;
+            AsteroidProperties asteroidProperties = asteroid.GetComponent<AsteroidProperties>();
+
+            if(asteroidProperties.status != GameSettings.Status.Teleporting)
+            {
+                float distance = Vector2.Distance(transform.position, asteroidTransform.position);
+
+                if (distance < minDistanceToTeleport)
+                {
+                    StartCoroutine(teleportProcess(asteroid));
+                }
+            }
+
 
         }
 
@@ -33,6 +51,10 @@ public class BlackHoleCollisionController : MonoBehaviour {
     IEnumerator teleportProcess(GameObject otherGameObject)
     {
         print("TELEPORTING");
+
+        //
+        AsteroidProperties asteroidProperties = otherGameObject.GetComponent<AsteroidProperties>();
+        asteroidProperties.status = GameSettings.Status.Teleporting;
 
         //
         Collider2D asteroidCollider = otherGameObject.GetComponent<Collider2D>();
@@ -60,17 +82,19 @@ public class BlackHoleCollisionController : MonoBehaviour {
         if(externalOverTimeSizeChanger != null && externalSpriteFlash != null)
         {
             print("SCRIPTS ADDED TO THE ASTEROID. TIME TO ROCK!");
+
+            // Set velocity to 0 without losing the old velocity
+            Rigidbody2D rb = otherGameObject.GetComponent<Rigidbody2D>();
+            Vector2 oldVelocity = rb.velocity;
+            rb.velocity = Vector2.zero;
+            rb.isKinematic = true;
+
             // Become smaller
             float localScale = otherGameObject.transform.localScale.x;
             StartCoroutine(externalOverTimeSizeChanger.changeSize(localScale, 0f, wayUpTravelDuration));
 
             // Become black
             yield return StartCoroutine(externalSpriteFlash.changeFlash(0f, 1f, wayUpTravelDuration, Color.black));
-
-            // Set velocity to 0 without losing the old velocity
-            Rigidbody2D rb = otherGameObject.GetComponent<Rigidbody2D>();
-            Vector2 oldVelocity = rb.velocity;
-            rb.velocity = new Vector2(0, 0);
 
             // Stasis
             Renderer renderer = otherGameObject.GetComponent<Renderer>();
@@ -90,6 +114,7 @@ public class BlackHoleCollisionController : MonoBehaviour {
             yield return StartCoroutine(externalSpriteFlash.changeFlash(1f, 0f, wayBackTravelDuration, Color.white));
 
             // Give the old velocity
+            rb.isKinematic = false;
             rb.velocity = oldVelocity;
 
             // Delete scripts
@@ -98,6 +123,9 @@ public class BlackHoleCollisionController : MonoBehaviour {
 
             asteroidCollider.enabled = true;
             print("COLLIDER ENABLED AGAIN");
+
+            //
+            asteroidProperties.status = GameSettings.Status.Ok;
         } else
         {
             print("ONE OF THE TWO SCRIPS DOES NOT EXIST");
