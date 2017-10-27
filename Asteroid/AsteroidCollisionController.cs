@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollisionController : MonoBehaviour {
+public class AsteroidCollisionController : MonoBehaviour {
 
     AsteroidFactory asteroidFactory;
     AsteroidProperties asteroidInfo;
@@ -21,9 +21,13 @@ public class CollisionController : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        createChild();
-        createChild();
-        Destroy(gameObject);
+        if(other.gameObject.layer != LayerMask.NameToLayer("BlackHoles") && other.gameObject.tag != "Immaterial")
+        {
+            createChild();
+            createChild();
+            Destroy(gameObject);
+        }
+
     }
 
     void createChild()

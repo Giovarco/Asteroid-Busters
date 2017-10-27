@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 10ba7cc9802071c49b76d263d7e0a15d
+timeCreated: 1508778782
+licenseType: Free
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - defaultColorFlash: {fileID: 2100000, guid: e89e78e29a2890c4ca11cb33ff6947c5, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

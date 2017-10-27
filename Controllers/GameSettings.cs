@@ -27,12 +27,6 @@ public class GameSettings : MonoBehaviour {
     // Gameplay factors
     [Header("Gameplay factors")]
 
-    [Tooltip("The lower, the harder")]
-    public float asteroidIncreaseInSpeedFactor;
-
-    [Tooltip("2 = 50%, 4 = 25% etc.")]
-    public float sizeReductionFactor;
-
     [Tooltip("How many levels to wait before adding one asteroid")]
     public int asteroidIncreaseInNumberFactor; // 
 
@@ -46,8 +40,23 @@ public class GameSettings : MonoBehaviour {
     public float hardLevel;
     public float hardAsteroidSpeed;
 
+    [Tooltip("The lower, the harder")]
+    public float asteroidIncreaseInSpeedFactor;
+
+    [Tooltip("2 = 50%, 4 = 25% etc.")]
+    public float sizeReductionFactor;
+
     [Tooltip("This variable prevents all the asteroid to have all the same speed (not intended to exceed maximum speed)")]
     public float speedVariance;
+
+    [Header("Black Hole")]
+    public int BlackHoleSpawnFrequency;
+
+    public enum Status
+    {
+        Ok,
+        Teleporting
+    };
 
     void Awake()
     {
@@ -63,5 +72,6 @@ public class GameSettings : MonoBehaviour {
 
         // Calculate others
         asteroidIncreaseInSpeedFactor = hardLevel / (hardAsteroidSpeed - baseAsteroidSpeed);
-}
+    }
+
 }
