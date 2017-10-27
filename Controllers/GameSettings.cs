@@ -27,8 +27,8 @@ public class GameSettings : MonoBehaviour {
     // Gameplay factors
     [Header("Gameplay factors")]
 
-    [Tooltip("How many levels to wait before adding one asteroid")]
-    public int asteroidIncreaseInNumberFactor; // 
+    [Tooltip("Number of levels before adding one asteroid")]
+    public int extraAsteroidFrequency;
 
     [Tooltip("Asteroid spawn offset from right/left edge")]
     public float offsetEdge;

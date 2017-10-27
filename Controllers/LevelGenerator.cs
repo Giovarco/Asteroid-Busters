@@ -22,7 +22,7 @@ public class LevelGenerator : MonoBehaviour {
     {
 
         // Define asteroid number
-        int extraAsteroids = gameSettings.levelNumber / gameSettings.asteroidIncreaseInNumberFactor;
+        int extraAsteroids = Mathf.RoundToInt(gameSettings.levelNumber / gameSettings.extraAsteroidFrequency);
         int asteroidNumber = 4 + extraAsteroids;
         // asteroidNumber = 1;
 
