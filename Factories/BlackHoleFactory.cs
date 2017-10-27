@@ -28,13 +28,7 @@ public class BlackHoleFactory : MonoBehaviour {
 
     GameObject generateBlackHole()
     {
-        return Instantiate(blackHole, getRandomPosition(), Quaternion.identity);
+        return Instantiate(blackHole, Vector2.zero, Quaternion.identity);
     }
 
-    Vector3 getRandomPosition()
-    {
-        float xPos = UnityEngine.Random.Range(gameSettings.leftEdge, gameSettings.rightEdge);
-        float yPos = UnityEngine.Random.Range(gameSettings.lowerEdge, gameSettings.upperEdge);
-        return new Vector3(xPos, yPos, 1);
-    }
 }

@@ -24,7 +24,7 @@ public class LevelGenerator : MonoBehaviour {
         // Define asteroid number
         int extraAsteroids = gameSettings.levelNumber / gameSettings.asteroidIncreaseInNumberFactor;
         int asteroidNumber = 4 + extraAsteroids;
-        asteroidNumber = 1;
+        // asteroidNumber = 1;
 
         // Generate asteroids
         for(int i = 0; i < asteroidNumber; i++)
