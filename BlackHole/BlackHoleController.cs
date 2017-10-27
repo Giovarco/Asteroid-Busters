@@ -10,6 +10,7 @@ public class BlackHoleController : MonoBehaviour {
 
     OverTimeSizeChanger sizeChanger;
     GameObject asteroidContainer;
+    GameSettings gameSettings;
 
     void Awake()
     {
@@ -18,6 +19,7 @@ public class BlackHoleController : MonoBehaviour {
 
 	void Start () {
         asteroidContainer = GameObject.Find("Asteroids");
+        gameSettings = GameObject.Find("Orchestrator").GetComponent<GameSettings>();
         StartCoroutine(blackHoleLife());
 	}
 
@@ -27,7 +29,7 @@ public class BlackHoleController : MonoBehaviour {
         yield return StartCoroutine(sizeChanger.changeSize(startingSize, finalSize, sizeChangeDuration));
 
         // Persist for a while
-        yield return new WaitForSeconds(sizeChangeDuration);
+        yield return new WaitForSeconds(gameSettings.blackHolePersistence);
 
         // Disable collision detection and attraction
         GetComponent<BlackHoleCollisionController>().enabled = false;

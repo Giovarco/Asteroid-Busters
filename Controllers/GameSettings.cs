@@ -50,7 +50,9 @@ public class GameSettings : MonoBehaviour {
     public float speedVariance;
 
     [Header("Black Hole")]
-    public int BlackHoleSpawnFrequency;
+    public int blackHoleSpawnFrequency;
+
+    public int blackHolePersistence;
 
     public enum Status
     {
