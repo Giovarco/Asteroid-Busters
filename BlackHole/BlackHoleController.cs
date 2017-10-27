@@ -23,9 +23,23 @@ public class BlackHoleController : MonoBehaviour {
 
     IEnumerator blackHoleLife()
     {
+        // Become bigger
         yield return StartCoroutine(sizeChanger.changeSize(startingSize, finalSize, sizeChangeDuration));
+
+        // Persist for a while
         yield return new WaitForSeconds(sizeChangeDuration);
+
+        // Disable collision detection and attraction
+        GetComponent<BlackHoleCollisionController>().enabled = false;
+
+        // Disable attraction force
+        GameObject aura = transform.GetChild(0).gameObject;
+        aura.GetComponent<PointEffector2D>().enabled = false;
+
+        // Become smaller
         yield return StartCoroutine(sizeChanger.changeSize(finalSize, startingSize, sizeChangeDuration));
+
+        // Destroy itself when all asteroids respawn
         yield return StartCoroutine(destroy());
     }
 
