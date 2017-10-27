@@ -15,7 +15,6 @@ public class LevelGenerator : MonoBehaviour {
 
         // Get game settings
         gameSettings = GetComponent<GameSettings>();
-
     }
     
     public void generateLevel()

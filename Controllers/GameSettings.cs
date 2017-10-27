@@ -24,23 +24,25 @@ public class GameSettings : MonoBehaviour {
 
     float screenRatio;
 
-    // Gameplay factors
-    [Header("Gameplay factors")]
+    // Asteroid difficulty factors
+    [Header("Asteroid difficulty factors")]
+
+    public float baseAsteroidSpeed;
 
     [Tooltip("Number of levels before adding one asteroid")]
     public int extraAsteroidFrequency;
 
+    [Tooltip("Needed to calculate the asteroid increase-in-speed factor")]
+    public float hardLevel;
+
+    [Tooltip("Needed to calculate the asteroid increase-in-speed factor")]
+    public float hardAsteroidSpeed;
+
     [Tooltip("Asteroid spawn offset from right/left edge")]
     public float offsetEdge;
 
-    // Asteroid statistics
-    [Header("Asteroid statistics")]
-
-    public float baseAsteroidSpeed;
-    public float hardLevel;
-    public float hardAsteroidSpeed;
-
     [Tooltip("The lower, the harder")]
+    [ReadOnly]
     public float asteroidIncreaseInSpeedFactor;
 
     [Tooltip("2 = 50%, 4 = 25% etc.")]
@@ -49,7 +51,9 @@ public class GameSettings : MonoBehaviour {
     [Tooltip("This variable prevents all the asteroid to have all the same speed (not intended to exceed maximum speed)")]
     public float speedVariance;
 
-    [Header("Black Hole")]
+    // Asteroid difficulty factors
+    [Header("Black hole")]
+
     public int blackHoleSpawnFrequency;
 
     public int blackHolePersistence;
