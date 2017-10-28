@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class GameSettings : MonoBehaviour {
 
+    // References
+    public GameConfigurationData gameConfigData;
+    
     // Game information
-    [Header("Game information")]
+    [Header("Game configuration")]
 
-    [Tooltip("Default value: 0")]
+    [Tooltip("If it equals zero, then the first level will be one")]
     public int levelNumber;
+
+    [Tooltip("Asteroid spawn offset from right/left edge")]
+    public float offsetEdge;
 
     [HideInInspector]
     public float upperEdge;
@@ -24,10 +30,18 @@ public class GameSettings : MonoBehaviour {
 
     float screenRatio;
 
-    // Asteroid difficulty factors
-    [Header("Asteroid difficulty factors")]
-
+    // Asteroid configuration
+    [Header("Asteroid configuration")]
     public float baseAsteroidSpeed;
+
+    [Tooltip("2 = 50%, 4 = 25% etc.")]
+    public float sizeReductionFactor;
+
+    [Tooltip("This variable prevents all the asteroid to have all the same speed (not intended to exceed maximum speed)")]
+    public float speedVariance;
+
+    // Asteroid difficulty factors
+    [Header("Difficulty configuration")]
 
     [Tooltip("Number of levels before adding one asteroid")]
     public int extraAsteroidFrequency;
@@ -38,18 +52,11 @@ public class GameSettings : MonoBehaviour {
     [Tooltip("Needed to calculate the asteroid increase-in-speed factor")]
     public float hardAsteroidSpeed;
 
-    [Tooltip("Asteroid spawn offset from right/left edge")]
-    public float offsetEdge;
-
     [Tooltip("The lower, the harder")]
     [ReadOnly]
     public float asteroidIncreaseInSpeedFactor;
 
-    [Tooltip("2 = 50%, 4 = 25% etc.")]
-    public float sizeReductionFactor;
 
-    [Tooltip("This variable prevents all the asteroid to have all the same speed (not intended to exceed maximum speed)")]
-    public float speedVariance;
 
     public enum Status
     {
@@ -59,6 +66,9 @@ public class GameSettings : MonoBehaviour {
 
     void Awake()
     {
+
+        levelNumber = gameConfigData.startingLevel;
+
         // Calculate other useful information
         screenRatio = (float)Screen.width / (float)Screen.height;
 

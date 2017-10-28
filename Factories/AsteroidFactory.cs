@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class AsteroidFactory : MonoBehaviour {
 
-    GameSettings gameSettings;
-    GameObject asteroidContainer;
-
     public GameObject asteroid;
     public int asteroidSpritesIndex;
     public Sprite[] asteroidSprites;
+
+    GameSettings gameSettings;
+    GameObject asteroidContainer;
 
     void Awake()
     {
