@@ -11,7 +11,7 @@ public class GameSettings : MonoBehaviour {
     [Header("Game configuration")]
 
     [Tooltip("If it equals zero, then the first level will be one")]
-    public int levelNumber;
+    public int currentLevel;
 
     [Tooltip("Asteroid spawn offset from right/left edge")]
     public float offsetEdge;
@@ -67,7 +67,7 @@ public class GameSettings : MonoBehaviour {
     void Awake()
     {
 
-        levelNumber = gameConfigData.startingLevel;
+        currentLevel = gameConfigData.startingLevel;
 
         // Calculate other useful information
         screenRatio = (float)Screen.width / (float)Screen.height;

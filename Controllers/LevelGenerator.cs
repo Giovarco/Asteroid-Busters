@@ -21,9 +21,9 @@ public class LevelGenerator : MonoBehaviour {
     {
 
         // Define asteroid number
-        int extraAsteroids = Mathf.RoundToInt(gameSettings.levelNumber / gameSettings.extraAsteroidFrequency);
+        int extraAsteroids = Mathf.RoundToInt(gameSettings.currentLevel / gameSettings.extraAsteroidFrequency);
         int asteroidNumber = 4 + extraAsteroids;
-        // asteroidNumber = 1;
+        asteroidNumber = 1;
 
         // Generate asteroids
         for(int i = 0; i < asteroidNumber; i++)

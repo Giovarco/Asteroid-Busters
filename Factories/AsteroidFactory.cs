@@ -135,7 +135,7 @@ public class AsteroidFactory : MonoBehaviour {
 
     float getAsteroidSpeed()
     {
-        return gameSettings.baseAsteroidSpeed + (float)gameSettings.levelNumber / gameSettings.asteroidIncreaseInSpeedFactor;
+        return gameSettings.baseAsteroidSpeed + (float)gameSettings.currentLevel / gameSettings.asteroidIncreaseInSpeedFactor;
     }
 
     bool getRandomBoolean()
