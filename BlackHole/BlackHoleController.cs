@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BlackHoleController : MonoBehaviour {
 
+    public BlackHoleData blackHoleData;
     public float startingSize;
     public float finalSize;
     public float sizeChangeDuration;
@@ -29,7 +30,7 @@ public class BlackHoleController : MonoBehaviour {
         yield return StartCoroutine(sizeChanger.changeSize(startingSize, finalSize, sizeChangeDuration));
 
         // Persist for a while
-        yield return new WaitForSeconds(gameSettings.blackHolePersistence);
+        yield return new WaitForSeconds(blackHoleData.duration);
 
         // Disable collision detection and attraction
         GetComponent<BlackHoleCollisionController>().enabled = false;

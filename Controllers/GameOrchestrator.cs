@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameOrchestrator : MonoBehaviour {
 
     public GameObject levelText;
+    public BlackHoleData blackHoleData;
 
     LevelGenerator levelGenerator;
     GameSettings gameSettings;
@@ -25,7 +26,7 @@ public class GameOrchestrator : MonoBehaviour {
 
     IEnumerator spawnBlackHole()
     {
-        yield return new WaitForSeconds(gameSettings.blackHoleSpawnFrequency);
+        yield return new WaitForSeconds(blackHoleData.spawnFrequency);
         blackHoleFactory.instantiate("BlackHole");
     }
 

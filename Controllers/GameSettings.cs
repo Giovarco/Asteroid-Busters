@@ -51,13 +51,6 @@ public class GameSettings : MonoBehaviour {
     [Tooltip("This variable prevents all the asteroid to have all the same speed (not intended to exceed maximum speed)")]
     public float speedVariance;
 
-    // Asteroid difficulty factors
-    [Header("Black hole")]
-
-    public int blackHoleSpawnFrequency;
-
-    public int blackHolePersistence;
-
     public enum Status
     {
         Ok,
