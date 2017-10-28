@@ -14,18 +14,19 @@ public class GameSettings : MonoBehaviour {
     public int currentLevel;
 
     [Tooltip("Asteroid spawn offset from right/left edge")]
-    public float offsetEdge;
+    [SerializeField]
+    public float asteroidSpawnOffset;
 
-    [HideInInspector]
+    //[HideInInspector]
     public float upperEdge;
 
-    [HideInInspector]
+    //[HideInInspector]
     public float lowerEdge;
 
-    [HideInInspector]
+    //[HideInInspector]
     public float rightEdge;
 
-    [HideInInspector]
+    //[HideInInspector]
     public float leftEdge;
 
     float screenRatio;
@@ -67,17 +68,20 @@ public class GameSettings : MonoBehaviour {
     void Awake()
     {
 
+        // Set the current level
         currentLevel = gameConfigData.startingLevel;
 
-        // Calculate other useful information
+        // Calculate edge positions
         screenRatio = (float)Screen.width / (float)Screen.height;
 
-        // Calculate edge positions
         upperEdge = Camera.main.orthographicSize;
         lowerEdge = -upperEdge;
 
         rightEdge = Camera.main.orthographicSize * screenRatio;
         leftEdge = -rightEdge;
+
+        // Calculate asteroid spawn offset
+        asteroidSpawnOffset = rightEdge / 3;
 
         // Calculate others
         asteroidIncreaseInSpeedFactor = hardLevel / (hardAsteroidSpeed - baseAsteroidSpeed);

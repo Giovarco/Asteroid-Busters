@@ -124,12 +124,12 @@ public class AsteroidFactory : MonoBehaviour {
         if (getRandomBoolean())
         {
             // Right
-            return UnityEngine.Random.Range(gameSettings.rightEdge - gameSettings.offsetEdge, gameSettings.rightEdge);
+            return UnityEngine.Random.Range(gameSettings.rightEdge - gameSettings.asteroidSpawnOffset, gameSettings.rightEdge);
         }
         else
         {
             // Left
-            return UnityEngine.Random.Range(gameSettings.leftEdge, gameSettings.leftEdge + gameSettings.offsetEdge);
+            return UnityEngine.Random.Range(gameSettings.leftEdge, gameSettings.leftEdge + gameSettings.asteroidSpawnOffset);
         }
     }
 
