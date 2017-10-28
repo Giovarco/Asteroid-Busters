@@ -30,10 +30,6 @@ public class GameSettings : MonoBehaviour {
 
     float screenRatio;
 
-    // Asteroid difficulty factors
-    [HideInInspector]
-    public float asteroidIncreaseInSpeedFactor;
-
     public enum Status
     {
         Ok,
@@ -61,8 +57,6 @@ public class GameSettings : MonoBehaviour {
         // Calculate asteroid spawn offset
         asteroidSpawnOffset = rightEdge / 3;
 
-        // Calculate others
-        // asteroidIncreaseInSpeedFactor = difficultyConfigData.hardLevel / (difficultyConfigData.hardAsteroidSpeed - asteroidData.baseSpeed);
     }
 
 }
