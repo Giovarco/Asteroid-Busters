@@ -35,7 +35,6 @@ public class GameSettings : MonoBehaviour {
     float screenRatio;
 
     // Asteroid difficulty factors
-    [Header("Difficulty configuration")]
     [HideInInspector]
     public float asteroidIncreaseInSpeedFactor;
 

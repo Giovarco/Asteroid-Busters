@@ -7,20 +7,20 @@ public class SpriteFlash : MonoBehaviour {
     [SerializeField]
     Material defaultColorFlash;
 
-    Renderer renderer;
+    Renderer rnd;
 
     void Awake()
     {
-        renderer = gameObject.GetComponent<Renderer>();
+        rnd = gameObject.GetComponent<Renderer>();
         defaultColorFlash = Resources.Load("Materials/DefaultColorFlash") as Material;
-        renderer.material = defaultColorFlash;
+        rnd.material = defaultColorFlash;
     }
 
     public IEnumerator changeFlash(float startingValue, float finalValue, float changeDuration, Color color)
     {
         // Prepare shader
-        renderer.material.SetColor("_Color", color);
-        renderer.material.SetColor("_FlashColor", color);
+        rnd.material.SetColor("_Color", color);
+        rnd.material.SetColor("_FlashColor", color);
 
         // Body
         float addend;
@@ -31,7 +31,7 @@ public class SpriteFlash : MonoBehaviour {
 
             for (float actualValue = startingValue; actualValue < finalValue; actualValue += addend)
             {
-                renderer.material.SetFloat("_FlashAmount", actualValue);
+                rnd.material.SetFloat("_FlashAmount", actualValue);
                 yield return null;
             }
         }
@@ -40,7 +40,7 @@ public class SpriteFlash : MonoBehaviour {
             addend = (startingValue - finalValue) * Time.deltaTime / changeDuration;
             for (float actualValue = startingValue; actualValue > finalValue; actualValue -= addend)
             {
-                renderer.material.SetFloat("_FlashAmount", actualValue);
+                rnd.material.SetFloat("_FlashAmount", actualValue);
                 yield return null;
             }
         }
