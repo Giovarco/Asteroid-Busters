@@ -26,8 +26,11 @@ public class GameOrchestrator : MonoBehaviour {
 
     IEnumerator spawnBlackHole()
     {
-        yield return new WaitForSeconds(blackHoleData.spawnFrequency);
-        blackHoleFactory.instantiate("BlackHole");
+        while(true)
+        {
+            yield return new WaitForSeconds(blackHoleData.spawnFrequency);
+            blackHoleFactory.instantiate("BlackHole");
+        }
     }
 
     IEnumerator startGameOrchestration()
