@@ -10,8 +10,6 @@ public class GameSettings : MonoBehaviour {
     DifficultyConfigurationData difficultyConfigData;
 
     // Game information
-    [Header("Game configuration")]
-
     [Tooltip("If it equals zero, then the first level will be one")]
     [ReadOnly]
     public int currentLevel;

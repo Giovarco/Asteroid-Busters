@@ -5,16 +5,17 @@ using UnityEngine;
 public class GameOrchestrator : MonoBehaviour {
 
     public GameObject levelText;
-    public BlackHoleData blackHoleData;
 
     LevelGenerator levelGenerator;
     GameSettings gameSettings;
     GameObject asteroidContainer;
     AsteroidFactory asteroidFactory;
     BlackHoleFactory blackHoleFactory;
+    BlackHoleData blackHoleData;
 
     // Use this for initialization
     void Start () {
+        blackHoleData = GetComponent<AssetReferences>().blackHoleData;
         gameSettings = GetComponent<GameSettings>();
         asteroidContainer = GameObject.Find("Asteroids");
         levelGenerator = GetComponent<LevelGenerator>();
