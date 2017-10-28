@@ -6,8 +6,6 @@ public class GameSettings : MonoBehaviour {
 
     // References
     GameConfigurationData gameConfigData;
-    AsteroidData asteroidData;
-    DifficultyConfigurationData difficultyConfigData;
 
     // Game information
     [Tooltip("If it equals zero, then the first level will be one")]
@@ -42,12 +40,11 @@ public class GameSettings : MonoBehaviour {
         Teleporting
     };
 
+
     void Awake()
     {
         // Get references
-        asteroidData = GetComponent<AssetReferences>().asteroidData;
         gameConfigData = GetComponent<AssetReferences>().gameConfigData;
-        difficultyConfigData = GetComponent<AssetReferences>().difficultyConfigData;
 
         // Set the current level
         currentLevel = gameConfigData.startingLevel;
@@ -65,7 +62,7 @@ public class GameSettings : MonoBehaviour {
         asteroidSpawnOffset = rightEdge / 3;
 
         // Calculate others
-        asteroidIncreaseInSpeedFactor = difficultyConfigData.hardLevel / (difficultyConfigData.hardAsteroidSpeed - asteroidData.baseSpeed);
+        // asteroidIncreaseInSpeedFactor = difficultyConfigData.hardLevel / (difficultyConfigData.hardAsteroidSpeed - asteroidData.baseSpeed);
     }
 
 }

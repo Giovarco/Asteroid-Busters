@@ -12,6 +12,8 @@ public class AsteroidFactory : MonoBehaviour {
     GameSettings gameSettings;
     GameObject asteroidContainer;
     AsteroidData asteroidData;
+    DifficultyConfigurationData difficultyConfigData;
+    float asteroidIncreaseInSpeedFactor;
 
     void Awake()
     {
@@ -24,8 +26,15 @@ public class AsteroidFactory : MonoBehaviour {
         // Get asteroid data
         asteroidData = orchestrator.GetComponent<AssetReferences>().asteroidData;
 
+        // Difficulty configuration data
+        difficultyConfigData = orchestrator.GetComponent<AssetReferences>().difficultyConfigData;
+
         // Get the asteroid containers
         asteroidContainer = GameObject.Find("Asteroids");
+
+        // Calculate increase-in-speed factor
+        asteroidIncreaseInSpeedFactor = difficultyConfigData.hardLevel / (difficultyConfigData.hardAsteroidSpeed - asteroidData.baseSpeed);
+
 
     }
 
@@ -142,7 +151,7 @@ public class AsteroidFactory : MonoBehaviour {
 
     float getAsteroidSpeed()
     {
-        return asteroidData.baseSpeed + (float)gameSettings.currentLevel / gameSettings.asteroidIncreaseInSpeedFactor;
+        return asteroidData.baseSpeed + (float)gameSettings.currentLevel / asteroidIncreaseInSpeedFactor;
     }
 
     bool getRandomBoolean()
