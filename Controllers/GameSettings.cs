@@ -37,12 +37,15 @@ public class GameSettings : MonoBehaviour {
     [Header("Difficulty configuration")]
 
     [Tooltip("Number of levels before adding one asteroid")]
+    [ReadOnly]
     public int extraAsteroidFrequency;
 
     [Tooltip("Needed to calculate the asteroid increase-in-speed factor")]
+    [ReadOnly]
     public float hardLevel;
 
     [Tooltip("Needed to calculate the asteroid increase-in-speed factor")]
+    [ReadOnly]
     public float hardAsteroidSpeed;
 
     [Tooltip("The lower, the harder")]
