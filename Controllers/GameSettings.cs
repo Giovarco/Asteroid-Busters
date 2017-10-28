@@ -6,32 +6,35 @@ public class GameSettings : MonoBehaviour {
 
     // References
     public GameConfigurationData gameConfigData;
-    
+    AsteroidData asteroidData;
+
     // Game information
     [Header("Game configuration")]
 
     [Tooltip("If it equals zero, then the first level will be one")]
+    [ReadOnly]
     public int currentLevel;
 
     [Tooltip("Asteroid spawn offset from right/left edge")]
-    [SerializeField]
+    [ReadOnly]
     public float asteroidSpawnOffset;
 
-    //[HideInInspector]
+    [HideInInspector]
     public float upperEdge;
 
-    //[HideInInspector]
+    [HideInInspector]
     public float lowerEdge;
 
-    //[HideInInspector]
+    [HideInInspector]
     public float rightEdge;
 
-    //[HideInInspector]
+    [HideInInspector]
     public float leftEdge;
 
     float screenRatio;
 
     // Asteroid configuration
+    /*
     [Header("Asteroid configuration")]
     public float baseAsteroidSpeed;
 
@@ -40,6 +43,7 @@ public class GameSettings : MonoBehaviour {
 
     [Tooltip("This variable prevents all the asteroid to have all the same speed (not intended to exceed maximum speed)")]
     public float speedVariance;
+    */
 
     // Asteroid difficulty factors
     [Header("Difficulty configuration")]
@@ -67,6 +71,8 @@ public class GameSettings : MonoBehaviour {
 
     void Awake()
     {
+        // Get references
+        asteroidData = GetComponent<AssetReferences>().asteroidData;
 
         // Set the current level
         currentLevel = gameConfigData.startingLevel;
@@ -84,7 +90,7 @@ public class GameSettings : MonoBehaviour {
         asteroidSpawnOffset = rightEdge / 3;
 
         // Calculate others
-        asteroidIncreaseInSpeedFactor = hardLevel / (hardAsteroidSpeed - baseAsteroidSpeed);
+        asteroidIncreaseInSpeedFactor = hardLevel / (hardAsteroidSpeed - asteroidData.baseSpeed);
     }
 
 }

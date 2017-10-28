@@ -11,11 +11,18 @@ public class AsteroidFactory : MonoBehaviour {
 
     GameSettings gameSettings;
     GameObject asteroidContainer;
+    AsteroidData asteroidData;
 
     void Awake()
     {
+        // Get Orchestrator
+        GameObject orchestrator = GameObject.Find("Orchestrator");
+
         // Get game settings
-        gameSettings = GameObject.Find("Orchestrator").GetComponent<GameSettings>();
+        gameSettings = orchestrator.GetComponent<GameSettings>();
+
+        // Get asteroid data
+        asteroidData = orchestrator.GetComponent<AssetReferences>().asteroidData;
 
         // Get the asteroid containers
         asteroidContainer = GameObject.Find("Asteroids");
@@ -90,7 +97,7 @@ public class AsteroidFactory : MonoBehaviour {
 
         // Set size depeding on the parent asteroid
         float localScaleValue = parentAsteroid.transform.localScale.x;
-        float newSize = localScaleValue / gameSettings.sizeReductionFactor;
+        float newSize = localScaleValue / asteroidData.sizeReductionFactor;
         newAsteroid.transform.localScale = new Vector3(newSize, newSize, 1);
 
         // ONLY AFTER setting the size, re-define again edge leaving properties
@@ -107,8 +114,8 @@ public class AsteroidFactory : MonoBehaviour {
 
     Vector3 getRandomDirection()
     {
-        float xDirection = getRandomSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
-        float yDirection = getRandomSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
+        float xDirection = getRandomSign() * UnityEngine.Random.Range(1f - asteroidData.speedVariance, 1f);
+        float yDirection = getRandomSign() * UnityEngine.Random.Range(1f - asteroidData.speedVariance, 1f);
         Vector3 randomDirection = new Vector3(xDirection, yDirection, 0);
         return randomDirection;
     }
@@ -135,7 +142,7 @@ public class AsteroidFactory : MonoBehaviour {
 
     float getAsteroidSpeed()
     {
-        return gameSettings.baseAsteroidSpeed + (float)gameSettings.currentLevel / gameSettings.asteroidIncreaseInSpeedFactor;
+        return asteroidData.baseSpeed + (float)gameSettings.currentLevel / gameSettings.asteroidIncreaseInSpeedFactor;
     }
 
     bool getRandomBoolean()
