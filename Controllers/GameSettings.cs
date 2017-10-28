@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameSettings : MonoBehaviour {
 
     // References
-    public GameConfigurationData gameConfigData;
+    GameConfigurationData gameConfigData;
     AsteroidData asteroidData;
 
     // Game information
@@ -73,6 +73,7 @@ public class GameSettings : MonoBehaviour {
     {
         // Get references
         asteroidData = GetComponent<AssetReferences>().asteroidData;
+        gameConfigData = GetComponent<AssetReferences>().gameConfigData;
 
         // Set the current level
         currentLevel = gameConfigData.startingLevel;
