@@ -7,15 +7,7 @@ public class ProjectileFactory : MonoBehaviour {
 
     public GameObject bullet;
 
-    GameSettings gameSettings;
     GameObject player;
-
-    void Awake()
-    {
-        // Get game settings
-        gameSettings = GameObject.Find("Orchestrator").GetComponent<GameSettings>();
-
-    }
 
     void Start()
     {

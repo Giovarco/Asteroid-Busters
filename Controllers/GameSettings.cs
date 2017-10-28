@@ -39,8 +39,6 @@ public class GameSettings : MonoBehaviour {
     [HideInInspector]
     public float asteroidIncreaseInSpeedFactor;
 
-
-
     public enum Status
     {
         Ok,

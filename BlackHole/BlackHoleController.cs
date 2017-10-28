@@ -11,7 +11,6 @@ public class BlackHoleController : MonoBehaviour {
 
     OverTimeSizeChanger sizeChanger;
     GameObject asteroidContainer;
-    GameSettings gameSettings;
 
     void Awake()
     {
@@ -20,7 +19,6 @@ public class BlackHoleController : MonoBehaviour {
 
 	void Start () {
         asteroidContainer = GameObject.Find("Asteroids");
-        gameSettings = GameObject.Find("Orchestrator").GetComponent<GameSettings>();
         StartCoroutine(blackHoleLife());
 	}
 

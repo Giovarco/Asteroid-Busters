@@ -5,13 +5,11 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
 
     Rigidbody2D rb;
-    SpriteRenderer sr;
     PlayerProperties playerProperties;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
         playerProperties = GetComponent<PlayerProperties>();
     }
 

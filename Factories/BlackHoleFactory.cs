@@ -6,15 +6,6 @@ public class BlackHoleFactory : MonoBehaviour {
 
     public GameObject blackHole;
 
-    GameSettings gameSettings;
-
-    void Awake()
-    {
-        // Get game settings
-        gameSettings = GameObject.Find("Orchestrator").GetComponent<GameSettings>();
-
-    }
-
     public GameObject instantiate(string name)
     {
 

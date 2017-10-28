@@ -6,7 +6,6 @@ public class AsteroidCollisionController : MonoBehaviour {
 
     AsteroidFactory asteroidFactory;
     AsteroidProperties asteroidInfo;
-    GameObject asteroidContainer;
 
     void Awake()
     {
@@ -15,7 +14,6 @@ public class AsteroidCollisionController : MonoBehaviour {
 
     void Start()
     {
-        asteroidContainer = GameObject.Find("Asteroids");
         asteroidFactory = GameObject.Find("Factories").GetComponent<AsteroidFactory>();
     }
 
