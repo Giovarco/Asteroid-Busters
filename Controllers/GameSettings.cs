@@ -7,6 +7,7 @@ public class GameSettings : MonoBehaviour {
     // References
     GameConfigurationData gameConfigData;
     AsteroidData asteroidData;
+    DifficultyConfigurationData difficultyConfigData;
 
     // Game information
     [Header("Game configuration")]
@@ -35,7 +36,7 @@ public class GameSettings : MonoBehaviour {
 
     // Asteroid difficulty factors
     [Header("Difficulty configuration")]
-
+    /*
     [Tooltip("Number of levels before adding one asteroid")]
     [ReadOnly]
     public int extraAsteroidFrequency;
@@ -47,7 +48,7 @@ public class GameSettings : MonoBehaviour {
     [Tooltip("Needed to calculate the asteroid increase-in-speed factor")]
     [ReadOnly]
     public float hardAsteroidSpeed;
-
+    */
     [Tooltip("The lower, the harder")]
     [ReadOnly]
     public float asteroidIncreaseInSpeedFactor;
@@ -65,6 +66,7 @@ public class GameSettings : MonoBehaviour {
         // Get references
         asteroidData = GetComponent<AssetReferences>().asteroidData;
         gameConfigData = GetComponent<AssetReferences>().gameConfigData;
+        difficultyConfigData = GetComponent<AssetReferences>().difficultyConfigData;
 
         // Set the current level
         currentLevel = gameConfigData.startingLevel;
@@ -82,7 +84,7 @@ public class GameSettings : MonoBehaviour {
         asteroidSpawnOffset = rightEdge / 3;
 
         // Calculate others
-        asteroidIncreaseInSpeedFactor = hardLevel / (hardAsteroidSpeed - asteroidData.baseSpeed);
+        asteroidIncreaseInSpeedFactor = difficultyConfigData.hardLevel / (difficultyConfigData.hardAsteroidSpeed - asteroidData.baseSpeed);
     }
 
 }
