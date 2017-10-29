@@ -45,8 +45,8 @@ public class GameOrchestrator : MonoBehaviour {
             {
 
                 // Show the text with a the new level value
-                gameSettings.currentLevel++;
-                levelText.GetComponent<UnityEngine.UI.Text>().text = "Level " + gameSettings.currentLevel;
+                levelGenerator.currentLevel++;
+                levelText.GetComponent<UnityEngine.UI.Text>().text = "Level " + levelGenerator.currentLevel;
                 levelText.SetActive(true);
 
                 // Set the new asteroid sprite

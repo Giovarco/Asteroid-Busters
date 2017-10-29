@@ -7,11 +7,6 @@ public class GameSettings : MonoBehaviour {
     // References
     GameConfigurationData gameConfigData;
 
-    // Game information
-    [Tooltip("If it equals zero, then the first level will be one")]
-    [ReadOnly]
-    public int currentLevel;
-
     [Tooltip("Asteroid spawn offset from right/left edge")]
     [ReadOnly]
     public float asteroidSpawnOffset;
@@ -41,9 +36,6 @@ public class GameSettings : MonoBehaviour {
     {
         // Get references
         gameConfigData = GetComponent<AssetReferences>().gameConfigData;
-
-        // Set the current level
-        currentLevel = gameConfigData.startingLevel;
 
         // Calculate edge positions
         screenRatio = (float)Screen.width / (float)Screen.height;

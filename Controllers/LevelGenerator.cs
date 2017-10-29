@@ -4,13 +4,24 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour {
 
+    [Tooltip("If it equals zero, then the first level will be one")]
+    [ReadOnly]
+    public int currentLevel;
+
     // Private
     GameSettings gameSettings;
     AsteroidFactory asteroidFactory;
     DifficultyConfigurationData difficultyConfigData;
+    GameConfigurationData gameConfigData;
 
     void Awake()
     {
+        // Get references
+        gameConfigData = GetComponent<AssetReferences>().gameConfigData;
+
+        // Set the current level
+        currentLevel = gameConfigData.startingLevel;
+
         // Get Factory
         asteroidFactory = GameObject.Find("Factories").GetComponent<AsteroidFactory>();
 
@@ -25,7 +36,7 @@ public class LevelGenerator : MonoBehaviour {
     {
 
         // Define asteroid number
-        int extraAsteroids = Mathf.RoundToInt(gameSettings.currentLevel / difficultyConfigData.extraAsteroidFrequency);
+        int extraAsteroids = Mathf.RoundToInt(currentLevel / difficultyConfigData.extraAsteroidFrequency);
         int asteroidNumber = 4 + extraAsteroids;
         asteroidNumber = 1;
 

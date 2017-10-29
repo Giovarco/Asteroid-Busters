@@ -13,12 +13,15 @@ public class AsteroidFactory : MonoBehaviour {
     GameObject asteroidContainer;
     AsteroidData asteroidData;
     DifficultyConfigurationData difficultyConfigData;
+    LevelGenerator levelGenerator;
     float asteroidIncreaseInSpeedFactor;
 
     void Awake()
     {
         // Get Orchestrator
         GameObject orchestrator = GameObject.Find("Orchestrator");
+
+        levelGenerator = orchestrator.GetComponent<LevelGenerator>();
 
         // Get game settings
         gameSettings = orchestrator.GetComponent<GameSettings>();
@@ -151,7 +154,7 @@ public class AsteroidFactory : MonoBehaviour {
 
     float getAsteroidSpeed()
     {
-        return asteroidData.baseSpeed + (float)gameSettings.currentLevel / asteroidIncreaseInSpeedFactor;
+        return asteroidData.baseSpeed + (float)levelGenerator.currentLevel / asteroidIncreaseInSpeedFactor;
     }
 
     bool getRandomBoolean()
