@@ -16,6 +16,10 @@ public class AsteroidFactory : MonoBehaviour {
     LevelGenerator levelGenerator;
     float asteroidIncreaseInSpeedFactor;
 
+    [Tooltip("Asteroid spawn offset from right/left edge")]
+    [ReadOnly]
+    float asteroidSpawnOffset;
+
     void Awake()
     {
         // Get Orchestrator
@@ -38,6 +42,8 @@ public class AsteroidFactory : MonoBehaviour {
         // Calculate increase-in-speed factor
         asteroidIncreaseInSpeedFactor = difficultyConfigData.hardLevel / (difficultyConfigData.hardAsteroidSpeed - asteroidData.baseSpeed);
 
+        // Calculate asteroid spawn offset
+        asteroidSpawnOffset = gameSettings.rightEdge / 3;
 
     }
 
@@ -143,12 +149,12 @@ public class AsteroidFactory : MonoBehaviour {
         if (getRandomBoolean())
         {
             // Right
-            return UnityEngine.Random.Range(gameSettings.rightEdge - gameSettings.asteroidSpawnOffset, gameSettings.rightEdge);
+            return UnityEngine.Random.Range(gameSettings.rightEdge - asteroidSpawnOffset, gameSettings.rightEdge);
         }
         else
         {
             // Left
-            return UnityEngine.Random.Range(gameSettings.leftEdge, gameSettings.leftEdge + gameSettings.asteroidSpawnOffset);
+            return UnityEngine.Random.Range(gameSettings.leftEdge, gameSettings.leftEdge + asteroidSpawnOffset);
         }
     }
 

@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class GameSettings : MonoBehaviour {
 
-    [Tooltip("Asteroid spawn offset from right/left edge")]
-    [ReadOnly]
-    public float asteroidSpawnOffset;
-
     [HideInInspector]
     public float upperEdge;
 
@@ -40,9 +36,6 @@ public class GameSettings : MonoBehaviour {
 
         rightEdge = Camera.main.orthographicSize * screenRatio;
         leftEdge = -rightEdge;
-
-        // Calculate asteroid spawn offset
-        asteroidSpawnOffset = rightEdge / 3;
 
     }
 
