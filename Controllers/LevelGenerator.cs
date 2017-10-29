@@ -9,7 +9,6 @@ public class LevelGenerator : MonoBehaviour {
     public int currentLevel;
 
     // Private
-    GameSettings gameSettings;
     AsteroidFactory asteroidFactory;
     DifficultyConfigurationData difficultyConfigData;
     GameConfigurationData gameConfigData;
@@ -28,8 +27,6 @@ public class LevelGenerator : MonoBehaviour {
         // Get Difficulty Configuration Data
         difficultyConfigData = GameObject.Find("Orchestrator").GetComponent<AssetReferences>().difficultyConfigData;
 
-        // Get game settings
-        gameSettings = GetComponent<GameSettings>();
     }
     
     public void generateLevel()

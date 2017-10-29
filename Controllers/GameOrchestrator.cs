@@ -7,7 +7,6 @@ public class GameOrchestrator : MonoBehaviour {
     public GameObject levelText;
 
     LevelGenerator levelGenerator;
-    GameSettings gameSettings;
     GameObject asteroidContainer;
     AsteroidFactory asteroidFactory;
     BlackHoleFactory blackHoleFactory;
@@ -16,7 +15,6 @@ public class GameOrchestrator : MonoBehaviour {
     // Use this for initialization
     void Start () {
         blackHoleData = GetComponent<AssetReferences>().blackHoleData;
-        gameSettings = GetComponent<GameSettings>();
         asteroidContainer = GameObject.Find("Asteroids");
         levelGenerator = GetComponent<LevelGenerator>();
         asteroidFactory = GameObject.Find("Factories").GetComponent<AsteroidFactory>();

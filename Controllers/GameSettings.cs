@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class GameSettings : MonoBehaviour {
 
-    // References
-    GameConfigurationData gameConfigData;
-
     [Tooltip("Asteroid spawn offset from right/left edge")]
     [ReadOnly]
     public float asteroidSpawnOffset;
@@ -34,8 +31,6 @@ public class GameSettings : MonoBehaviour {
 
     void Awake()
     {
-        // Get references
-        gameConfigData = GetComponent<AssetReferences>().gameConfigData;
 
         // Calculate edge positions
         screenRatio = (float)Screen.width / (float)Screen.height;
