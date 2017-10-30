@@ -19,14 +19,6 @@ public class GameSettings : MonoBehaviour {
     [ReadOnly]
     float screenRatio;
 
-    /*
-    public enum Status
-    {
-        Ok,
-        Teleporting
-    };
-    */
-
     void Awake()
     {
 
