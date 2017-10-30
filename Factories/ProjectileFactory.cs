@@ -39,4 +39,5 @@ public class ProjectileFactory : MonoBehaviour {
         return newBullet;
     }
 
+    
 }
