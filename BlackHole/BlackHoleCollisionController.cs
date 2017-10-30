@@ -23,6 +23,32 @@ public class BlackHoleCollisionController : MonoBehaviour {
         asteroidContainer = GameObject.Find("Asteroids");
     }
 
+    void Update()
+    {
+
+        // Get all asteroids transforms
+        foreach (Transform asteroidTransform in asteroidContainer.transform)
+        {
+
+            GameObject asteroid = asteroidTransform.gameObject;
+            AsteroidProperties asteroidProperties = asteroid.GetComponent<AsteroidProperties>();
+
+            // Check if the asteroid is already teleporting
+            if (asteroidProperties.status != Status.Teleporting)
+            {
+                float distance = Vector2.Distance(transform.position, asteroidTransform.position);
+
+                if (distance < minDistanceToTeleport)
+                {
+                    StartCoroutine(teleportProcess(asteroid));
+                }
+            }
+
+
+        }
+
+    }
+
     bool FullyContains(Collider2D resident)
     {
         Collider2D zone = GetComponent<Collider2D>();
@@ -110,29 +136,4 @@ public class BlackHoleCollisionController : MonoBehaviour {
 
     }
 
-    void Update()
-    {
-
-        // Get all asteroids transforms
-        foreach (Transform asteroidTransform in asteroidContainer.transform)
-        {
-
-            GameObject asteroid = asteroidTransform.gameObject;
-            AsteroidProperties asteroidProperties = asteroid.GetComponent<AsteroidProperties>();
-
-            // Check if the asteroid is already teleporting
-            if(asteroidProperties.status != Status.Teleporting)
-            {
-                float distance = Vector2.Distance(transform.position, asteroidTransform.position);
-
-                if (distance < minDistanceToTeleport)
-                {
-                    StartCoroutine(teleportProcess(asteroid));
-                }
-            }
-
-
-        }
-
-    }
 }

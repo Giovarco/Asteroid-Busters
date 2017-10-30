@@ -39,6 +39,11 @@ public class EdgeLeaving : MonoBehaviour {
         updateVisualLimits();
     }
 
+    void Update()
+    {
+        handleEdgeLeaving();
+    }
+
     public void updateSpriteSize()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -90,8 +95,4 @@ public class EdgeLeaving : MonoBehaviour {
 
     }
 
-    // Update is called once per frame
-    void Update () {
-        handleEdgeLeaving();
-    }
 }
