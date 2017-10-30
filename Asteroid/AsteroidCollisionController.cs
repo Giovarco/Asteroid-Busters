@@ -18,23 +18,23 @@ public class AsteroidCollisionController : MonoBehaviour {
         asteroidFactory = GameObject.Find("Factories").GetComponent<AsteroidFactory>();
     }
 
+    void createChild()
+    {
+        if (asteroidInfo.hp > 1)
+        {
+            asteroidFactory.instantiate("ChildAsteroid", gameObject);
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.layer != LayerMask.NameToLayer("BlackHoles") && other.gameObject.tag != "Immaterial")
+        if (other.gameObject.layer != LayerMask.NameToLayer("BlackHoles") && other.gameObject.tag != "Immaterial")
         {
             createChild();
             createChild();
             Destroy(gameObject);
         }
 
-    }
-
-    void createChild()
-    {
-        if(asteroidInfo.hp > 1)
-        {
-            asteroidFactory.instantiate("ChildAsteroid", gameObject);
-        }
     }
 
 }
