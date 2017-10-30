@@ -5,20 +5,27 @@ using UnityEngine;
 
 public class EdgeLeaving : MonoBehaviour {
 
-    // Private
-    SpriteRenderer sr;
-    float widthSprite;
-	float heightSprite;
-    ScreenInformation screenInfo;
-    float offset;
-    [SerializeField]
-    float upperVisualLimit;
-    [SerializeField]
-    float lowerVisualLimit;
-    [SerializeField]
-    float RightVisualLimit;
+    float heightSprite;
+
     [SerializeField]
     float LeftVisualLimit;
+
+    [SerializeField]
+    float lowerVisualLimit;
+
+    float offset;
+
+    [SerializeField]
+    float RightVisualLimit;
+
+    ScreenInformation screenInfo;
+
+    SpriteRenderer sr;
+
+    [SerializeField]
+    float upperVisualLimit;
+
+    float widthSprite;
 
     void Awake()
     {
@@ -27,7 +34,8 @@ public class EdgeLeaving : MonoBehaviour {
         screenInfo = GameObject.Find("Main Camera").GetComponent<ScreenInformation>();
     }
 
-    void Start () {
+    void Start()
+    {
         updateVisualLimits();
     }
 
@@ -46,11 +54,6 @@ public class EdgeLeaving : MonoBehaviour {
         LeftVisualLimit = screenInfo.leftEdge - widthSprite / 2;
     }
 
-    // Update is called once per frame
-    void Update () {
-        handleEdgeLeaving();
-    }
-
     void handleEdgeLeaving()
     {
 
@@ -62,7 +65,7 @@ public class EdgeLeaving : MonoBehaviour {
         {
             Vector3 newPos = new Vector3(pos.x, lowerVisualLimit + offset, 0);
             transform.position = newPos;
-		}
+        }
 
         // Lower edge
         if (pos.y < lowerVisualLimit)
@@ -72,7 +75,7 @@ public class EdgeLeaving : MonoBehaviour {
         }
 
         // Right edge
-        if(pos.x > RightVisualLimit)
+        if (pos.x > RightVisualLimit)
         {
             Vector3 newPos = new Vector3(LeftVisualLimit + offset, pos.y, 0);
             transform.position = newPos;
@@ -87,4 +90,8 @@ public class EdgeLeaving : MonoBehaviour {
 
     }
 
+    // Update is called once per frame
+    void Update () {
+        handleEdgeLeaving();
+    }
 }

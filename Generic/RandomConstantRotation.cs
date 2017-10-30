@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class RandomConstantRotation : MonoBehaviour {
 
-    public float minRotation = 50;
     public float maxRotation = 200;
+    public float minRotation = 50;
     float rotationSpeed;
 
-	// Use this for initialization
 	void Awake () {
         rotationSpeed = Random.Range(minRotation, maxRotation);
 	}
 	
-	// Update is called once per frame
 	void Update () {
 
         // Get the current angles and obtain the new angles
