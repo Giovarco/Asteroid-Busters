@@ -4,26 +4,28 @@ using UnityEngine;
 
 public class GameSettings : MonoBehaviour {
 
-    [HideInInspector]
+    [ReadOnly]
     public float upperEdge;
 
-    [HideInInspector]
+    [ReadOnly]
     public float lowerEdge;
 
-    [HideInInspector]
+    [ReadOnly]
     public float rightEdge;
 
-    [HideInInspector]
+    [ReadOnly]
     public float leftEdge;
 
+    [ReadOnly]
     float screenRatio;
 
+    /*
     public enum Status
     {
         Ok,
         Teleporting
     };
-
+    */
 
     void Awake()
     {

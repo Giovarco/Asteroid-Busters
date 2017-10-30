@@ -36,7 +36,7 @@ public class BlackHoleCollisionController : MonoBehaviour {
             AsteroidProperties asteroidProperties = asteroid.GetComponent<AsteroidProperties>();
 
             // Check if the asteroid is already teleporting
-            if(asteroidProperties.status != GameSettings.Status.Teleporting)
+            if(asteroidProperties.status != Status.Teleporting)
             {
                 float distance = Vector2.Distance(transform.position, asteroidTransform.position);
 
@@ -56,7 +56,7 @@ public class BlackHoleCollisionController : MonoBehaviour {
 
         // Set the current game object status to "teleporting"
         AsteroidProperties asteroidProperties = otherGameObject.GetComponent<AsteroidProperties>();
-        asteroidProperties.status = GameSettings.Status.Teleporting;
+        asteroidProperties.status = Status.Teleporting;
 
         // Disable game object collider to avoid unwanted interactions
         Collider2D asteroidCollider = otherGameObject.GetComponent<Collider2D>();
@@ -120,7 +120,7 @@ public class BlackHoleCollisionController : MonoBehaviour {
         asteroidCollider.enabled = true;
 
         // Game object is set to a non-teleporting status
-        asteroidProperties.status = GameSettings.Status.Ok;
+        asteroidProperties.status = Status.Ok;
 
     }
 

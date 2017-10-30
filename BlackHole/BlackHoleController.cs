@@ -63,7 +63,7 @@ public class BlackHoleController : MonoBehaviour {
             GameObject asteroid = asteroidTransform.gameObject;
             AsteroidProperties asteroidProperties = asteroid.GetComponent<AsteroidProperties>();
 
-            if(asteroidProperties.status == GameSettings.Status.Teleporting)
+            if(asteroidProperties.status == Status.Teleporting)
             {
                 return true;
             }
