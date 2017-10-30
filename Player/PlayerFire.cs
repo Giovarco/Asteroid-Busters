@@ -11,7 +11,6 @@ public class PlayerFire : MonoBehaviour {
         projectileFactory = GameObject.Find("Factories").GetComponent<ProjectileFactory>();
     }
 
-	// Update is called once per frame
 	void Update () {
 		if(Input.GetButtonDown("Fire1"))
         {
