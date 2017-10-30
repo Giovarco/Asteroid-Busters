@@ -5,14 +5,13 @@ using UnityEngine;
 
 public class BlackHoleCollisionController : MonoBehaviour {
 
-    public float wayUpTravelDuration;
-    public float wayBackTravelDuration;
-    public float stasisDuration;
     public float minDistanceToTeleport;
-
-    ScreenInformation screenInfo;
+    public float stasisDuration;
+    public float wayBackTravelDuration;
+    public float wayUpTravelDuration;
 
     GameObject asteroidContainer;
+    ScreenInformation screenInfo;
 
     void Awake()
     {
@@ -22,33 +21,20 @@ public class BlackHoleCollisionController : MonoBehaviour {
     void Start()
     {
         asteroidContainer = GameObject.Find("Asteroids");
-
     }
 
-    void Update()
+    bool FullyContains(Collider2D resident)
     {
+        Collider2D zone = GetComponent<Collider2D>();
+        return zone.bounds.Contains(resident.bounds.max) && zone.bounds.Contains(resident.bounds.min);
+        // return zone.bounds.Contains(resident.bounds.max);
+    }
 
-        // Get all asteroids transforms
-        foreach (Transform asteroidTransform in asteroidContainer.transform)
-        {
-
-            GameObject asteroid = asteroidTransform.gameObject;
-            AsteroidProperties asteroidProperties = asteroid.GetComponent<AsteroidProperties>();
-
-            // Check if the asteroid is already teleporting
-            if(asteroidProperties.status != Status.Teleporting)
-            {
-                float distance = Vector2.Distance(transform.position, asteroidTransform.position);
-
-                if (distance < minDistanceToTeleport)
-                {
-                    StartCoroutine(teleportProcess(asteroid));
-                }
-            }
-
-
-        }
-
+    Vector3 getRandomPosition()
+    {
+        float xPos = UnityEngine.Random.Range(screenInfo.leftEdge, screenInfo.rightEdge);
+        float yPos = UnityEngine.Random.Range(screenInfo.lowerEdge, screenInfo.upperEdge);
+        return new Vector3(xPos, yPos, 1);
     }
 
     IEnumerator teleportProcess(GameObject otherGameObject)
@@ -71,7 +57,7 @@ public class BlackHoleCollisionController : MonoBehaviour {
             externalOverTimeSizeChanger = otherGameObject.AddComponent<OverTimeSizeChanger>();
         }
 
-        if(otherGameObject.GetComponent("SpriteFlash") == null)
+        if (otherGameObject.GetComponent("SpriteFlash") == null)
         {
             externalSpriteFlash = otherGameObject.AddComponent<SpriteFlash>();
         }
@@ -124,17 +110,29 @@ public class BlackHoleCollisionController : MonoBehaviour {
 
     }
 
-    Vector3 getRandomPosition()
+    void Update()
     {
-        float xPos = UnityEngine.Random.Range(screenInfo.leftEdge, screenInfo.rightEdge);
-        float yPos = UnityEngine.Random.Range(screenInfo.lowerEdge, screenInfo.upperEdge);
-        return new Vector3(xPos, yPos, 1);
-    }
 
-    bool FullyContains(Collider2D resident)
-    {
-        Collider2D zone = GetComponent<Collider2D>();
-        return zone.bounds.Contains(resident.bounds.max) && zone.bounds.Contains(resident.bounds.min);
-        // return zone.bounds.Contains(resident.bounds.max);
+        // Get all asteroids transforms
+        foreach (Transform asteroidTransform in asteroidContainer.transform)
+        {
+
+            GameObject asteroid = asteroidTransform.gameObject;
+            AsteroidProperties asteroidProperties = asteroid.GetComponent<AsteroidProperties>();
+
+            // Check if the asteroid is already teleporting
+            if(asteroidProperties.status != Status.Teleporting)
+            {
+                float distance = Vector2.Distance(transform.position, asteroidTransform.position);
+
+                if (distance < minDistanceToTeleport)
+                {
+                    StartCoroutine(teleportProcess(asteroid));
+                }
+            }
+
+
+        }
+
     }
 }

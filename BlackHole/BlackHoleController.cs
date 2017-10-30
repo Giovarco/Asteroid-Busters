@@ -5,22 +5,42 @@ using UnityEngine;
 public class BlackHoleController : MonoBehaviour {
 
     public BlackHoleData blackHoleData;
-    public float startingSize;
     public float finalSize;
     public float sizeChangeDuration;
+    public float startingSize;
 
-    OverTimeSizeChanger sizeChanger;
     GameObject asteroidContainer;
+    OverTimeSizeChanger sizeChanger;
 
     void Awake()
     {
         sizeChanger = GetComponent<OverTimeSizeChanger>();
     }
 
-	void Start () {
+    void Start()
+    {
         asteroidContainer = GameObject.Find("Asteroids");
         StartCoroutine(blackHoleLife());
-	}
+    }
+
+    bool areAsteroidsTeleporting()
+    {
+        // Get all asteroids transforms
+        foreach (Transform asteroidTransform in asteroidContainer.transform)
+        {
+
+            GameObject asteroid = asteroidTransform.gameObject;
+            AsteroidProperties asteroidProperties = asteroid.GetComponent<AsteroidProperties>();
+
+            if (asteroidProperties.status == Status.Teleporting)
+            {
+                return true;
+            }
+
+        }
+
+        return false;
+    }
 
     IEnumerator blackHoleLife()
     {
@@ -46,7 +66,7 @@ public class BlackHoleController : MonoBehaviour {
 
     IEnumerator destroy()
     {
-        while(areAsteroidsTeleporting())
+        while (areAsteroidsTeleporting())
         {
             yield return null;
         }
@@ -54,22 +74,4 @@ public class BlackHoleController : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    bool areAsteroidsTeleporting()
-    {
-        // Get all asteroids transforms
-        foreach (Transform asteroidTransform in asteroidContainer.transform)
-        {
-
-            GameObject asteroid = asteroidTransform.gameObject;
-            AsteroidProperties asteroidProperties = asteroid.GetComponent<AsteroidProperties>();
-
-            if(asteroidProperties.status == Status.Teleporting)
-            {
-                return true;
-            }
-
-        }
-
-        return false;
-    }
 }

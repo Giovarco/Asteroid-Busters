@@ -5,10 +5,10 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class BlackHoleData : ScriptableObject {
 
-    [Tooltip("How often does the black hole spawn (in seconds)?")]
-    public int spawnFrequency;
-
     [Tooltip("How long does the black hole persist (in seconds)?")]
     public int duration;
+
+    [Tooltip("How often does the black hole spawn (in seconds)?")]
+    public int spawnFrequency;
 
 }
