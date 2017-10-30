@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu]
 public class AsteroidData : ScriptableObject {
 
-    // PUBLIC
     public float baseSpeed;
 
     [Tooltip("2 = 50%, 4 = 25% etc.")]

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class AsteroidCollisionController : MonoBehaviour {
 
-    // PRIVATE
     AsteroidFactory asteroidFactory;
     AsteroidProperties asteroidInfo;
 
