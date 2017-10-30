@@ -5,7 +5,7 @@ using UnityEngine;
 public class ScreenInformation : MonoBehaviour {
 
     [ReadOnly]
-    public float upperEdge;
+    public float leftEdge;
 
     [ReadOnly]
     public float lowerEdge;
@@ -14,7 +14,7 @@ public class ScreenInformation : MonoBehaviour {
     public float rightEdge;
 
     [ReadOnly]
-    public float leftEdge;
+    public float upperEdge;
 
     [ReadOnly]
     float screenRatio;

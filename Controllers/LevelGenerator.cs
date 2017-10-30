@@ -8,7 +8,6 @@ public class LevelGenerator : MonoBehaviour {
     [ReadOnly]
     public int currentLevel;
 
-    // Private
     AsteroidFactory asteroidFactory;
     DifficultyConfigurationData difficultyConfigData;
     GameConfigurationData gameConfigData;
@@ -17,28 +16,23 @@ public class LevelGenerator : MonoBehaviour {
     {
         // Get references
         gameConfigData = GetComponent<AssetReferences>().gameConfigData;
+        asteroidFactory = GameObject.Find("Factories").GetComponent<AsteroidFactory>();
+        difficultyConfigData = GameObject.Find("Orchestrator").GetComponent<AssetReferences>().difficultyConfigData;
 
         // Set the current level
         currentLevel = gameConfigData.startingLevel;
-
-        // Get Factory
-        asteroidFactory = GameObject.Find("Factories").GetComponent<AsteroidFactory>();
-
-        // Get Difficulty Configuration Data
-        difficultyConfigData = GameObject.Find("Orchestrator").GetComponent<AssetReferences>().difficultyConfigData;
-
     }
-    
+
     public void generateLevel()
     {
 
         // Define asteroid number
         int extraAsteroids = Mathf.RoundToInt(currentLevel / difficultyConfigData.extraAsteroidFrequency);
         int asteroidNumber = 4 + extraAsteroids;
-        // asteroidNumber = 1;
+        asteroidNumber = 1;
 
         // Generate asteroids
-        for(int i = 0; i < asteroidNumber; i++)
+        for (int i = 0; i < asteroidNumber; i++)
         {
             asteroidFactory.instantiate("RandomAsteroid");
         }

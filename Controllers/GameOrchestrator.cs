@@ -6,32 +6,50 @@ public class GameOrchestrator : MonoBehaviour {
 
     public GameObject levelText;
 
-    LevelGenerator levelGenerator;
     GameObject asteroidContainer;
     AsteroidFactory asteroidFactory;
-    BlackHoleFactory blackHoleFactory;
     BlackHoleData blackHoleData;
+    BlackHoleFactory blackHoleFactory;
+    LevelGenerator levelGenerator;
 
-    // Use this for initialization
-    void Start () {
+    void Start()
+    {
+        // Get references
         blackHoleData = GetComponent<AssetReferences>().blackHoleData;
         asteroidContainer = GameObject.Find("Asteroids");
         levelGenerator = GetComponent<LevelGenerator>();
         asteroidFactory = GameObject.Find("Factories").GetComponent<AsteroidFactory>();
         blackHoleFactory = GameObject.Find("Factories").GetComponent<BlackHoleFactory>();
+
+        // Start coroutines
         StartCoroutine(startGameOrchestration());
         StartCoroutine(spawnBlackHole());
     }
 
+    bool asteroidsExist()
+    {
+        int childCount = asteroidContainer.transform.childCount;
+
+        if (childCount == 0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     IEnumerator spawnBlackHole()
     {
-        while(true)
+        while (true)
         {
             yield return new WaitForSeconds(blackHoleData.spawnFrequency);
             blackHoleFactory.instantiate("BlackHole");
         }
     }
 
+    
     IEnumerator startGameOrchestration()
     {
 
@@ -72,19 +90,4 @@ public class GameOrchestrator : MonoBehaviour {
         }
 
     }
-
-    bool asteroidsExist()
-    {
-        int childCount = asteroidContainer.transform.childCount;
-
-        if (childCount == 0)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-
 }
