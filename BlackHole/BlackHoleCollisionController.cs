@@ -10,13 +10,13 @@ public class BlackHoleCollisionController : MonoBehaviour {
     public float stasisDuration;
     public float minDistanceToTeleport;
 
-    GameSettings gameSettings;
+    ScreenInformation screenInfo;
 
     GameObject asteroidContainer;
 
     void Awake()
     {
-        gameSettings = GameObject.Find("Orchestrator").GetComponent<GameSettings>();
+        screenInfo = GameObject.Find("Main Camera").GetComponent<ScreenInformation>();
     }
 
     void Start()
@@ -126,8 +126,8 @@ public class BlackHoleCollisionController : MonoBehaviour {
 
     Vector3 getRandomPosition()
     {
-        float xPos = UnityEngine.Random.Range(gameSettings.leftEdge, gameSettings.rightEdge);
-        float yPos = UnityEngine.Random.Range(gameSettings.lowerEdge, gameSettings.upperEdge);
+        float xPos = UnityEngine.Random.Range(screenInfo.leftEdge, screenInfo.rightEdge);
+        float yPos = UnityEngine.Random.Range(screenInfo.lowerEdge, screenInfo.upperEdge);
         return new Vector3(xPos, yPos, 1);
     }
 

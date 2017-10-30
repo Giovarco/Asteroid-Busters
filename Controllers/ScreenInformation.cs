@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameSettings : MonoBehaviour {
+public class ScreenInformation : MonoBehaviour {
 
     [ReadOnly]
     public float upperEdge;

@@ -9,7 +9,7 @@ public class EdgeLeaving : MonoBehaviour {
     SpriteRenderer sr;
     float widthSprite;
 	float heightSprite;
-    GameSettings gameSettings;
+    ScreenInformation screenInfo;
     float offset;
     [SerializeField]
     float upperVisualLimit;
@@ -22,23 +22,28 @@ public class EdgeLeaving : MonoBehaviour {
 
     void Awake()
     {
-        sr = GetComponent<SpriteRenderer>();
-        widthSprite = sr.bounds.size.x;
-        heightSprite = sr.bounds.size.y;
+        updateSpriteSize();
         offset = 0.001f;
-        gameSettings = GameObject.Find("Orchestrator").GetComponent<GameSettings>();
+        screenInfo = GameObject.Find("Main Camera").GetComponent<ScreenInformation>();
     }
 
     void Start () {
         updateVisualLimits();
     }
 
+    public void updateSpriteSize()
+    {
+        sr = GetComponent<SpriteRenderer>();
+        widthSprite = sr.bounds.size.x;
+        heightSprite = sr.bounds.size.y;
+    }
+
     public void updateVisualLimits()
     {
-        upperVisualLimit = gameSettings.upperEdge + heightSprite / 2;
-        lowerVisualLimit = gameSettings.lowerEdge - heightSprite / 2;
-        RightVisualLimit = gameSettings.rightEdge + widthSprite / 2;
-        LeftVisualLimit = gameSettings.leftEdge - widthSprite / 2;
+        upperVisualLimit = screenInfo.upperEdge + heightSprite / 2;
+        lowerVisualLimit = screenInfo.lowerEdge - heightSprite / 2;
+        RightVisualLimit = screenInfo.rightEdge + widthSprite / 2;
+        LeftVisualLimit = screenInfo.leftEdge - widthSprite / 2;
     }
 
     // Update is called once per frame

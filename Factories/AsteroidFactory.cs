@@ -9,7 +9,7 @@ public class AsteroidFactory : MonoBehaviour {
     public int asteroidSpritesIndex;
     public Sprite[] asteroidSprites;
 
-    GameSettings gameSettings;
+    ScreenInformation screenInfo;
     GameObject asteroidContainer;
     AsteroidData asteroidData;
     DifficultyConfigurationData difficultyConfigData;
@@ -28,7 +28,7 @@ public class AsteroidFactory : MonoBehaviour {
         levelGenerator = orchestrator.GetComponent<LevelGenerator>();
 
         // Get game settings
-        gameSettings = orchestrator.GetComponent<GameSettings>();
+        screenInfo = GameObject.Find("Main Camera").GetComponent<ScreenInformation>();
 
         // Get asteroid data
         asteroidData = orchestrator.GetComponent<AssetReferences>().asteroidData;
@@ -43,7 +43,7 @@ public class AsteroidFactory : MonoBehaviour {
         asteroidIncreaseInSpeedFactor = difficultyConfigData.hardLevel / (difficultyConfigData.hardAsteroidSpeed - asteroidData.baseSpeed);
 
         // Calculate asteroid spawn offset
-        asteroidSpawnOffset = gameSettings.rightEdge / 3;
+        asteroidSpawnOffset = screenInfo.rightEdge / 3;
 
     }
 
@@ -119,7 +119,9 @@ public class AsteroidFactory : MonoBehaviour {
         newAsteroid.transform.localScale = new Vector3(newSize, newSize, 1);
 
         // ONLY AFTER setting the size, re-define again edge leaving properties
-        newAsteroid.GetComponent<EdgeLeaving>().updateVisualLimits();
+        EdgeLeaving edgeLeaving = newAsteroid.GetComponent<EdgeLeaving>();
+        edgeLeaving.updateSpriteSize();
+        edgeLeaving.updateVisualLimits();
 
         // Set appearance
         newAsteroid.GetComponent<SpriteRenderer>().sprite = parentAsteroid.GetComponent<SpriteRenderer>().sprite;
@@ -140,7 +142,7 @@ public class AsteroidFactory : MonoBehaviour {
 
     float getAsteroidY()
     {
-        return UnityEngine.Random.Range(gameSettings.lowerEdge, gameSettings.upperEdge);
+        return UnityEngine.Random.Range(screenInfo.lowerEdge, screenInfo.upperEdge);
     }
 
     float getAsteroidX()
@@ -149,12 +151,12 @@ public class AsteroidFactory : MonoBehaviour {
         if (getRandomBoolean())
         {
             // Right
-            return UnityEngine.Random.Range(gameSettings.rightEdge - asteroidSpawnOffset, gameSettings.rightEdge);
+            return UnityEngine.Random.Range(screenInfo.rightEdge - asteroidSpawnOffset, screenInfo.rightEdge);
         }
         else
         {
             // Left
-            return UnityEngine.Random.Range(gameSettings.leftEdge, gameSettings.leftEdge + asteroidSpawnOffset);
+            return UnityEngine.Random.Range(screenInfo.leftEdge, screenInfo.leftEdge + asteroidSpawnOffset);
         }
     }
 
