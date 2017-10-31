@@ -75,7 +75,7 @@ public class AsteroidFactory : MonoBehaviour {
         AsteroidProperties parentAsteroidInfo = parentAsteroid.GetComponent<AsteroidProperties>();
 
         // Define speed
-        float asteroidSpeed = getAsteroidSpeed();
+        float asteroidSpeed = getSpeed();
 
         // Set direction
         Vector3 randomDirection = getRandomDirection();
@@ -107,11 +107,11 @@ public class AsteroidFactory : MonoBehaviour {
     {
 
         // Define speed
-        float asteroidSpeed = getAsteroidSpeed();
+        float asteroidSpeed = getSpeed();
 
         // Define spawn position
-        float newX = getAsteroidX();
-        float newY = getAsteroidY();
+        float newX = getX();
+        float newY = getY();
 
         // Instantiate
         GameObject newAsteroid = Instantiate(asteroid, new Vector3(newX, newY, 0), Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360)));
@@ -127,12 +127,12 @@ public class AsteroidFactory : MonoBehaviour {
 
         return newAsteroid;
     }
-    float getAsteroidSpeed()
+    float getSpeed()
     {
         return asteroidData.baseSpeed + (float)levelGenerator.currentLevel / increaseInSpeedFactor;
     }
 
-    float getAsteroidX()
+    float getX()
     {
         // Choose to spawn on the right or on the left
         if (getRandomBoolean())
@@ -147,7 +147,7 @@ public class AsteroidFactory : MonoBehaviour {
         }
     }
 
-    float getAsteroidY()
+    float getY()
     {
         return UnityEngine.Random.Range(screenInfo.lowerEdge, screenInfo.upperEdge);
     }
