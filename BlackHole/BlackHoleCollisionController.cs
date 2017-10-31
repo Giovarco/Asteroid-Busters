@@ -49,13 +49,6 @@ public class BlackHoleCollisionController : MonoBehaviour {
 
     }
 
-    bool FullyContains(Collider2D resident)
-    {
-        Collider2D zone = GetComponent<Collider2D>();
-        return zone.bounds.Contains(resident.bounds.max) && zone.bounds.Contains(resident.bounds.min);
-        // return zone.bounds.Contains(resident.bounds.max);
-    }
-
     Vector3 getRandomPosition()
     {
         float xPos = UnityEngine.Random.Range(screenInfo.leftEdge, screenInfo.rightEdge);
