@@ -70,11 +70,7 @@ public class GameOrchestrator : MonoBehaviour {
                 levelText.SetActive(true);
 
                 // Set the new asteroid sprite
-                asteroidFactory.spritesIndex++;
-                if (asteroidFactory.spritesIndex >= asteroidFactory.getAsteroidSpritesLength())
-                {
-                    asteroidFactory.spritesIndex = 0;
-                }
+                asteroidFactory.setNextSprite();
 
                 // Wait some seconds
                 yield return new WaitForSeconds(4f);

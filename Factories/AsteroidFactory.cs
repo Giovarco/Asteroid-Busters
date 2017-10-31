@@ -7,11 +7,11 @@ public class AsteroidFactory : MonoBehaviour {
 
     public GameObject asteroid;
     public Sprite[] sprites;
-    public int spritesIndex;
 
     GameObject asteroidContainer;
     AsteroidData asteroidData;
     float increaseInSpeedFactor;
+    int spritesIndex;
 
     [Tooltip("Asteroid spawn offset from right/left edge")]
     [ReadOnly]
@@ -37,11 +37,6 @@ public class AsteroidFactory : MonoBehaviour {
 
     }
 
-    public int getAsteroidSpritesLength()
-    {
-        return sprites.Length;
-    }
-
     public GameObject instantiate(string name, GameObject obj = null)
     {
         if (obj == null)
@@ -63,6 +58,14 @@ public class AsteroidFactory : MonoBehaviour {
 
     }
 
+    public void setNextSprite()
+    {
+        spritesIndex++;
+        if (spritesIndex >= sprites.Length)
+        {
+            spritesIndex = 0;
+        }
+    }
     
     GameObject generateChildAsteroid(GameObject parentAsteroid)
     {
@@ -175,4 +178,5 @@ public class AsteroidFactory : MonoBehaviour {
             return -1;
         }
     }
+
 }
