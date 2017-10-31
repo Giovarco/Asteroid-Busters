@@ -29,14 +29,14 @@ public class EdgeLeaving : MonoBehaviour {
 
     void Awake()
     {
-        updateSpriteSize();
+        setSpriteSize();
         offset = 0.001f;
         screenInfo = GameObject.Find("Main Camera").GetComponent<ScreenInformation>();
     }
 
     void Start()
     {
-        updateVisualLimits();
+        setVisualLimits();
     }
 
     void Update()
@@ -44,19 +44,25 @@ public class EdgeLeaving : MonoBehaviour {
         handleEdgeLeaving();
     }
 
-    public void updateSpriteSize()
+    void setSpriteSize()
     {
         sr = GetComponent<SpriteRenderer>();
         widthSprite = sr.bounds.size.x;
         heightSprite = sr.bounds.size.y;
     }
 
-    public void updateVisualLimits()
+    void setVisualLimits()
     {
         upperVisualLimit = screenInfo.upperEdge + heightSprite / 2;
         lowerVisualLimit = screenInfo.lowerEdge - heightSprite / 2;
         rightVisualLimit = screenInfo.rightEdge + widthSprite / 2;
         leftVisualLimit = screenInfo.leftEdge - widthSprite / 2;
+    }
+
+    public void updateVisualLimits()
+    {
+        setSpriteSize();
+        setVisualLimits();
     }
 
     void handleEdgeLeaving()

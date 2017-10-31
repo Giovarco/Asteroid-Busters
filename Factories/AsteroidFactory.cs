@@ -94,7 +94,6 @@ public class AsteroidFactory : MonoBehaviour {
 
         // ONLY AFTER setting the size, re-define again edge leaving properties
         EdgeLeaving edgeLeaving = newAsteroid.GetComponent<EdgeLeaving>();
-        edgeLeaving.updateSpriteSize();
         edgeLeaving.updateVisualLimits();
 
         // Set appearance
