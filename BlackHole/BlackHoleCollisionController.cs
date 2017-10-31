@@ -16,10 +16,6 @@ public class BlackHoleCollisionController : MonoBehaviour {
     void Awake()
     {
         screenInfo = GameObject.Find("Main Camera").GetComponent<ScreenInformation>();
-    }
-
-    void Start()
-    {
         asteroidContainer = GameObject.Find("Asteroids");
     }
 

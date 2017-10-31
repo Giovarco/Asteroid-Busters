@@ -14,12 +14,15 @@ public class BlackHoleController : MonoBehaviour {
 
     void Awake()
     {
+        // Get internal references
         sizeChanger = GetComponent<OverTimeSizeChanger>();
+
+        // Get in-the-scene reference
+        asteroidContainer = GameObject.Find("Asteroids");
     }
 
     void Start()
     {
-        asteroidContainer = GameObject.Find("Asteroids");
         StartCoroutine(blackHoleLife());
     }
 
