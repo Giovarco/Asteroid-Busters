@@ -8,7 +8,7 @@ public class EdgeLeaving : MonoBehaviour {
     float heightSprite;
 
     [SerializeField]
-    float LeftVisualLimit;
+    float leftVisualLimit;
 
     [SerializeField]
     float lowerVisualLimit;
@@ -16,7 +16,7 @@ public class EdgeLeaving : MonoBehaviour {
     float offset;
 
     [SerializeField]
-    float RightVisualLimit;
+    float rightVisualLimit;
 
     ScreenInformation screenInfo;
 
@@ -55,8 +55,8 @@ public class EdgeLeaving : MonoBehaviour {
     {
         upperVisualLimit = screenInfo.upperEdge + heightSprite / 2;
         lowerVisualLimit = screenInfo.lowerEdge - heightSprite / 2;
-        RightVisualLimit = screenInfo.rightEdge + widthSprite / 2;
-        LeftVisualLimit = screenInfo.leftEdge - widthSprite / 2;
+        rightVisualLimit = screenInfo.rightEdge + widthSprite / 2;
+        leftVisualLimit = screenInfo.leftEdge - widthSprite / 2;
     }
 
     void handleEdgeLeaving()
@@ -80,16 +80,16 @@ public class EdgeLeaving : MonoBehaviour {
         }
 
         // Right edge
-        if (pos.x > RightVisualLimit)
+        if (pos.x > rightVisualLimit)
         {
-            Vector3 newPos = new Vector3(LeftVisualLimit + offset, pos.y, 0);
+            Vector3 newPos = new Vector3(leftVisualLimit + offset, pos.y, 0);
             transform.position = newPos;
         }
 
         // Left edge
-        if (pos.x < LeftVisualLimit)
+        if (pos.x < leftVisualLimit)
         {
-            Vector3 newPos = new Vector3(RightVisualLimit - offset, pos.y, 0);
+            Vector3 newPos = new Vector3(rightVisualLimit - offset, pos.y, 0);
             transform.position = newPos;
         }
 
