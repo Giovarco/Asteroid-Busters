@@ -12,16 +12,20 @@ public class GameOrchestrator : MonoBehaviour {
     BlackHoleFactory blackHoleFactory;
     LevelGenerator levelGenerator;
 
-    void Start()
+    void Awake()
     {
-        // Get references
+        // Get internal references
         blackHoleData = GetComponent<AssetReferences>().blackHoleData;
-        asteroidContainer = GameObject.Find("Asteroids");
         levelGenerator = GetComponent<LevelGenerator>();
+
+        // Get in-the-scene references
+        asteroidContainer = GameObject.Find("Asteroids");
         asteroidFactory = GameObject.Find("Factories").GetComponent<AsteroidFactory>();
         blackHoleFactory = GameObject.Find("Factories").GetComponent<BlackHoleFactory>();
+    }
 
-        // Start coroutines
+    void Start()
+    {
         StartCoroutine(startGameOrchestration());
         StartCoroutine(spawnBlackHole());
     }
