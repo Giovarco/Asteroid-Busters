@@ -14,7 +14,7 @@ public class LevelGenerator : MonoBehaviour {
 
     void Awake()
     {
-        // Get references
+        // Get in-the-game references
         gameConfigData = GetComponent<AssetReferences>().gameConfigData;
         asteroidFactory = GameObject.Find("Factories").GetComponent<AsteroidFactory>();
         difficultyConfigData = GameObject.Find("Orchestrator").GetComponent<AssetReferences>().difficultyConfigData;

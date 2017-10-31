@@ -9,7 +9,7 @@ public class ProjectileFactory : MonoBehaviour {
 
     GameObject player;
 
-    void Start()
+    void Awake()
     {
         // Get player
         player = GameObject.Find("PlayerShip");

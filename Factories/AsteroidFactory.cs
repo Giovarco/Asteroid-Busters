@@ -23,12 +23,12 @@ public class AsteroidFactory : MonoBehaviour {
 
     void Awake()
     {
-        // Get references
+        // Get in-the-game references
         GameObject orchestrator = GameObject.Find("Orchestrator");
         levelGenerator = orchestrator.GetComponent<LevelGenerator>();
-        screenInfo = GameObject.Find("Main Camera").GetComponent<ScreenInformation>();
         asteroidData = orchestrator.GetComponent<AssetReferences>().asteroidData;
         difficultyConfigData = orchestrator.GetComponent<AssetReferences>().difficultyConfigData;
+        screenInfo = GameObject.Find("Main Camera").GetComponent<ScreenInformation>();
         asteroidContainer = GameObject.Find("Asteroids");
 
         // Initialize variables
