@@ -32,9 +32,9 @@ public class AsteroidCollisionController : MonoBehaviour {
             createChild();
             createChild();
             Destroy(gameObject);
-            print("Collision Controller: gonna trigger AsteroidDestroyed");
+
             EventManager.TriggerEvent("AsteroidDestroyed");
-            print("Collision Controller: AsteroidDestroyed already triggered");
+
         }
 
     }

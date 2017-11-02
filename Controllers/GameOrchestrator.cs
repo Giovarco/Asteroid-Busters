@@ -27,7 +27,6 @@ public class GameOrchestrator : MonoBehaviour {
     void OnEnable()
     {
         EventManager.StartListening("AsteroidDestroyed", isLevelCompletedWrapper);
-        print("GameOrchestrator: subscribed to AsteroidDestroyed");
     }
 
     void Start()
@@ -39,7 +38,7 @@ public class GameOrchestrator : MonoBehaviour {
     bool asteroidsExist()
     {
         int childCount = asteroidContainer.transform.childCount;
-        print("GameOrchestrator: childcount = "+childCount);
+
         if (childCount == 0)
         {
             return false;
@@ -52,14 +51,12 @@ public class GameOrchestrator : MonoBehaviour {
 
     IEnumerator isLevelCompleted()
     {
+        // Destroy(gameObject) is delayed, so skipping this frame is needed
         yield return null;
-        print("GameOrchestrator: isLevelCompleted()");
-        print("GameOrchestrator: asteroidsExist() = " + asteroidsExist());
-        print("GameOrchestrator: generateLevel() = " + generateLevel());
+
         // If there are no more asteroid, start a new level
         if (!asteroidsExist())
         {
-            print("GameOrchestrator: there are no more asteroids! I'll generate a new level!");
             StartCoroutine(generateLevel());
         }
     }
@@ -71,7 +68,7 @@ public class GameOrchestrator : MonoBehaviour {
 
     IEnumerator generateLevel()
     {
-        print("GameOrchestrator: generateLevel()");
+
         // Show the text with a the new level value
         levelGenerator.currentLevel++;
         levelText.GetComponent<UnityEngine.UI.Text>().text = "Level " + levelGenerator.currentLevel;
