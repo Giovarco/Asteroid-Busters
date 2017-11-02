@@ -23,6 +23,7 @@ public class AsteroidFactory : MonoBehaviour {
 
     void Awake()
     {
+
         // Get in-the-game references
         GameObject orchestrator = GameObject.Find("Orchestrator");
         levelGenerator = orchestrator.GetComponent<LevelGenerator>();
