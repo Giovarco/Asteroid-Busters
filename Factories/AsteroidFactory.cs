@@ -26,7 +26,6 @@ public class AsteroidFactory : MonoBehaviour {
         // Get in-the-game references
         GameObject orchestrator = GameObject.Find("Orchestrator");
         levelGenerator = orchestrator.GetComponent<LevelGenerator>();
-        difficultyConfigData = orchestrator.GetComponent<AssetReferences>().difficultyConfigData;
         screenInfo = GameObject.Find("Main Camera").GetComponent<ScreenInformation>();
         asteroidContainer = GameObject.Find("Asteroids");
 
@@ -39,6 +38,7 @@ public class AsteroidFactory : MonoBehaviour {
     {
         // Get references
         asteroidData = AssetReferences.asteroidData;
+        difficultyConfigData = AssetReferences.difficultyConfigData;
 
         // Initialize variables
         increaseInSpeedFactor = difficultyConfigData.hardLevel / (difficultyConfigData.hardAsteroidSpeed - asteroidData.baseSpeed);

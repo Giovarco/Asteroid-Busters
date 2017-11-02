@@ -13,8 +13,9 @@ public class AssetReferences : MonoBehaviour {
     private string blackHoleDataPath;
     static public BlackHoleData blackHoleData;
 
-
-    public DifficultyConfigurationData difficultyConfigData;
+    [SerializeField]
+    private string difficultyConfigDataPath;
+    static public DifficultyConfigurationData difficultyConfigData;
 
     [SerializeField]
     private string gameConfigDataPath;
@@ -25,6 +26,7 @@ public class AssetReferences : MonoBehaviour {
         blackHoleData = Resources.Load(blackHoleDataPath) as BlackHoleData;
         gameConfigData = Resources.Load(gameConfigDataPath) as GameConfigurationData;
         asteroidData = Resources.Load(asteroidDataPath) as AsteroidData;
+        difficultyConfigData = Resources.Load(difficultyConfigDataPath) as DifficultyConfigurationData;
     }
 
 }

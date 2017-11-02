@@ -16,12 +16,12 @@ public class LevelGenerator : MonoBehaviour {
     {
         // Get in-the-game references
         asteroidFactory = GameObject.Find("Factories").GetComponent<AsteroidFactory>();
-        difficultyConfigData = GameObject.Find("Orchestrator").GetComponent<AssetReferences>().difficultyConfigData;
     }
 
     void Start()
     {
         // Get in-the-game references
+        difficultyConfigData = AssetReferences.difficultyConfigData;
         gameConfigData = AssetReferences.gameConfigData;
 
         // Set the current level
