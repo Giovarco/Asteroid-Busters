@@ -15,7 +15,6 @@ public class GameOrchestrator : MonoBehaviour {
     void Awake()
     {
         // Get internal references
-        blackHoleData = AssetReferences.blackHoleData;
         levelGenerator = GetComponent<LevelGenerator>();
 
         // Get in-the-scene references
@@ -31,6 +30,10 @@ public class GameOrchestrator : MonoBehaviour {
 
     void Start()
     {
+        // Get references
+        blackHoleData = AssetReferences.blackHoleData;
+
+        // Start coroutines
         StartCoroutine(generateLevel());
         StartCoroutine(spawnBlackHole());
     }
