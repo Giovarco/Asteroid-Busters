@@ -15,7 +15,7 @@ public class GameOrchestrator : MonoBehaviour {
     void Awake()
     {
         // Get internal references
-        blackHoleData = GetComponent<AssetReferences>().blackHoleData;
+        blackHoleData = AssetReferences.blackHoleData;
         levelGenerator = GetComponent<LevelGenerator>();
 
         // Get in-the-scene references
