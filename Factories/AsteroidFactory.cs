@@ -26,15 +26,22 @@ public class AsteroidFactory : MonoBehaviour {
         // Get in-the-game references
         GameObject orchestrator = GameObject.Find("Orchestrator");
         levelGenerator = orchestrator.GetComponent<LevelGenerator>();
-        asteroidData = orchestrator.GetComponent<AssetReferences>().asteroidData;
         difficultyConfigData = orchestrator.GetComponent<AssetReferences>().difficultyConfigData;
         screenInfo = GameObject.Find("Main Camera").GetComponent<ScreenInformation>();
         asteroidContainer = GameObject.Find("Asteroids");
 
         // Initialize variables
-        increaseInSpeedFactor = difficultyConfigData.hardLevel / (difficultyConfigData.hardAsteroidSpeed - asteroidData.baseSpeed);
         spawnOffset = screenInfo.rightEdge / 3;
 
+    }
+
+    void Start()
+    {
+        // Get references
+        asteroidData = AssetReferences.asteroidData;
+
+        // Initialize variables
+        increaseInSpeedFactor = difficultyConfigData.hardLevel / (difficultyConfigData.hardAsteroidSpeed - asteroidData.baseSpeed);
     }
 
     public GameObject instantiate(string name, GameObject obj = null)

@@ -5,19 +5,26 @@ using UnityEngine;
 
 public class AssetReferences : MonoBehaviour {
 
-    public AsteroidData asteroidData;
+    [SerializeField]
+    private string asteroidDataPath;
+    static public AsteroidData asteroidData;
 
-    static public BlackHoleData blackHoleData;
     [SerializeField]
     private string blackHoleDataPath;
+    static public BlackHoleData blackHoleData;
+
 
     public DifficultyConfigurationData difficultyConfigData;
 
-    public GameConfigurationData gameConfigData;
+    [SerializeField]
+    private string gameConfigDataPath;
+    public static GameConfigurationData gameConfigData;
 
     void Awake()
     {
         blackHoleData = Resources.Load(blackHoleDataPath) as BlackHoleData;
+        gameConfigData = Resources.Load(gameConfigDataPath) as GameConfigurationData;
+        asteroidData = Resources.Load(asteroidDataPath) as AsteroidData;
     }
 
 }
