@@ -7,7 +7,7 @@ public class AssetReferences : MonoBehaviour {
 
     [SerializeField]
     private string asteroidDataPath;
-    static public AsteroidData asteroidData;
+    static public AsteroidData _asteroidData;
 
     [SerializeField]
     string blackHoleDataPath;
@@ -15,18 +15,18 @@ public class AssetReferences : MonoBehaviour {
 
     [SerializeField]
     private string difficultyConfigDataPath;
-    static public DifficultyConfigurationData difficultyConfigData;
+    static public DifficultyConfigurationData _difficultyConfigData;
 
     [SerializeField]
     private string gameConfigDataPath;
-    public static GameConfigurationData gameConfigData;
+    public static GameConfigurationData _gameConfigData;
 
     void Awake()
     {
         _blackHoleData = Resources.Load(blackHoleDataPath) as BlackHoleData;
-        gameConfigData = Resources.Load(gameConfigDataPath) as GameConfigurationData;
-        asteroidData = Resources.Load(asteroidDataPath) as AsteroidData;
-        difficultyConfigData = Resources.Load(difficultyConfigDataPath) as DifficultyConfigurationData;
+        _gameConfigData = Resources.Load(gameConfigDataPath) as GameConfigurationData;
+        _asteroidData = Resources.Load(asteroidDataPath) as AsteroidData;
+        _difficultyConfigData = Resources.Load(difficultyConfigDataPath) as DifficultyConfigurationData;
     }
 
     static public BlackHoleData blackHoleData
@@ -35,10 +35,29 @@ public class AssetReferences : MonoBehaviour {
         {
             return _blackHoleData;
         }
-        private set
+    }
+
+    static public GameConfigurationData gameConfigData
+    {
+        get
         {
-            _blackHoleData = value;
+            return _gameConfigData;
         }
     }
 
+    static public AsteroidData asteroidData
+    {
+        get
+        {
+            return _asteroidData;
+        }
+    }
+
+    static public DifficultyConfigurationData difficultyConfigData
+    {
+        get
+        {
+            return _difficultyConfigData;
+        }
+    }
 }
