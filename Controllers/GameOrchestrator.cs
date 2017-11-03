@@ -25,7 +25,7 @@ public class GameOrchestrator : MonoBehaviour {
 
     void OnEnable()
     {
-        EventManager.onAsteroidDestroyed += isLevelCompletedWrapper;
+        EventManager.StartListening("AsteroidDestroyed", isLevelCompletedWrapper);
     }
 
     void Start()

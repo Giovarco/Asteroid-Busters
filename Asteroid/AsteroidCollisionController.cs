@@ -27,7 +27,7 @@ public class AsteroidCollisionController : MonoBehaviour {
 
     void OnDestroy()
     {
-        EventManager.asteroidDestroyed();
+        EventManager.TriggerEvent("AsteroidDestroyed");
     }
 
     void OnTriggerEnter2D(Collider2D other)
