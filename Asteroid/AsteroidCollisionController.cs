@@ -25,6 +25,11 @@ public class AsteroidCollisionController : MonoBehaviour {
         }
     }
 
+    void OnDestroy()
+    {
+        EventManager.asteroidDestroyed();
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.layer != LayerMask.NameToLayer("BlackHoles") && other.gameObject.tag != "Immaterial")
@@ -32,9 +37,6 @@ public class AsteroidCollisionController : MonoBehaviour {
             createChild();
             createChild();
             Destroy(gameObject);
-
-            EventManager.TriggerEvent("AsteroidDestroyed");
-
         }
 
     }

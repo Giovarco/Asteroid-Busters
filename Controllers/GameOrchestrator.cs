@@ -25,7 +25,7 @@ public class GameOrchestrator : MonoBehaviour {
 
     void OnEnable()
     {
-        EventManager.StartListening("AsteroidDestroyed", isLevelCompletedWrapper);
+        EventManager.onAsteroidDestroyed += isLevelCompletedWrapper;
     }
 
     void Start()
@@ -54,10 +54,9 @@ public class GameOrchestrator : MonoBehaviour {
 
     IEnumerator isLevelCompleted()
     {
-        // Destroy(gameObject) is delayed, so skipping this frame is needed
+        // Destroy(gameObject) is delayed, so skipping this frame is needed 
         yield return null;
 
-        // If there are no more asteroid, start a new level
         if (!asteroidsExist())
         {
             StartCoroutine(generateLevel());
