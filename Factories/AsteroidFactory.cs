@@ -81,6 +81,9 @@ public class AsteroidFactory : MonoBehaviour {
         // Instatiate
         GameObject newAsteroid = Instantiate(asteroid, parentAsteroid.transform.position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360)));
 
+        // Set name
+        newAsteroid.name = "Asteroid";
+
         // Get parent and child asteroid information for later
         AsteroidProperties newAsteroidInfo = newAsteroid.GetComponent<AsteroidProperties>();
         AsteroidProperties parentAsteroidInfo = parentAsteroid.GetComponent<AsteroidProperties>();
@@ -125,6 +128,9 @@ public class AsteroidFactory : MonoBehaviour {
 
         // Instantiate
         GameObject newAsteroid = Instantiate(asteroid, new Vector3(newX, newY, 0), Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360)));
+
+        // Set name
+        newAsteroid.name = "Asteroid";
 
         // Set velocity
         newAsteroid.GetComponent<Rigidbody2D>().velocity = getRandomDirection() * asteroidSpeed;
