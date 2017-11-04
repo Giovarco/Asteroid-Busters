@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -52,6 +53,18 @@ public class GameOrchestrator : MonoBehaviour {
         }
     }
 
+    void createSpaceDistortion()
+    {
+        print("createSpaceDistortion");
+        foreach (Transform asteroidTransform in asteroidContainer.transform)
+        {
+            GameObject asteroid = asteroidTransform.gameObject;
+            SpaceDistortionEffect effect = asteroid.AddComponent<SpaceDistortionEffect>();
+            StartCoroutine(effect.changeDirection(2.5f));
+        }
+
+    }
+
     IEnumerator isLevelCompleted()
     {
         // Destroy(gameObject) is delayed, so skipping this frame is needed 
@@ -91,7 +104,10 @@ public class GameOrchestrator : MonoBehaviour {
         // Generate first level
         levelGenerator.generateLevel();
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(5f);
+
+        print("Space Distortion");
+        createSpaceDistortion();
 
     }
 
