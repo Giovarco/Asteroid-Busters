@@ -35,7 +35,7 @@ public class GameOrchestrator : MonoBehaviour {
 
         // Start coroutines
         StartCoroutine(generateLevel());
-        StartCoroutine(spawnBlackHole());
+        //StartCoroutine(spawnBlackHole());
     }
 
     bool asteroidsExist()
