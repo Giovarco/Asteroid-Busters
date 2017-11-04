@@ -22,27 +22,16 @@ public class SpriteFlash : MonoBehaviour {
         rnd.material.SetColor("_Color", color);
         rnd.material.SetColor("_FlashColor", color);
 
-        // Body
-        float addend;
+        // Get the actual time
+        float startingTime = Time.time;
 
-        if (startingValue <= finalValue)
+        // Change color over time
+        while(Time.time - startingTime < changeDuration)
         {
-            addend = (finalValue - startingValue) * Time.deltaTime / changeDuration;
-
-            for (float actualValue = startingValue; actualValue < finalValue; actualValue += addend)
-            {
-                rnd.material.SetFloat("_FlashAmount", actualValue);
-                yield return null;
-            }
-        }
-        else
-        {
-            addend = (startingValue - finalValue) * Time.deltaTime / changeDuration;
-            for (float actualValue = startingValue; actualValue > finalValue; actualValue -= addend)
-            {
-                rnd.material.SetFloat("_FlashAmount", actualValue);
-                yield return null;
-            }
+            float t = (Time.time - startingTime) / changeDuration;
+            float actualValue = Mathf.Lerp(startingValue, finalValue, t);
+            rnd.material.SetFloat("_FlashAmount", actualValue);
+            yield return null;
         }
 
     }

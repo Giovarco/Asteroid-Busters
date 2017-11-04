@@ -36,7 +36,7 @@ public class GameOrchestrator : MonoBehaviour {
 
         // Start coroutines
         StartCoroutine(generateLevel());
-        //StartCoroutine(spawnBlackHole());
+        StartCoroutine(spawnBlackHole());
     }
 
     bool asteroidsExist()
@@ -106,8 +106,8 @@ public class GameOrchestrator : MonoBehaviour {
 
         yield return new WaitForSeconds(5f);
 
-        print("Space Distortion");
-        createSpaceDistortion();
+        //print("Space Distortion");
+        //createSpaceDistortion();
 
     }
 
