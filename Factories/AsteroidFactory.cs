@@ -5,21 +5,44 @@ using UnityEngine;
 
 public class AsteroidFactory : MonoBehaviour {
 
-    GameSettings gameSettings;
-    GameObject asteroidContainer;
-
     public GameObject asteroid;
-    public int asteroidSpritesIndex;
-    public Sprite[] asteroidSprites;
+    public Sprite[] sprites;
+
+    GameObject asteroidContainer;
+    AsteroidData asteroidData;
+    float increaseInSpeedFactor;
+    int spritesIndex;
+
+    [Tooltip("Asteroid spawn offset from right/left edge")]
+    [ReadOnly]
+    float spawnOffset;
+
+    DifficultyConfigurationData difficultyConfigData;
+    LevelGenerator levelGenerator;
+    ScreenInformation screenInfo;
 
     void Awake()
     {
-        // Get game settings
-        gameSettings = GameObject.Find("Orchestrator").GetComponent<GameSettings>();
 
-        // Get the asteroid containers
+        // Get in-the-game references
+        GameObject orchestrator = GameObject.Find("Orchestrator");
+        levelGenerator = orchestrator.GetComponent<LevelGenerator>();
+        screenInfo = GameObject.Find("Main Camera").GetComponent<ScreenInformation>();
         asteroidContainer = GameObject.Find("Asteroids");
 
+        // Initialize variables
+        spawnOffset = screenInfo.rightEdge / 3;
+
+    }
+
+    void Start()
+    {
+        // Get references
+        asteroidData = AssetReferences.asteroidData;
+        difficultyConfigData = AssetReferences.difficultyConfigData;
+
+        // Initialize variables
+        increaseInSpeedFactor = difficultyConfigData.hardLevel / (difficultyConfigData.hardAsteroidSpeed - asteroidData.baseSpeed);
     }
 
     public GameObject instantiate(string name, GameObject obj = null)
@@ -43,31 +66,15 @@ public class AsteroidFactory : MonoBehaviour {
 
     }
 
-    GameObject generateRandomAsteroid()
+    public void setNextSprite()
     {
-
-        // Define speed
-        float asteroidSpeed = getAsteroidSpeed();
-
-        // Define spawn position
-        float newX = getAsteroidX();
-        float newY = getAsteroidY();
-
-        // Instantiate
-        GameObject newAsteroid = Instantiate(asteroid, new Vector3(newX, newY, 0), Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360)));
-
-        // Set velocity
-        newAsteroid.GetComponent<Rigidbody2D>().velocity = getRandomDirection() * asteroidSpeed;
-
-        // Set appearance
-        newAsteroid.GetComponent<SpriteRenderer>().sprite = asteroidSprites[asteroidSpritesIndex];
-
-        // Set the new asteroid to be children of the asteroid container
-        newAsteroid.transform.parent = asteroidContainer.transform;
-
-        return newAsteroid;
+        spritesIndex++;
+        if (spritesIndex >= sprites.Length)
+        {
+            spritesIndex = 0;
+        }
     }
-
+    
     GameObject generateChildAsteroid(GameObject parentAsteroid)
     {
 
@@ -79,7 +86,7 @@ public class AsteroidFactory : MonoBehaviour {
         AsteroidProperties parentAsteroidInfo = parentAsteroid.GetComponent<AsteroidProperties>();
 
         // Define speed
-        float asteroidSpeed = getAsteroidSpeed();
+        float asteroidSpeed = getSpeed();
 
         // Set direction
         Vector3 randomDirection = getRandomDirection();
@@ -90,11 +97,12 @@ public class AsteroidFactory : MonoBehaviour {
 
         // Set size depeding on the parent asteroid
         float localScaleValue = parentAsteroid.transform.localScale.x;
-        float newSize = localScaleValue / gameSettings.sizeReductionFactor;
+        float newSize = localScaleValue / asteroidData.sizeReductionFactor;
         newAsteroid.transform.localScale = new Vector3(newSize, newSize, 1);
 
         // ONLY AFTER setting the size, re-define again edge leaving properties
-        newAsteroid.GetComponent<EdgeLeaving>().updateVisualLimits();
+        EdgeLeaving edgeLeaving = newAsteroid.GetComponent<EdgeLeaving>();
+        edgeLeaving.updateVisualLimits();
 
         // Set appearance
         newAsteroid.GetComponent<SpriteRenderer>().sprite = parentAsteroid.GetComponent<SpriteRenderer>().sprite;
@@ -105,37 +113,53 @@ public class AsteroidFactory : MonoBehaviour {
         return newAsteroid;
     }
 
-    Vector3 getRandomDirection()
+    GameObject generateRandomAsteroid()
     {
-        float xDirection = getRandomSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
-        float yDirection = getRandomSign() * UnityEngine.Random.Range(1f - gameSettings.speedVariance, 1f);
-        Vector3 randomDirection = new Vector3(xDirection, yDirection, 0);
-        return randomDirection;
+
+        // Define speed
+        float asteroidSpeed = getSpeed();
+
+        // Define spawn position
+        float newX = getX();
+        float newY = getY();
+
+        // Instantiate
+        GameObject newAsteroid = Instantiate(asteroid, new Vector3(newX, newY, 0), Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360)));
+
+        // Set velocity
+        newAsteroid.GetComponent<Rigidbody2D>().velocity = getRandomDirection() * asteroidSpeed;
+
+        // Set appearance
+        newAsteroid.GetComponent<SpriteRenderer>().sprite = sprites[spritesIndex];
+
+        // Set the new asteroid to be children of the asteroid container
+        newAsteroid.transform.parent = asteroidContainer.transform;
+
+        return newAsteroid;
+    }
+    float getSpeed()
+    {
+        return asteroidData.baseSpeed + (float)levelGenerator.currentLevel / increaseInSpeedFactor;
     }
 
-    float getAsteroidY()
-    {
-        return UnityEngine.Random.Range(gameSettings.lowerEdge, gameSettings.upperEdge);
-    }
-
-    float getAsteroidX()
+    float getX()
     {
         // Choose to spawn on the right or on the left
         if (getRandomBoolean())
         {
             // Right
-            return UnityEngine.Random.Range(gameSettings.rightEdge - gameSettings.offsetEdge, gameSettings.rightEdge);
+            return UnityEngine.Random.Range(screenInfo.rightEdge - spawnOffset, screenInfo.rightEdge);
         }
         else
         {
             // Left
-            return UnityEngine.Random.Range(gameSettings.leftEdge, gameSettings.leftEdge + gameSettings.offsetEdge);
+            return UnityEngine.Random.Range(screenInfo.leftEdge, screenInfo.leftEdge + spawnOffset);
         }
     }
 
-    float getAsteroidSpeed()
+    float getY()
     {
-        return gameSettings.baseAsteroidSpeed + (float)gameSettings.levelNumber / gameSettings.asteroidIncreaseInSpeedFactor;
+        return UnityEngine.Random.Range(screenInfo.lowerEdge, screenInfo.upperEdge);
     }
 
     bool getRandomBoolean()
@@ -143,6 +167,13 @@ public class AsteroidFactory : MonoBehaviour {
         return UnityEngine.Random.Range(0f, 1f) > 0.5f;
     }
 
+    Vector3 getRandomDirection()
+    {
+        float xDirection = getRandomSign() * UnityEngine.Random.Range(1f - asteroidData.speedVariance, 1f);
+        float yDirection = getRandomSign() * UnityEngine.Random.Range(1f - asteroidData.speedVariance, 1f);
+        Vector3 randomDirection = new Vector3(xDirection, yDirection, 0);
+        return randomDirection;
+    }
     int getRandomSign()
     {
         if (UnityEngine.Random.Range(0f, 1f) < 0.5f)
@@ -153,11 +184,6 @@ public class AsteroidFactory : MonoBehaviour {
         {
             return -1;
         }
-    }
-
-    public int getAsteroidSpritesLength()
-    {
-        return asteroidSprites.Length;
     }
 
 }

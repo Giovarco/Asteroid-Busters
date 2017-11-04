@@ -5,24 +5,18 @@ using UnityEngine;
 
 public class BlackHoleCollisionController : MonoBehaviour {
 
-    public float wayUpTravelDuration;
-    public float wayBackTravelDuration;
-    public float stasisDuration;
     public float minDistanceToTeleport;
-
-    GameSettings gameSettings;
+    public float stasisDuration;
+    public float wayBackTravelDuration;
+    public float wayUpTravelDuration;
 
     GameObject asteroidContainer;
+    ScreenInformation screenInfo;
 
     void Awake()
     {
-        gameSettings = GameObject.Find("Orchestrator").GetComponent<GameSettings>();
-    }
-
-    void Start()
-    {
+        screenInfo = GameObject.Find("Main Camera").GetComponent<ScreenInformation>();
         asteroidContainer = GameObject.Find("Asteroids");
-
     }
 
     void Update()
@@ -36,7 +30,7 @@ public class BlackHoleCollisionController : MonoBehaviour {
             AsteroidProperties asteroidProperties = asteroid.GetComponent<AsteroidProperties>();
 
             // Check if the asteroid is already teleporting
-            if(asteroidProperties.status != GameSettings.Status.Teleporting)
+            if (asteroidProperties.status != Status.Teleporting)
             {
                 float distance = Vector2.Distance(transform.position, asteroidTransform.position);
 
@@ -51,12 +45,19 @@ public class BlackHoleCollisionController : MonoBehaviour {
 
     }
 
+    Vector3 getRandomPosition()
+    {
+        float xPos = UnityEngine.Random.Range(screenInfo.leftEdge, screenInfo.rightEdge);
+        float yPos = UnityEngine.Random.Range(screenInfo.lowerEdge, screenInfo.upperEdge);
+        return new Vector3(xPos, yPos, 1);
+    }
+
     IEnumerator teleportProcess(GameObject otherGameObject)
     {
 
         // Set the current game object status to "teleporting"
         AsteroidProperties asteroidProperties = otherGameObject.GetComponent<AsteroidProperties>();
-        asteroidProperties.status = GameSettings.Status.Teleporting;
+        asteroidProperties.status = Status.Teleporting;
 
         // Disable game object collider to avoid unwanted interactions
         Collider2D asteroidCollider = otherGameObject.GetComponent<Collider2D>();
@@ -71,7 +72,7 @@ public class BlackHoleCollisionController : MonoBehaviour {
             externalOverTimeSizeChanger = otherGameObject.AddComponent<OverTimeSizeChanger>();
         }
 
-        if(otherGameObject.GetComponent("SpriteFlash") == null)
+        if (otherGameObject.GetComponent("SpriteFlash") == null)
         {
             externalSpriteFlash = otherGameObject.AddComponent<SpriteFlash>();
         }
@@ -120,21 +121,8 @@ public class BlackHoleCollisionController : MonoBehaviour {
         asteroidCollider.enabled = true;
 
         // Game object is set to a non-teleporting status
-        asteroidProperties.status = GameSettings.Status.Ok;
+        asteroidProperties.status = Status.Ok;
 
     }
 
-    Vector3 getRandomPosition()
-    {
-        float xPos = UnityEngine.Random.Range(gameSettings.leftEdge, gameSettings.rightEdge);
-        float yPos = UnityEngine.Random.Range(gameSettings.lowerEdge, gameSettings.upperEdge);
-        return new Vector3(xPos, yPos, 1);
-    }
-
-    bool FullyContains(Collider2D resident)
-    {
-        Collider2D zone = GetComponent<Collider2D>();
-        return zone.bounds.Contains(resident.bounds.max) && zone.bounds.Contains(resident.bounds.min);
-        // return zone.bounds.Contains(resident.bounds.max);
-    }
 }

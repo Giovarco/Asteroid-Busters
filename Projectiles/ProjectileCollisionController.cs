@@ -8,7 +8,7 @@ public class ProjectileCollisionController : MonoBehaviour {
     {
         GameObject otherGameObject = other.gameObject;
 
-        if(otherGameObject.layer != LayerMask.NameToLayer("Neutral"))
+        if(otherGameObject.layer != LayerMask.NameToLayer("BlackHoles"))
         {
             Destroy(gameObject);
         }

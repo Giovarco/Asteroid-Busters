@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AsteroidProperties : MonoBehaviour {
+public class AsteroidProperties : MonoBehaviour, IHaveStatus {
 
     public int hp;
-    public GameSettings.Status status;
+    public Status status;
+
+    Status IHaveStatus.status{ get; }
 
 }
