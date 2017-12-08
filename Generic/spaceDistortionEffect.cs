@@ -1,33 +1,56 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpaceDistortionEffect : MonoBehaviour {
+public class SpaceDistortionEffect : MonoBehaviour
+{
 
-    [SerializeField]
-    float angleRotation = 90;
     Rigidbody2D rb;
+    GameObject player;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        player = GameObject.Find("PlayerShip");
     }
 
     public IEnumerator changeDirection(float changeDuration)
     {
-        print("Changing position");
-        Vector2 startingValue = rb.velocity;
-        Vector2 finalValue = Quaternion.AngleAxis(angleRotation, Vector3.forward) * startingValue;
-        float startingTime = Time.time;
+
+        // Get starting velocity vector and its magnitude
+        Vector2 startingVelocityVector = rb.velocity;
+        float velocityMagnitude = startingVelocityVector.magnitude;
+
+        // This vector has the same magnitude of startingVelocityVector, but it looks at the player ship
+        Vector2 finalVector;
         
-        while(Time.time - startingTime < changeDuration)
+        // Starting Duration
+        float startingTime = Time.time;
+
+        // Execute for changeDuration time
+        while (Time.time - startingTime < changeDuration)
         {
-            rb.velocity = Vector2.Lerp(startingValue, finalValue, Time.time - startingTime);
+
+            // Update the final vector every frame, since the player ship moves
+            finalVector = getVectorTowardsPlayer(velocityMagnitude);
+
+            // Update the velocity vector every frame
+            rb.velocity = Vector2.Lerp(startingVelocityVector, finalVector, Time.time - startingTime);
+
             yield return null;
         }
 
         Destroy(this);
-        
+
     }
 
+    Vector2 getVectorTowardsPlayer(float velocityMagnitude)
+    {
+        // Get initial final vector
+        Vector2 direction = (player.transform.position - transform.position).normalized;
+        Vector2 finalVector = direction * velocityMagnitude;
+
+        return finalVector;
+    }
 }

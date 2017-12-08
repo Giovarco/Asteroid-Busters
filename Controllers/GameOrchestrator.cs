@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class GameOrchestrator : MonoBehaviour {
+﻿using System; 
+using System.Collections; 
+using System.Collections.Generic; 
+using UnityEngine; 
+ 
+public class GameOrchestrator : MonoBehaviour
+{
 
     public GameObject levelText;
 
@@ -15,10 +16,10 @@ public class GameOrchestrator : MonoBehaviour {
 
     void Awake()
     {
-        // Get internal references
+        // Get internal references 
         levelGenerator = GetComponent<LevelGenerator>();
 
-        // Get in-the-scene references
+        // Get in-the-scene references 
         asteroidContainer = GameObject.Find("Asteroids");
         asteroidFactory = GameObject.Find("Factories").GetComponent<AsteroidFactory>();
         blackHoleFactory = GameObject.Find("Factories").GetComponent<BlackHoleFactory>();
@@ -31,12 +32,12 @@ public class GameOrchestrator : MonoBehaviour {
 
     void Start()
     {
-        // Get references
+        // Get references 
         blackHoleData = AssetReferences.blackHoleData;
 
-        // Start coroutines
+        // Start coroutines 
         StartCoroutine(generateLevel());
-        StartCoroutine(spawnBlackHole());
+        //StartCoroutine(spawnBlackHole());
     }
 
     bool asteroidsExist()
@@ -67,7 +68,7 @@ public class GameOrchestrator : MonoBehaviour {
 
     IEnumerator isLevelCompleted()
     {
-        // Destroy(gameObject) is delayed, so skipping this frame is needed 
+        // Destroy(gameObject) is delayed, so skipping this frame is needed  
         yield return null;
 
         if (!asteroidsExist())
@@ -84,30 +85,30 @@ public class GameOrchestrator : MonoBehaviour {
     IEnumerator generateLevel()
     {
 
-        // Show the text with a the new level value
+        // Show the text with a the new level value 
         levelGenerator.currentLevel++;
         levelText.GetComponent<UnityEngine.UI.Text>().text = "Level " + levelGenerator.currentLevel;
         levelText.SetActive(true);
 
-        // Set the new asteroid sprite
+        // Set the new asteroid sprite 
         asteroidFactory.setNextSprite();
 
-        // Wait some seconds
+        // Wait some seconds 
         yield return new WaitForSeconds(4f);
 
-        // Deactive the level text
+        // Deactive the level text 
         levelText.SetActive(false);
 
-        // Wait a bunch of other seconds
+        // Wait a bunch of other seconds 
         yield return new WaitForSeconds(1.5f);
 
-        // Generate first level
+        // Generate first level 
         levelGenerator.generateLevel();
 
         yield return new WaitForSeconds(5f);
 
-        //print("Space Distortion");
-        //createSpaceDistortion();
+        print("Space Distortion"); 
+        createSpaceDistortion(); 
 
     }
 
@@ -118,6 +119,7 @@ public class GameOrchestrator : MonoBehaviour {
             yield return new WaitForSeconds(blackHoleData.spawnFrequency);
             blackHoleFactory.instantiate("BlackHole");
         }
-    }
+    } 
 
+ 
 }
