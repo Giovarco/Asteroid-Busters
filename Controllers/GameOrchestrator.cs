@@ -37,7 +37,6 @@ public class GameOrchestrator : MonoBehaviour
 
         // Start coroutines 
         StartCoroutine(generateLevel());
-        //StartCoroutine(spawnBlackHole());
     }
 
     bool asteroidsExist()
@@ -56,12 +55,20 @@ public class GameOrchestrator : MonoBehaviour
 
     void createSpaceDistortion()
     {
-        print("createSpaceDistortion");
+
         foreach (Transform asteroidTransform in asteroidContainer.transform)
         {
+
+            // The asteroid to apply effects to
             GameObject asteroid = asteroidTransform.gameObject;
-            SpaceDistortionEffect effect = asteroid.AddComponent<SpaceDistortionEffect>();
-            StartCoroutine(effect.changeDirection(2.5f));
+
+            // Components involved
+            SpriteFlash spriteFlash = asteroid.AddComponent<SpriteFlash>();
+            SpaceDistortionEffect spaceDistortionEffect = asteroid.AddComponent<SpaceDistortionEffect>();
+
+            // Activate components
+            StartCoroutine(spaceDistortionEffect.changeDirection(1f));
+
         }
 
     }
@@ -107,7 +114,6 @@ public class GameOrchestrator : MonoBehaviour
 
         yield return new WaitForSeconds(5f);
 
-        print("Space Distortion"); 
         createSpaceDistortion(); 
 
     }

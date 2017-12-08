@@ -18,13 +18,33 @@ public class SpaceDistortionEffect : MonoBehaviour
     public IEnumerator changeDirection(float changeDuration)
     {
 
+        // Attach the sprite flash component
+        SpriteFlash spriteFlash = gameObject.AddComponent<SpriteFlash>();
+
+        // L'oggetto si illumina di bianco
+        yield return StartCoroutine(spriteFlash.changeFlash(0f, 1f, 0.5f, Color.white));
+
+        // Quando l'oggetto è bianco, ha appena cambiato direzione
+        yield return StartCoroutine(_changeDirection(changeDuration));
+
+        // Ritorna al colore normale
+        yield return StartCoroutine(spriteFlash.changeFlash(1f, 0f, 0.5f, Color.white));
+
+        Destroy(spriteFlash);
+        Destroy(this);
+
+    }
+
+    IEnumerator _changeDirection(float changeDuration)
+    {
+
         // Get starting velocity vector and its magnitude
         Vector2 startingVelocityVector = rb.velocity;
         float velocityMagnitude = startingVelocityVector.magnitude;
 
         // This vector has the same magnitude of startingVelocityVector, but it looks at the player ship
         Vector2 finalVector;
-        
+
         // Starting Duration
         float startingTime = Time.time;
 
@@ -40,8 +60,6 @@ public class SpaceDistortionEffect : MonoBehaviour
 
             yield return null;
         }
-
-        Destroy(this);
 
     }
 
