@@ -4,20 +4,30 @@ using UnityEngine;
 
 public class SpriteFlash : MonoBehaviour {
 
-    [SerializeField]
     Material defaultColorFlash;
-
+    Material oldMaterial;
     Renderer rnd;
 
     void Awake()
     {
+
+        // Get renderer
         rnd = gameObject.GetComponent<Renderer>();
+
+        // Save current material
+        oldMaterial = rnd.material;
+
+        // Find a DefaultColorFlash material 
         defaultColorFlash = Resources.Load("Materials/DefaultColorFlash") as Material;
+
+        // Set the new material
         rnd.material = defaultColorFlash;
+
     }
 
-    public IEnumerator changeFlash(float startingValue, float finalValue, float changeDuration, Color color)
+    IEnumerator changeFlash(float startingValue, float finalValue, float changeDuration, Color color)
     {
+
         // Prepare shader
         rnd.material.SetColor("_Color", color);
         rnd.material.SetColor("_FlashColor", color);
@@ -26,13 +36,37 @@ public class SpriteFlash : MonoBehaviour {
         float startingTime = Time.time;
 
         // Change color over time
-        while(Time.time - startingTime < changeDuration)
+        while (Time.time - startingTime < changeDuration)
         {
+
+            // Mathf.Lerp needs 0 <= t <= 1
             float t = (Time.time - startingTime) / changeDuration;
+
+            // Calculate the actual value based on t
             float actualValue = Mathf.Lerp(startingValue, finalValue, t);
+
+            // Set the flash amount
             rnd.material.SetFloat("_FlashAmount", actualValue);
+
+            // Skip the current frame
             yield return null;
+
         }
+
+    }
+
+    public void execute(float startingValue, float finalValue, float changeDuration, Color color)
+    {
+        StartCoroutine( _execute(startingValue, finalValue, changeDuration, color) );
+    }
+
+    IEnumerator _execute(float startingValue, float finalValue, float changeDuration, Color color)
+    {
+        // Change sprite flash over time
+        yield return StartCoroutine( changeFlash(startingValue, finalValue, changeDuration, color) );
+
+        // Reset sprite material to its old value
+        rnd.material = oldMaterial;
 
     }
 
