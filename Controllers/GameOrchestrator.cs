@@ -67,7 +67,7 @@ public class GameOrchestrator : MonoBehaviour
             SpaceDistortionEffect spaceDistortionEffect = asteroid.AddComponent<SpaceDistortionEffect>();
 
             // Activate components
-            StartCoroutine(spaceDistortionEffect.changeDirection(1f));
+            spaceDistortionEffect.execute(1f);
 
         }
 
