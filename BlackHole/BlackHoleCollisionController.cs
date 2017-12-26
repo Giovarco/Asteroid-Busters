@@ -88,7 +88,7 @@ public class BlackHoleCollisionController : MonoBehaviour {
         StartCoroutine(externalOverTimeSizeChanger.changeSize(localScale, 0f, wayUpTravelDuration));
 
         // Game object: become black
-        yield return StartCoroutine(externalSpriteFlash.changeFlash(0f, 1f, wayUpTravelDuration, Color.black));
+        yield return StartCoroutine(externalSpriteFlash.execute(0f, 1f, wayUpTravelDuration, Color.black));
 
         // Make game object invisible
         Renderer renderer = otherGameObject.GetComponent<Renderer>();
@@ -107,7 +107,7 @@ public class BlackHoleCollisionController : MonoBehaviour {
         StartCoroutine(externalOverTimeSizeChanger.changeSize(0f, localScale, wayBackTravelDuration));
 
         // Game object: get colors again
-        yield return StartCoroutine(externalSpriteFlash.changeFlash(1f, 0f, wayBackTravelDuration, Color.white));
+        yield return StartCoroutine(externalSpriteFlash.execute(1f, 0f, wayBackTravelDuration, Color.white));
 
         // Unfreeze game object
         rb.isKinematic = false;

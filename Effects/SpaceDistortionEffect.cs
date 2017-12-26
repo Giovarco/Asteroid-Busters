@@ -16,20 +16,32 @@ public class SpaceDistortionEffect : MonoBehaviour
     }
 
     
-    IEnumerator _execute(float changeDuration)
+    public IEnumerator execute(float changeDuration)
     {
 
         // Attach components
-        SpriteFlash spriteFlash = gameObject.AddComponent<SpriteFlash>();
+        print("Attach components");
+        SpriteFlash spriteFlash = null;
+        if (gameObject.GetComponent<SpriteFlash>() != null)
+        {
+            spriteFlash = gameObject.AddComponent<SpriteFlash>();
+        }
+        
 
         // The GO lights up
-        yield return StartCoroutine( spriteFlash.changeFlash(0f, 1f, 0.5f, Color.white) );
+        print("The GO lights up");
+        yield return StartCoroutine( spriteFlash.execute(0f, 1f, 0.5f, Color.white) );
 
         // When the GO is white, change direction over time
         yield return StartCoroutine( changeDirection(changeDuration) );
 
         // The GO gets back to its normal colors
-        yield return StartCoroutine( spriteFlash.changeFlash(1f, 0f, 0.5f, Color.white) );
+        print("The GO gets back to its normal colors");
+        yield return StartCoroutine( spriteFlash.execute(1f, 0f, 0.5f, Color.white) );
+
+        // Restore the old material
+        print("Restore the old material");
+        spriteFlash.restoreOldMaterial();
 
         // Detach components
         Destroy(spriteFlash);
@@ -67,11 +79,6 @@ public class SpaceDistortionEffect : MonoBehaviour
 
         }
 
-    }
-
-    public void execute(float changeDuration)
-    {
-        StartCoroutine( _execute(changeDuration) );
     }
 
     Vector2 getVectorTowardsPlayer(float velocityMagnitude)

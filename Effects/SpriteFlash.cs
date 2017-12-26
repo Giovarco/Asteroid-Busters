@@ -17,11 +17,19 @@ public class SpriteFlash : MonoBehaviour {
         // Save current material
         oldMaterial = rnd.material;
 
+        print("Ho salvato il vecchio material");
+        print(rnd.material);
+        print(oldMaterial);
+
         // Find a DefaultColorFlash material 
         defaultColorFlash = Resources.Load("Materials/DefaultColorFlash") as Material;
 
         // Set the new material
         rnd.material = defaultColorFlash;
+
+        print("Ho appena assegnato il nuovo material");
+        print(rnd.material);
+        print(oldMaterial);
 
     }
 
@@ -55,19 +63,21 @@ public class SpriteFlash : MonoBehaviour {
 
     }
 
-    public void execute(float startingValue, float finalValue, float changeDuration, Color color)
-    {
-        StartCoroutine( _execute(startingValue, finalValue, changeDuration, color) );
-    }
-
-    IEnumerator _execute(float startingValue, float finalValue, float changeDuration, Color color)
+    public IEnumerator execute(float startingValue, float finalValue, float changeDuration, Color color)
     {
         // Change sprite flash over time
         yield return StartCoroutine( changeFlash(startingValue, finalValue, changeDuration, color) );
 
+    }
+
+    public void restoreOldMaterial()
+    {
         // Reset sprite material to its old value
         rnd.material = oldMaterial;
 
+        print("Restore:");
+        print(rnd.material);
+        print(oldMaterial);
     }
 
 }
