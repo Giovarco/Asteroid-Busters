@@ -112,9 +112,10 @@ public class GameOrchestrator : MonoBehaviour
         // Generate first level 
         levelGenerator.generateLevel();
 
-        yield return new WaitForSeconds(5f);
+        // yield return new WaitForSeconds(5f);
 
-        createSpaceDistortion(); 
+        //createSpaceDistortion(); 
+        StartCoroutine( spawnBlackHole() );
 
     }
 
@@ -125,6 +126,7 @@ public class GameOrchestrator : MonoBehaviour
             yield return new WaitForSeconds(blackHoleData.spawnFrequency);
             blackHoleFactory.instantiate("BlackHole");
         }
+
     } 
 
  

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OverTimeSizeChanger : MonoBehaviour {
 
-    public IEnumerator changeSize(float startingValue, float finalValue, float changeDuration)
+    public IEnumerator execute(float startingValue, float finalValue, float changeDuration)
     {
 
         // Get the actual time

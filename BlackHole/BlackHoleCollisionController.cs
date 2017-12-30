@@ -85,7 +85,7 @@ public class BlackHoleCollisionController : MonoBehaviour {
 
         // Game object: become smaller
         float localScale = otherGameObject.transform.localScale.x;
-        StartCoroutine(externalOverTimeSizeChanger.changeSize(localScale, 0f, wayUpTravelDuration));
+        StartCoroutine( externalOverTimeSizeChanger.execute(localScale, 0f, wayUpTravelDuration) );
 
         // Game object: become black
         yield return StartCoroutine(externalSpriteFlash.execute(0f, 1f, wayUpTravelDuration, Color.black));
@@ -104,7 +104,7 @@ public class BlackHoleCollisionController : MonoBehaviour {
         renderer.enabled = true;
 
         // Game object: become bigger
-        StartCoroutine(externalOverTimeSizeChanger.changeSize(0f, localScale, wayBackTravelDuration));
+        StartCoroutine( externalOverTimeSizeChanger.execute(0f, localScale, wayBackTravelDuration) );
 
         // Game object: get colors again
         yield return StartCoroutine(externalSpriteFlash.execute(1f, 0f, wayBackTravelDuration, Color.white));
