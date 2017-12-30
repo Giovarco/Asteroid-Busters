@@ -12,8 +12,11 @@ public class GameOrchestrator : MonoBehaviour
     AsteroidFactory asteroidFactory;
     BlackHoleData blackHoleData;
     BlackHoleFactory blackHoleFactory;
+    LevelGenerationData levelGenerationData;
     LevelGenerator levelGenerator;
     SpaceDistortionEffectData spaceDistortionEffectData;
+
+
 
     void Awake()
     {
@@ -36,6 +39,7 @@ public class GameOrchestrator : MonoBehaviour
         // Get references 
         blackHoleData = AssetReferences.blackHoleData;
         spaceDistortionEffectData = AssetReferences.spaceDistortionEffectData;
+        levelGenerationData = AssetReferences.levelGenerationData;
 
         // Start coroutines 
         StartCoroutine( generateLevel() );
@@ -103,13 +107,13 @@ public class GameOrchestrator : MonoBehaviour
         asteroidFactory.setNextSprite();
 
         // Wait some seconds 
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(levelGenerationData.levelTextDuration);
 
         // Deactive the level text 
         levelText.SetActive(false);
 
         // Wait a bunch of other seconds 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(levelGenerationData.asteroidSpawnDelay);
 
         // Generate first level 
         levelGenerator.generateLevel();

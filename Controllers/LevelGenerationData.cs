@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class GameGenerationLevel : ScriptableObject
+public class LevelGenerationData : ScriptableObject
 {
 
     [Tooltip("How long does the level text last")]

@@ -26,8 +26,8 @@ public class AssetReferences : MonoBehaviour {
     public static SpaceDistortionEffectData _spaceDistortionEffectData;
 
     [SerializeField]
-    private string gameGenerationDataPath;
-    public static GameGenerationLevel _gameGenerationData;
+    private string levelGenerationDataPath;
+    public static LevelGenerationData _levelGenerationData;
 
     void Awake()
     {
@@ -36,7 +36,7 @@ public class AssetReferences : MonoBehaviour {
         _asteroidData = Resources.Load(asteroidDataPath) as AsteroidData;
         _difficultyConfigData = Resources.Load(difficultyConfigDataPath) as DifficultyConfigurationData;
         _spaceDistortionEffectData = Resources.Load(spaceDistortionEffectDataPath) as SpaceDistortionEffectData;
-        _gameGenerationData = Resources.Load(gameGenerationDataPath) as GameGenerationLevel;
+        _levelGenerationData = Resources.Load(levelGenerationDataPath) as LevelGenerationData;
     }
 
     static public BlackHoleData blackHoleData
@@ -79,11 +79,11 @@ public class AssetReferences : MonoBehaviour {
         }
     }
 
-    static public GameGenerationLevel gameGenerationData
+    static public LevelGenerationData levelGenerationData
     {
         get
         {
-            return _gameGenerationData;
+            return _levelGenerationData;
         }
     }
 
