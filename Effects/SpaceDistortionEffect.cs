@@ -20,27 +20,26 @@ public class SpaceDistortionEffect : MonoBehaviour
     {
 
         // Attach components
-        print("Attach components");
         SpriteFlash spriteFlash = null;
-        if (gameObject.GetComponent<SpriteFlash>() != null)
+        if (gameObject.GetComponent<SpriteFlash>() == null)
         {
             spriteFlash = gameObject.AddComponent<SpriteFlash>();
+        } else
+        {
+            spriteFlash = gameObject.GetComponent<SpriteFlash>();
         }
         
 
         // The GO lights up
-        print("The GO lights up");
         yield return StartCoroutine( spriteFlash.execute(0f, 1f, 0.5f, Color.white) );
 
         // When the GO is white, change direction over time
         yield return StartCoroutine( changeDirection(changeDuration) );
 
         // The GO gets back to its normal colors
-        print("The GO gets back to its normal colors");
         yield return StartCoroutine( spriteFlash.execute(1f, 0f, 0.5f, Color.white) );
 
         // Restore the old material
-        print("Restore the old material");
         spriteFlash.restoreOldMaterial();
 
         // Detach components

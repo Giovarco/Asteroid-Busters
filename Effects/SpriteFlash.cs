@@ -17,19 +17,11 @@ public class SpriteFlash : MonoBehaviour {
         // Save current material
         oldMaterial = rnd.material;
 
-        print("Ho salvato il vecchio material");
-        print(rnd.material);
-        print(oldMaterial);
-
         // Find a DefaultColorFlash material 
         defaultColorFlash = Resources.Load("Materials/DefaultColorFlash") as Material;
 
         // Set the new material
         rnd.material = defaultColorFlash;
-
-        print("Ho appena assegnato il nuovo material");
-        print(rnd.material);
-        print(oldMaterial);
 
     }
 
@@ -72,12 +64,10 @@ public class SpriteFlash : MonoBehaviour {
 
     public void restoreOldMaterial()
     {
+
         // Reset sprite material to its old value
         rnd.material = oldMaterial;
 
-        print("Restore:");
-        print(rnd.material);
-        print(oldMaterial);
     }
 
 }
