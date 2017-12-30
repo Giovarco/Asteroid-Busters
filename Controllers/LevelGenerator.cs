@@ -20,12 +20,14 @@ public class LevelGenerator : MonoBehaviour {
 
     void Start()
     {
+
         // Get in-the-game references
         difficultyConfigData = AssetReferences.difficultyConfigData;
         gameConfigData = AssetReferences.gameConfigData;
 
         // Set the current level
         currentLevel = gameConfigData.startingLevel;
+
     }
 
     public void generateLevel()

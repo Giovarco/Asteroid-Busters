@@ -21,12 +21,17 @@ public class AssetReferences : MonoBehaviour {
     private string gameConfigDataPath;
     public static GameConfigurationData _gameConfigData;
 
+    [SerializeField]
+    private string spaceDistortionEffectDataPath;
+    public static SpaceDistortionEffectData _spaceDistortionEffectData;
+
     void Awake()
     {
         _blackHoleData = Resources.Load(blackHoleDataPath) as BlackHoleData;
         _gameConfigData = Resources.Load(gameConfigDataPath) as GameConfigurationData;
         _asteroidData = Resources.Load(asteroidDataPath) as AsteroidData;
         _difficultyConfigData = Resources.Load(difficultyConfigDataPath) as DifficultyConfigurationData;
+        _spaceDistortionEffectData = Resources.Load(spaceDistortionEffectDataPath) as SpaceDistortionEffectData;
     }
 
     static public BlackHoleData blackHoleData
@@ -58,6 +63,14 @@ public class AssetReferences : MonoBehaviour {
         get
         {
             return _difficultyConfigData;
+        }
+    }
+
+    static public SpaceDistortionEffectData spaceDistortionEffectData
+    {
+        get
+        {
+            return _spaceDistortionEffectData;
         }
     }
 }

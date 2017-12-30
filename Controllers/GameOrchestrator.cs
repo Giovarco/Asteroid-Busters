@@ -13,6 +13,7 @@ public class GameOrchestrator : MonoBehaviour
     BlackHoleData blackHoleData;
     BlackHoleFactory blackHoleFactory;
     LevelGenerator levelGenerator;
+    SpaceDistortionEffectData spaceDistortionEffectData;
 
     void Awake()
     {
@@ -34,9 +35,10 @@ public class GameOrchestrator : MonoBehaviour
     {
         // Get references 
         blackHoleData = AssetReferences.blackHoleData;
+        spaceDistortionEffectData = AssetReferences.spaceDistortionEffectData;
 
         // Start coroutines 
-        StartCoroutine(generateLevel());
+        StartCoroutine( generateLevel() );
     }
 
     bool asteroidsExist()
@@ -67,7 +69,7 @@ public class GameOrchestrator : MonoBehaviour
             SpaceDistortionEffect spaceDistortionEffect = asteroid.AddComponent<SpaceDistortionEffect>();
 
             // Activate components
-           StartCoroutine( spaceDistortionEffect.execute(1f) );
+           StartCoroutine( spaceDistortionEffect.execute( spaceDistortionEffectData.turningSpeed ) );
 
         }
 
@@ -114,8 +116,8 @@ public class GameOrchestrator : MonoBehaviour
 
         // yield return new WaitForSeconds(5f);
 
-        //createSpaceDistortion(); 
-        StartCoroutine( spawnBlackHole() );
+        createSpaceDistortion(); 
+        //StartCoroutine( spawnBlackHole() );
 
     }
 
