@@ -82,13 +82,13 @@ public class GameOrchestrator : MonoBehaviour
 
         if (!asteroidsExist())
         {
-            StartCoroutine(generateLevel());
+            StartCoroutine( generateLevel() );
         }
     }
 
     void isLevelCompletedWrapper()
     {
-        StartCoroutine(isLevelCompleted());
+        StartCoroutine( isLevelCompleted() );
     }
 
     IEnumerator generateLevel()
