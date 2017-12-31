@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerProperties : MonoBehaviour {
+[CreateAssetMenu]
+public class PlayerData : ScriptableObject {
+
     public float forwardSpeed;
+
     public float maxForwardSpeed;
+
     public float rotationSpeed;
+
 }
