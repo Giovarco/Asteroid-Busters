@@ -7,7 +7,7 @@ public class AssetReferences : MonoBehaviour {
 
     [SerializeField]
     private string asteroidDataPath;
-    static public AsteroidData _asteroidData;
+    static AsteroidData _asteroidData;
 
     [SerializeField]
     string blackHoleDataPath;
@@ -15,19 +15,19 @@ public class AssetReferences : MonoBehaviour {
 
     [SerializeField]
     private string difficultyConfigDataPath;
-    static public DifficultyConfigurationData _difficultyConfigData;
+    static DifficultyConfigurationData _difficultyConfigData;
 
     [SerializeField]
     private string gameConfigDataPath;
-    public static GameConfigurationData _gameConfigData;
+    static GameConfigurationData _gameConfigData;
 
     [SerializeField]
     private string spaceDistortionEffectDataPath;
-    public static SpaceDistortionEffectData _spaceDistortionEffectData;
+    static SpaceDistortionEffectData _spaceDistortionEffectData;
 
     [SerializeField]
     private string levelGenerationDataPath;
-    public static LevelGenerationData _levelGenerationData;
+    static LevelGenerationData _levelGenerationData;
 
     void Awake()
     {

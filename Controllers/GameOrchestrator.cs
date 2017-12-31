@@ -69,7 +69,7 @@ public class GameOrchestrator : MonoBehaviour
             GameObject asteroid = asteroidTransform.gameObject;
 
             // Components involved
-            SpriteFlash spriteFlash = asteroid.AddComponent<SpriteFlash>();
+            asteroid.AddComponent<SpriteFlash>();
             SpaceDistortionEffect spaceDistortionEffect = asteroid.AddComponent<SpaceDistortionEffect>();
 
             // Activate components

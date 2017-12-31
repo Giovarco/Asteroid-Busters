@@ -8,17 +8,18 @@ public class SpaceDistortionEffect : MonoBehaviour
 
     Rigidbody2D rb;
     GameObject player;
+    SpaceDistortionEffectData spaceDistortionEffectData;
 
     void Awake()
     {
+        // Get references
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.Find("PlayerShip");
+        spaceDistortionEffectData = AssetReferences.spaceDistortionEffectData; // Cannot stay in Start()
     }
-
     
     public IEnumerator execute(float changeDuration)
     {
-
         // Attach components
         SpriteFlash spriteFlash = null;
         if (gameObject.GetComponent<SpriteFlash>() == null)
@@ -31,13 +32,13 @@ public class SpaceDistortionEffect : MonoBehaviour
         
 
         // The GO lights up
-        yield return StartCoroutine( spriteFlash.execute(0f, 1f, 0.5f, Color.white) );
+        yield return StartCoroutine( spriteFlash.execute(0f, 1f, spaceDistortionEffectData.flashDuration, Color.white) );
 
         // When the GO is white, change direction over time
         yield return StartCoroutine( changeDirection(changeDuration) );
 
         // The GO gets back to its normal colors
-        yield return StartCoroutine( spriteFlash.execute(1f, 0f, 0.5f, Color.white) );
+        yield return StartCoroutine( spriteFlash.execute(1f, 0f, spaceDistortionEffectData.flashDuration, Color.white) );
 
         // Restore the old material
         spriteFlash.restoreOldMaterial();
