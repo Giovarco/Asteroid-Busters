@@ -33,8 +33,14 @@ public class ProjectileFactory : MonoBehaviour {
         SpriteRenderer bulletSpriteRenderer = bullet.GetComponent<SpriteRenderer>();
         float bulletHeight = bulletSpriteRenderer.transform.localScale.y;
 
+        // Calculate offset from player spaceship
         Vector3 bulletOffset = player.transform.rotation * new Vector3(0, bulletHeight, 0);
+
+        // Instantiate bullet
         GameObject newBullet = Instantiate(bullet, player.transform.position + bulletOffset, player.transform.rotation);
+
+        // Set name
+        newBullet.name = "Bullet";
 
         return newBullet;
     }

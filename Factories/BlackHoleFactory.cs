@@ -19,7 +19,13 @@ public class BlackHoleFactory : MonoBehaviour {
 
     GameObject generateBlackHole()
     {
-        return Instantiate(blackHole, Vector2.zero, Quaternion.identity);
+        // Instantiate black hole
+        GameObject blackHoleInstance = Instantiate(blackHole, Vector2.zero, Quaternion.identity);
+
+        // Set name
+        blackHoleInstance.name = "BlackHole";
+
+        return blackHoleInstance;
     }
 
 }

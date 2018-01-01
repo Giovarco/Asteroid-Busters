@@ -4,29 +4,19 @@ using UnityEngine;
 
 public class OverTimeSizeChanger : MonoBehaviour {
 
-    public IEnumerator changeSize(float startingSize, float finalSize, float sizeChangeDuration)
+    public IEnumerator execute(float startingValue, float finalValue, float changeDuration)
     {
 
-        float addend;
+        // Get the actual time
+        float startingTime = Time.time;
 
-        if (startingSize <= finalSize)
+        // Change size over time
+        while (Time.time - startingTime < changeDuration)
         {
-            addend = (finalSize - startingSize) * Time.deltaTime / sizeChangeDuration;
-
-            for (float actualSize = startingSize; actualSize < finalSize; actualSize += addend)
-            {
-                transform.localScale = new Vector3(actualSize, actualSize, 1);
-                yield return null;
-            }
-        }
-        else
-        {
-            addend = (startingSize - finalSize) * Time.deltaTime / sizeChangeDuration;
-            for (float actualSize = startingSize; actualSize > finalSize; actualSize -= addend)
-            {
-                transform.localScale = new Vector3(actualSize, actualSize, 1);
-                yield return null;
-            }
+            float t = (Time.time - startingTime) / changeDuration;
+            float actualValue = Mathf.Lerp(startingValue, finalValue, t);
+            transform.localScale = new Vector3(actualValue, actualValue, 1);
+            yield return null;
         }
 
     }

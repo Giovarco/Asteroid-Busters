@@ -23,7 +23,7 @@ public class BlackHoleController : MonoBehaviour {
 
     void Start()
     {
-        StartCoroutine(blackHoleLife());
+        StartCoroutine( live() );
     }
 
     bool areAsteroidsTeleporting()
@@ -45,10 +45,10 @@ public class BlackHoleController : MonoBehaviour {
         return false;
     }
 
-    IEnumerator blackHoleLife()
+    IEnumerator live()
     {
         // Become bigger
-        yield return StartCoroutine(sizeChanger.changeSize(startingSize, finalSize, sizeChangeDuration));
+        yield return StartCoroutine( sizeChanger.execute(startingSize, finalSize, sizeChangeDuration ));
 
         // Persist for a while
         yield return new WaitForSeconds(blackHoleData.duration);
@@ -61,17 +61,17 @@ public class BlackHoleController : MonoBehaviour {
         aura.GetComponent<PointEffector2D>().enabled = false;
 
         // Become smaller
-        yield return StartCoroutine(sizeChanger.changeSize(finalSize, startingSize, sizeChangeDuration));
+        yield return StartCoroutine( sizeChanger.execute(finalSize, startingSize, sizeChangeDuration ));
 
         // Destroy itself when all asteroids respawn
-        yield return StartCoroutine(destroy());
+        yield return StartCoroutine( destroy() );
     }
 
     IEnumerator destroy()
     {
         while (areAsteroidsTeleporting())
         {
-            yield return null;
+            yield return new WaitForSeconds(0.25f);
         }
 
         Destroy(gameObject);

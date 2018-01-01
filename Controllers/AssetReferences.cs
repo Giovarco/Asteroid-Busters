@@ -7,7 +7,7 @@ public class AssetReferences : MonoBehaviour {
 
     [SerializeField]
     private string asteroidDataPath;
-    static public AsteroidData _asteroidData;
+    static AsteroidData _asteroidData;
 
     [SerializeField]
     string blackHoleDataPath;
@@ -15,11 +15,23 @@ public class AssetReferences : MonoBehaviour {
 
     [SerializeField]
     private string difficultyConfigDataPath;
-    static public DifficultyConfigurationData _difficultyConfigData;
+    static DifficultyConfigurationData _difficultyConfigData;
 
     [SerializeField]
     private string gameConfigDataPath;
-    public static GameConfigurationData _gameConfigData;
+    static GameConfigurationData _gameConfigData;
+
+    [SerializeField]
+    private string spaceDistortionEffectDataPath;
+    static SpaceDistortionEffectData _spaceDistortionEffectData;
+
+    [SerializeField]
+    private string levelGenerationDataPath;
+    static LevelGenerationData _levelGenerationData;
+
+    [SerializeField]
+    private string playerDataPath;
+    static PlayerData _playerData;
 
     void Awake()
     {
@@ -27,6 +39,9 @@ public class AssetReferences : MonoBehaviour {
         _gameConfigData = Resources.Load(gameConfigDataPath) as GameConfigurationData;
         _asteroidData = Resources.Load(asteroidDataPath) as AsteroidData;
         _difficultyConfigData = Resources.Load(difficultyConfigDataPath) as DifficultyConfigurationData;
+        _spaceDistortionEffectData = Resources.Load(spaceDistortionEffectDataPath) as SpaceDistortionEffectData;
+        _levelGenerationData = Resources.Load(levelGenerationDataPath) as LevelGenerationData;
+        _playerData = Resources.Load(playerDataPath) as PlayerData;
     }
 
     static public BlackHoleData blackHoleData
@@ -58,6 +73,30 @@ public class AssetReferences : MonoBehaviour {
         get
         {
             return _difficultyConfigData;
+        }
+    }
+
+    static public SpaceDistortionEffectData spaceDistortionEffectData
+    {
+        get
+        {
+            return _spaceDistortionEffectData;
+        }
+    }
+
+    static public LevelGenerationData levelGenerationData
+    {
+        get
+        {
+            return _levelGenerationData;
+        }
+    }
+
+    public static PlayerData playerData
+    {
+        get
+        {
+            return _playerData;
         }
     }
 }

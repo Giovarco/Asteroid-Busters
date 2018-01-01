@@ -36,11 +36,42 @@ public class BlackHoleCollisionController : MonoBehaviour {
 
                 if (distance < minDistanceToTeleport)
                 {
-                    StartCoroutine(teleportProcess(asteroid));
+                    StartCoroutine( teleportProcess(asteroid) );
                 }
             }
 
 
+        }
+
+    }
+
+    Vector2 freezeGameObject(GameObject go)
+    {
+
+        // Get rigidbody
+        Rigidbody2D rb = go.GetComponent<Rigidbody2D>();
+
+        // Save old velocity
+        Vector2 oldVelocity = rb.velocity;
+
+        // Stop the object from moving
+        rb.velocity = Vector2.zero;
+        rb.isKinematic = true;
+
+        return oldVelocity;
+
+    }
+
+    OverTimeSizeChanger getOverTimeSizeChanger(GameObject go)
+    {
+
+        if (go.GetComponent("OverTimeSizeChanger") == null)
+        {
+            return go.AddComponent<OverTimeSizeChanger>();
+        }
+        else
+        {
+            return go.GetComponent<OverTimeSizeChanger>();
         }
 
     }
@@ -52,66 +83,66 @@ public class BlackHoleCollisionController : MonoBehaviour {
         return new Vector3(xPos, yPos, 1);
     }
 
-    IEnumerator teleportProcess(GameObject otherGameObject)
+    SpriteFlash getSpriteFlash(GameObject go)
+    {
+
+        if (go.GetComponent("SpriteFlash") == null)
+        {
+            return go.AddComponent<SpriteFlash>();
+        }
+        else
+        {
+            return go.GetComponent<SpriteFlash>();
+        }
+
+    }
+
+    IEnumerator teleportProcess(GameObject go)
     {
 
         // Set the current game object status to "teleporting"
-        AsteroidProperties asteroidProperties = otherGameObject.GetComponent<AsteroidProperties>();
+        AsteroidProperties asteroidProperties = go.GetComponent<AsteroidProperties>();
         asteroidProperties.status = Status.Teleporting;
 
         // Disable game object collider to avoid unwanted interactions
-        Collider2D asteroidCollider = otherGameObject.GetComponent<Collider2D>();
+        Collider2D asteroidCollider = go.GetComponent<Collider2D>();
         asteroidCollider.enabled = false;
 
-        // Add two scripts to the game object for fancy graphic
-        OverTimeSizeChanger externalOverTimeSizeChanger = null;
-        SpriteFlash externalSpriteFlash = null;
-
-        if (otherGameObject.GetComponent("OverTimeSizeChanger") == null)
-        {
-            externalOverTimeSizeChanger = otherGameObject.AddComponent<OverTimeSizeChanger>();
-        }
-
-        if (otherGameObject.GetComponent("SpriteFlash") == null)
-        {
-            externalSpriteFlash = otherGameObject.AddComponent<SpriteFlash>();
-        }
+        // Add two scripts to the game object for fancy graphic (no duplicates)
+        OverTimeSizeChanger externalOverTimeSizeChanger = getOverTimeSizeChanger(go);
+        SpriteFlash externalSpriteFlash = getSpriteFlash(go);
 
         // Freeze completly the game object
-        Rigidbody2D rb = otherGameObject.GetComponent<Rigidbody2D>();
-        Vector2 oldVelocity = rb.velocity;
-        rb.velocity = Vector2.zero;
-        rb.isKinematic = true;
+        Vector2 oldVelocity = freezeGameObject(go);
 
         // Game object: become smaller
-        float localScale = otherGameObject.transform.localScale.x;
-        StartCoroutine(externalOverTimeSizeChanger.changeSize(localScale, 0f, wayUpTravelDuration));
+        float localScale = go.transform.localScale.x;
+        StartCoroutine( externalOverTimeSizeChanger.execute(localScale, 0f, wayUpTravelDuration) );
 
         // Game object: become black
-        yield return StartCoroutine(externalSpriteFlash.changeFlash(0f, 1f, wayUpTravelDuration, Color.black));
+        yield return StartCoroutine( externalSpriteFlash.execute(0f, 1f, wayUpTravelDuration, Color.black) );
 
         // Make game object invisible
-        Renderer renderer = otherGameObject.GetComponent<Renderer>();
+        Renderer renderer = go.GetComponent<Renderer>();
         renderer.enabled = false;
 
         // Put game object in stasis
         yield return new WaitForSeconds(stasisDuration);
 
         // Teleport to another position
-        otherGameObject.transform.position = getRandomPosition();
+        go.transform.position = getRandomPosition();
 
         // Make game object visible again
         renderer.enabled = true;
 
         // Game object: become bigger
-        StartCoroutine(externalOverTimeSizeChanger.changeSize(0f, localScale, wayBackTravelDuration));
+        StartCoroutine( externalOverTimeSizeChanger.execute(0f, localScale, wayBackTravelDuration) );
 
         // Game object: get colors again
-        yield return StartCoroutine(externalSpriteFlash.changeFlash(1f, 0f, wayBackTravelDuration, Color.white));
+        yield return StartCoroutine(externalSpriteFlash.execute(1f, 0f, wayBackTravelDuration, Color.white));
 
         // Unfreeze game object
-        rb.isKinematic = false;
-        rb.velocity = oldVelocity;
+        unfreezeGameObject(go, oldVelocity);
 
         // Delete useless scripts on game object
         Destroy(externalSpriteFlash);
@@ -124,5 +155,17 @@ public class BlackHoleCollisionController : MonoBehaviour {
         asteroidProperties.status = Status.Ok;
 
     }
+
+    private void unfreezeGameObject(GameObject go, Vector2 oldVelocity)
+    {
+        // Get rigidbody
+        Rigidbody2D rb = go.GetComponent<Rigidbody2D>();
+
+        // Restore the abilty to move and old velocity
+        rb.isKinematic = false;
+        rb.velocity = oldVelocity;
+
+    }
+
 
 }
