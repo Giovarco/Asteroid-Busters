@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shield : Enhancement {
+public class ShieldController : Enhancement {
 
     void Start()
     {
@@ -18,6 +18,16 @@ public class Shield : Enhancement {
     public override void stop()
     {
         gameObject.SetActive(false);
+    }
+
+    void OnTriggerEnter2D(Collider2D o)
+    {
+        GameObject other = o.gameObject;
+
+        Vector2 otherVelocity = other.GetComponent<Rigidbody2D>().velocity;
+
+        gameObject.transform.parent.GetComponent<Rigidbody2D>().velocity = otherVelocity;
+
     }
 
 }

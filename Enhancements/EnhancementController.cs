@@ -10,7 +10,7 @@ public class EnhancementController : MonoBehaviour {
     {
 
         // Check what enhancement is the playership able to use
-        Shield shield = GetComponent<Shield>();
+        ShieldController shield = GetComponent<ShieldController>();
         if(shield != null)
         {
             enhancement = shield;
