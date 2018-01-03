@@ -22,11 +22,13 @@ public class ShieldController : Enhancement {
 
     void OnTriggerEnter2D(Collider2D o)
     {
+        // Get the velocity of the other GO (e.g. an asteroid)
         GameObject other = o.gameObject;
-
         Vector2 otherVelocity = other.GetComponent<Rigidbody2D>().velocity;
 
-        gameObject.transform.parent.GetComponent<Rigidbody2D>().velocity = otherVelocity;
+        // The player ship is affected by the impact
+        GameObject playerShip = gameObject.transform.parent.gameObject;
+        playerShip.GetComponent<Rigidbody2D>().velocity = otherVelocity;
 
     }
 
