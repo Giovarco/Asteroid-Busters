@@ -4,20 +4,51 @@ using UnityEngine;
 
 public class ShieldController : Enhancement {
 
+    float capacity = 3;
+    [SerializeField]
+    float currentCharge;
+    float consumption = 1;
+    float rechargeSpeed = 1;
+
+
     void Start()
     {
+        // The battery is full when the game starts
+        currentCharge = capacity;
+
         // The default state of the shield is "not active"
         stop();
     }
 
 	public override void execute()
     {
-        gameObject.SetActive(true);
+
+        // Check if there is energy
+        if(currentCharge > 0)
+        {
+            // Activate shield
+            gameObject.SetActive(true);
+
+            // Consume energy
+            currentCharge -= consumption * Time.deltaTime;
+        } else
+        {
+            stop();
+        }
+
     }
 
     public override void stop()
     {
+        // Deactivate shield
         gameObject.SetActive(false);
+
+        // Recharge energy
+        if(currentCharge < capacity)
+        {
+            currentCharge += rechargeSpeed * Time.deltaTime;
+        }
+
     }
 
     void OnTriggerEnter2D(Collider2D o)
