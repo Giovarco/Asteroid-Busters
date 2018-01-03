@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ShieldController : Enhancement {
 
+    Cooldown overheat;
+
     float capacity = 3;
     [SerializeField]
     float currentCharge;
@@ -16,24 +18,31 @@ public class ShieldController : Enhancement {
         // The battery is full when the game starts
         currentCharge = capacity;
 
+        // Instantiate references
+        overheat = new Cooldown(2f);
+
         // The default state of the shield is "not active"
         stop();
     }
 
 	public override void execute()
     {
-
         // Check if there is energy
-        if(currentCharge > 0)
+        if(!overheat.isOnCooldown())
         {
-            // Activate shield
-            gameObject.SetActive(true);
+            if (currentCharge > 0)
+            {
+                // Activate shield
+                gameObject.SetActive(true);
 
-            // Consume energy
-            currentCharge -= consumption * Time.deltaTime;
-        } else
-        {
-            stop();
+                // Consume energy
+                currentCharge -= consumption * Time.deltaTime;
+            }
+            else
+            {
+                stop();
+                overheat.start();
+            }
         }
 
     }
@@ -44,9 +53,12 @@ public class ShieldController : Enhancement {
         gameObject.SetActive(false);
 
         // Recharge energy
-        if(currentCharge < capacity)
+        if(!overheat.isOnCooldown())
         {
-            currentCharge += rechargeSpeed * Time.deltaTime;
+            if (currentCharge < capacity)
+            {
+                currentCharge += rechargeSpeed * Time.deltaTime;
+            }
         }
 
     }
