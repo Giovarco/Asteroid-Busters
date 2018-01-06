@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class ShieldController : Enhancement {
 
-    Cooldown overheat;
+    
 
     float capacity = 3;
     [SerializeField]
     float currentCharge;
     float consumption = 1;
+    Cooldown overheat;
     float rechargeSpeed = 1;
+    StroboscopicSpriteFlash stroboscopicSpriteFlash;
 
 
     void Start()
@@ -20,9 +22,21 @@ public class ShieldController : Enhancement {
 
         // Instantiate references
         overheat = new Cooldown(2f);
+        stroboscopicSpriteFlash = GetComponent<StroboscopicSpriteFlash>();
 
         // The default state of the shield is "not active"
         stop();
+    }
+
+    void Update()
+    {
+        if(gameObject.activeSelf)
+        {
+            if(currentCharge < 1)
+            {
+                stroboscopicSpriteFlash.execute();
+            }
+        }
     }
 
 	public override void execute()

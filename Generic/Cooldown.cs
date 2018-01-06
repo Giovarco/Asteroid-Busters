@@ -22,4 +22,9 @@ public class Cooldown {
     {
         return Time.time - cooldownStart < duration;
     }
+
+    public bool isAvailable()
+    {
+        return !isOnCooldown();
+    }
 }

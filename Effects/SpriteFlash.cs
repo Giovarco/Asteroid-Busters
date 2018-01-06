@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -55,11 +56,33 @@ public class SpriteFlash : MonoBehaviour {
 
     }
 
+    void changeFlash(float value, Color color)
+    {
+
+        // Prepare shader
+        rnd.material.SetColor("_Color", color);
+        rnd.material.SetColor("_FlashColor", color);
+
+        // Set the flash amount
+        rnd.material.SetFloat("_FlashAmount", value);
+
+    }
+
+    public float getFlashAmount()
+    {
+        return rnd.material.GetFloat("_FlashAmount");
+    }
+
     public IEnumerator execute(float startingValue, float finalValue, float changeDuration, Color color)
     {
         // Change sprite flash over time
         yield return StartCoroutine( changeFlash(startingValue, finalValue, changeDuration, color) );
 
+    }
+
+    public void execute(float value, Color color)
+    {
+        changeFlash(value, color);
     }
 
     public void restoreOldMaterial()
