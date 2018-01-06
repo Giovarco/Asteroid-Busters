@@ -33,6 +33,10 @@ public class AssetReferences : MonoBehaviour {
     private string playerDataPath;
     static PlayerData _playerData;
 
+    [SerializeField]
+    private string shieldControllerDataPath;
+    static ShieldControllerData _shieldControllerData;
+
     void Awake()
     {
         _blackHoleData = Resources.Load(blackHoleDataPath) as BlackHoleData;
@@ -42,6 +46,7 @@ public class AssetReferences : MonoBehaviour {
         _spaceDistortionEffectData = Resources.Load(spaceDistortionEffectDataPath) as SpaceDistortionEffectData;
         _levelGenerationData = Resources.Load(levelGenerationDataPath) as LevelGenerationData;
         _playerData = Resources.Load(playerDataPath) as PlayerData;
+        _shieldControllerData = Resources.Load(shieldControllerDataPath) as ShieldControllerData;
     }
 
     static public BlackHoleData blackHoleData
@@ -97,6 +102,14 @@ public class AssetReferences : MonoBehaviour {
         get
         {
             return _playerData;
+        }
+    }
+
+    public static ShieldControllerData shieldControllerData
+    {
+        get
+        {
+            return _shieldControllerData;
         }
     }
 }

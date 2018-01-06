@@ -4,24 +4,22 @@ using UnityEngine;
 
 public class ShieldController : Enhancement {
 
-    
-
-    float capacity = 3;
-    [SerializeField]
     float currentCharge;
-    float consumption = 1;
     Cooldown overheat;
-    float rechargeSpeed = 1;
+    ShieldControllerData shieldControllerData;
     StroboscopicSpriteFlash stroboscopicSpriteFlash;
 
 
     void Start()
     {
+
+        shieldControllerData = AssetReferences.shieldControllerData;
+
         // The battery is full when the game starts
-        currentCharge = capacity;
+        currentCharge = shieldControllerData.capacity;
 
         // Instantiate references
-        overheat = new Cooldown(2f);
+        overheat = new Cooldown(shieldControllerData.overheatDuration);
         stroboscopicSpriteFlash = GetComponent<StroboscopicSpriteFlash>();
 
         // The default state of the shield is "not active"
@@ -32,7 +30,7 @@ public class ShieldController : Enhancement {
     {
         if(gameObject.activeSelf)
         {
-            if(currentCharge < 1)
+            if(currentCharge < shieldControllerData.stroboscopicSpriteFlashStart)
             {
                 stroboscopicSpriteFlash.execute();
             }
@@ -50,7 +48,7 @@ public class ShieldController : Enhancement {
                 gameObject.SetActive(true);
 
                 // Consume energy
-                currentCharge -= consumption * Time.deltaTime;
+                currentCharge -= shieldControllerData.consumption * Time.deltaTime;
             }
             else
             {
@@ -69,9 +67,9 @@ public class ShieldController : Enhancement {
         // Recharge energy
         if(!overheat.isOnCooldown())
         {
-            if (currentCharge < capacity)
+            if (currentCharge < shieldControllerData.capacity)
             {
-                currentCharge += rechargeSpeed * Time.deltaTime;
+                currentCharge += shieldControllerData.rechargeSpeed * Time.deltaTime;
             }
         }
 
